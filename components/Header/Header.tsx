@@ -1,62 +1,51 @@
-import React from "react";
+"use client"
+import Logo from '../../assets/icon/logo.png';
+import Image from 'next/image'
+import "../../src/app/globals.css"
+import Link from "next/link";
+import PersonIcon from '@mui/icons-material/Person';
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import DensityMediumIcon from '@mui/icons-material/DensityMedium';
+import Drawer from 'react-modern-drawer'
+import 'react-modern-drawer/dist/index.css'
+import {useState} from "react";
 
-export default function Navbar( fixed:any ) {
-    const [navbarOpen, setNavbarOpen] = React.useState(false);
+export default function Header() {
+    const [isOpen, setIsOpen] = useState(false)
+    const toggleDrawer = () => {
+        setIsOpen((prevState) => !prevState)
+    }
+
     return (
-        <>
-            <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 bg-red-500 mb-3">
-                <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
-                    <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
-                        <a
-                            className="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white"
-                            href="#pablo"
-                        >
-                            red Tailwind Starter Kit
-                        </a>
-                        <button
-                            className="text-white cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
-                            type="button"
-                            onClick={() => setNavbarOpen(!navbarOpen)}
-                        >
-                            <i className="fas fa-bars"></i>
-                        </button>
-                    </div>
-                    <div
-                        className={
-                            "lg:flex flex-grow items-center" +
-                            (navbarOpen ? " flex" : " hidden")
-                        }
-                        id="example-navbar-danger"
-                    >
-                        <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
-                            <li className="nav-item">
-                                <a
-                                    className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
-                                    href="#pablo"
-                                >
-                                    <i className="fab fa-facebook-square text-lg leading-lg text-white opacity-75"></i><span className="ml-2">Share</span>
-                                </a>
-                            </li>
-                            <li className="nav-item">
-                                <a
-                                    className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
-                                    href="#pablo"
-                                >
-                                    <i className="fab fa-twitter text-lg leading-lg text-white opacity-75"></i><span className="ml-2">Tweet</span>
-                                </a>
-                            </li>
-                            <li className="nav-item">
-                                <a
-                                    className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
-                                    href="#pablo"
-                                >
-                                    <i className="fab fa-pinterest text-lg leading-lg text-white opacity-75"></i><span className="ml-2">Pin</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+        <div className="flex justify-between h-24">
+            <div className="md:mx-8 mt-4">
+                <a href="https://webvave.ir/">
+                    <Image
+                        src={Logo}
+                        width={75}
+                        height={75}
+                        alt="Logo of Website"
+                    />
+                </a>
                 </div>
-            </nav>
-        </>
-    );
-}
+            <div className="hidden md:flex mx-8 mt-7 justify-center align-middle">
+            <Link href="" className="mx-5">About Us</Link>
+            <Link href="" className="mx-5">Contact US</Link>
+            <Link href="" className="mx-5">Products</Link>
+            </div>
+            <div className="mt-8 md:mx-8 flex-nowrap">
+                <Link href="" className="mx-1"><ShoppingBagIcon className="w-10 h-10"/></Link>
+                <Link href="" className="mx-1"><PersonIcon className="w-10 h-10"/></Link>
+                <button onClick={toggleDrawer} className="md:hidden mx-1"><DensityMediumIcon className="w-10 h-10"/></button>
+                <Drawer style={{borderBottom:"3px solid #FBAF42"}} open={isOpen} onClose={toggleDrawer} direction='top'>
+                    <div className="flex flex-col font-bold text-2xl justify-center text-center align-middle  flex-wrap">
+                        <Link href="" className="mx-5 mt-8">About Us</Link>
+                        <Link href="" className="mx-5 mt-8">Contact US</Link>
+                        <Link href="" className="mx-5 mt-8">Products</Link>
+                    </div>
+                </Drawer>
+            </div>
+        </div>
+    )
+};
+
