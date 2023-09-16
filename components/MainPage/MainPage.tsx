@@ -17,7 +17,6 @@ export default function MainPage() {
                     alt="Banner offer 30% on mobile"
                 />
             </div>
-
         </>
     );
 };
