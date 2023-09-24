@@ -107,7 +107,7 @@ const ImageMarked = styled('span')(({theme}) => ({
     transition: theme.transitions.create('opacity'),
 }));
 export default function MainPage() {
-    let [state,setState]=useState("All")
+    let [state,setState]=useState("all")
     return (
         <>
             <div className="hidden md:flex md:-top-24 relative w-full lg:-top-44">
@@ -187,8 +187,8 @@ export default function MainPage() {
                 </button>
                 <button
                     onClick={()=>{
-                        state = 'accessory'
-                        setState('accessory')
+                        state = 'accessories'
+                        setState('accessories')
                     }}
                     className="mx-5 mt-4 md:mt-0 px-12 py-3 text-sm font-medium text-violet-600 border border-violet-600 rounded bg-violet-100 hover:bg-violet-600 hover:text-white active:bg-indigo-500 focus:outline-none focus:ring">
                     Accessory
@@ -203,8 +203,8 @@ export default function MainPage() {
                 </button>
                 <button
                     onClick={()=>{
-                        state = 'Women'
-                        setState('Women')
+                        state = 'women'
+                        setState('women')
                     }}
                     className="mx-5 mt-4 md:mt-0 px-12 py-3 text-sm font-medium text-violet-600 border border-violet-600 rounded bg-violet-100 hover:bg-violet-600 hover:text-white active:bg-indigo-500 focus:outline-none focus:ring">
                     Women
@@ -213,7 +213,7 @@ export default function MainPage() {
             <div>
                 {
                     {
-                        'All':<AllProducts/>,
+                        'all':<AllProducts/>,
                         'men' : <Men/>,
                         'women':<Women/>,
                         'accessories':<Accessories/>,
