@@ -1,7 +1,5 @@
-import {useEffect} from "react";
-
 export function LocalStorage() {
-    if (localStorage.getItem('ShoppingCard')){
+    if ( typeof window !== "undefined" ? window.localStorage.getItem('ShoppingCard') : false){
         let count = JSON.parse(localStorage.getItem('ShoppingCard') || '{}')
         const nonDuplicatedData:any = [];
         count.map((x:any) => {
@@ -12,7 +10,14 @@ export function LocalStorage() {
         const filteredData = nonDuplicatedData.filter((n:any)  => {return n != undefined});
         return filteredData
     }else{
-        localStorage.setItem('ShoppingCard', "[]" )
-        return '';
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('ShoppingCard', "[]" )
+            return '';
+        }else{
+            localStorage.setItem('ShoppingCard', "[]" )
+            return '';
+        }
+
+
     }
 }

@@ -17,13 +17,7 @@ export default function Header() {
     const toggleDrawer = () => {
         setIsOpen((prevState) => !prevState)
     }
-    const [open, setOpen] = React.useState(false);
-    const handleClose = () => {
-        setOpen(false);
-    };
-    const handleOpen = () => {
-        setOpen(true);
-    };
+
     return (
         <div className="flex justify-between h-24">
             <div className="md:mx-8 mt-4 z-10">
@@ -42,14 +36,7 @@ export default function Header() {
                 <Link href="" className="mx-5">Contact US</Link>
             </div>
             <div className="mt-8 md:mx-8 flex-nowrap z-10">
-                <button onClick={handleOpen} className="mx-1"><ShoppingBagIcon className="lg:w-10 lg:h-10 w-8 h-8"/></button>
-                <Backdrop
-                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-                    open={open}
-                    onClick={handleClose}
-                >
-                    <Cart/>
-                </Backdrop>
+                <Link href='/cart' className="mx-1"><ShoppingBagIcon className="lg:w-10 lg:h-10 w-8 h-8"/></Link>
                 <Link href="" className="mx-1"><PersonIcon className="lg:w-10 lg:h-10 w-8 h-8"/></Link>
                 <button onClick={toggleDrawer} className="md:hidden mx-1"><DensityMediumIcon className="lg:w-10 lg:h-10 w-8 h-8 z-10"/>
                 </button>

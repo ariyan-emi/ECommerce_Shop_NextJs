@@ -61,7 +61,7 @@ export function Men() {
     function getProductInfo(dataObject:any){
         // course info
         const ProductInfo = {
-            count:0,
+            count:1,
             id: dataObject.id,
             title: dataObject.title,
             price: dataObject.price,
