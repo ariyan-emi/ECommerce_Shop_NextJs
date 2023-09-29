@@ -1,6 +1,6 @@
 "use client"
-import BannerPc from '../../assets/banner/bannerPc.png';
-import BannerPhone from '../../assets/banner/bannerPhone.png';
+import BannerPc from '../../assets/banner/BannerPc.png';
+import BannerPhone from '../../assets/banner/BannerPhone.png';
 import ImageNext from 'next/image'
 import * as React from 'react';
 import {styled} from '@mui/material/styles';
