@@ -4,7 +4,7 @@ import {EmptyCart} from "./EmptyCart";
 
 export function Cart() {
 
-    let count = JSON.parse(localStorage.getItem('ShoppingCard') || '{}')
+    let count = JSON.parse(window.localStorage.getItem('ShoppingCard') || '{}')
     const nonDuplicatedData:any = [];
     count.map((x:any) => {
         if (!nonDuplicatedData[x.id]){
