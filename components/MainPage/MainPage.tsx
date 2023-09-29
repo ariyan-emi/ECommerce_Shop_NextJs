@@ -109,7 +109,7 @@ export default function MainPage() {
     return (
         <>
             <div className="hidden md:flex md:-top-24 relative w-full lg:-top-44">
-                <ImageNext
+                <img
                     className="-z-10"
                     src="https://github.com/ariyan-emi/ECommerce_Shop_NextJs/blob/main/assets/banner/BannerPc.png"
                     alt="Banner offer 30%"
@@ -123,7 +123,7 @@ export default function MainPage() {
             </div>
 
             <div className="md:hidden w-full relative -top-24">
-                <ImageNext
+                <img
                     className="-z-10"
                     src="https://github.com/ariyan-emi/ECommerce_Shop_NextJs/blob/main/assets/banner/BannerPhone.png"
                     alt="Banner offer 30% on mobile"
