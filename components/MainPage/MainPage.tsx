@@ -1,4 +1,6 @@
 "use client"
+import BannerPc from '../../assets/banner/bannerPc.png';
+import BannerPhone from '../../assets/banner/bannerPhone.png';
 import ImageNext from 'next/image'
 import * as React from 'react';
 import {styled} from '@mui/material/styles';
@@ -111,7 +113,7 @@ export default function MainPage() {
             <div className="hidden md:flex md:-top-24 relative w-full lg:-top-44">
                 <ImageNext
                     className="-z-10"
-                    src="https://github.com/ariyan-emi/ECommerce_Shop_NextJs/blob/main/assets/banner/BannerPc.png"
+                    src={BannerPc}
                     alt="Banner offer 30%"
                 />
                 <a href="products" className="hidden md:flex sm:bottom-2 absolute left-12 md:bottom-14">
@@ -125,7 +127,7 @@ export default function MainPage() {
             <div className="md:hidden w-full relative -top-24">
                 <ImageNext
                     className="-z-10"
-                    src="https://github.com/ariyan-emi/ECommerce_Shop_NextJs/blob/main/assets/banner/BannerPhone.png"
+                    src={BannerPhone}
                     alt="Banner offer 30% on mobile"
                 />
                 <a href="products" className="md:hidden absolute right-2 bottom-16">
