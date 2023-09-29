@@ -1,6 +1,4 @@
 "use client"
-import BannerPc from 'https://github.com/ariyan-emi/ECommerce_Shop_NextJs/blob/main/assets/banner/BannerPc.png';
-import BannerPhone from 'https://github.com/ariyan-emi/ECommerce_Shop_NextJs/blob/main/assets/banner/BannerPhone.png';
 import ImageNext from 'next/image'
 import * as React from 'react';
 import {styled} from '@mui/material/styles';
@@ -113,7 +111,7 @@ export default function MainPage() {
             <div className="hidden md:flex md:-top-24 relative w-full lg:-top-44">
                 <ImageNext
                     className="-z-10"
-                    src={BannerPc}
+                    src="https://github.com/ariyan-emi/ECommerce_Shop_NextJs/blob/main/assets/banner/BannerPc.png"
                     alt="Banner offer 30%"
                 />
                 <a href="products" className="hidden md:flex sm:bottom-2 absolute left-12 md:bottom-14">
@@ -127,7 +125,7 @@ export default function MainPage() {
             <div className="md:hidden w-full relative -top-24">
                 <ImageNext
                     className="-z-10"
-                    src={BannerPhone}
+                    src="https://github.com/ariyan-emi/ECommerce_Shop_NextJs/blob/main/assets/banner/BannerPhone.png"
                     alt="Banner offer 30% on mobile"
                 />
                 <a href="products" className="md:hidden absolute right-2 bottom-16">
