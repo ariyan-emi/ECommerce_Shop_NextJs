@@ -35,7 +35,7 @@ export function Cart() {
                                                 <tbody>
                                                 {GetItemFromStorage.map((Items: any) => {
                                                     return (
-                                                        <tr>
+                                                        <tr key={GetItemFromStorage.id}>
                                                             <td className="py-4">
                                                                 <div className="flex items-center">
                                                                     <img className="h-16 w-16 mr-4" src={Items.image}

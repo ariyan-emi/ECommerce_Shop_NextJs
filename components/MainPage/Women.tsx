@@ -103,9 +103,9 @@ export function Women() {
         <>
             <section id="Projects" className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5">
 
-                {data.map((dataObj:any) => {
+                {data.map((dataObj:any,index:number) => {
                     return (
-                        <div className="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
+                        <div key={index} className="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
                             <Link href={`products/${dataObj.id}`}>
                                 <img
                                     src={dataObj.image}
