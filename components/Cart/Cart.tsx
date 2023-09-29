@@ -1,18 +1,11 @@
 'use client'
+import {LocalStorage} from "../Service/LocalStorage";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {EmptyCart} from "./EmptyCart";
 
 export function Cart() {
-
-    let count = JSON.parse(window.localStorage.getItem('ShoppingCard') || '{}')
-    const nonDuplicatedData:any = [];
-    count.map((x:any) => {
-        if (!nonDuplicatedData[x.id]){
-            nonDuplicatedData[x.id] = x;
-        }
-    });
-    const filteredData = nonDuplicatedData.filter((n:any)  => {return n != undefined});
-    let GetItemFromStorage = filteredData;
+    LocalStorage()
+    let GetItemFromStorage = LocalStorage();
     return (
         <>
 
