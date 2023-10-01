@@ -4,28 +4,48 @@ import {EmptyCart} from "./EmptyCart";
 import {useEffect, useState} from "react";
 
 export function Cart() {
-    let [state,setState] =useState({})
+    let [state, setState] = useState({})
+    const ShoppingCard: any = localStorage.getItem("ShoppingCard");
+    if (ShoppingCard == undefined){
+        localStorage.setItem('ShoppingCard', "[]")
+    }
     useEffect(() => {
-        if (typeof window !== 'undefined' && window.localStorage) {
+        if (localStorage.getItem('ShoppingCard') || '{}' === null) {
             let count = JSON.parse(localStorage.getItem('ShoppingCard') || '{}')
-            const nonDuplicatedData:any = [];
-            count.map((x:any) => {
-                if (!nonDuplicatedData[x.id]){
+            const nonDuplicatedData: any = [];
+            count.map((x: any) => {
+                if (!nonDuplicatedData[x.id]) {
                     nonDuplicatedData[x.id] = x;
                 }
             });
-            const filteredData = nonDuplicatedData.filter((n:any)  => {return n != undefined});
+            const filteredData = nonDuplicatedData.filter((n: any) => {
+                return n != undefined
+            });
             state = filteredData
             setState({...state})
+        } else {
+            window.localStorage.setItem('ShoppingCard', "[]")
         }
     }, []);
-    console.log(state)
-    const values = Object.values(state).map((key:any , value:number) => key)
+    const values = Object.values(state).map((key: any, value: number) => key)
+    function ClearAll() {
+        localStorage.setItem('ShoppingCard', "[]")
+        window.location.reload();
+    }
+    function ClearSelected(id:number) {
+        let items = JSON.parse(localStorage.getItem('ShoppingCard') || '{}')
+        items = items.filter((item:any) => item.id !== id);
+        localStorage.setItem("ShoppingCard", JSON.stringify(items));
+        if (items.length === 0) {
+            localStorage.removeItem("ShoppingCard");
+        }
+        window.location.reload();
+    }
     return (
         <>
 
             {(() => {
-                if (Object.keys(state).length == 0) {
+                if (ShoppingCard == null || ShoppingCard.length == 2 ) {
                     return (
                         <EmptyCart/>
                     )
@@ -48,9 +68,9 @@ export function Cart() {
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                {values.map((Items: any,index:number) => {
+                                                {values.map((Items: any, index: number) => {
                                                     return (
-                                                        <tr key={Items.id}>
+                                                        <tr key={Items.id} data-id={index}>
                                                             <td className="py-4">
                                                                 <div className="flex items-center">
                                                                     <img className="h-16 w-16 mr-4" src={Items.image}
@@ -84,9 +104,11 @@ export function Cart() {
                                                             </td>
                                                             <td className="py-4 text-center">$19.99</td>
                                                             <td className="py-4 text-center">
-                                                                <button><DeleteIcon
+                                                                <DeleteIcon
                                                                     style={{width: "40px", height: "40px"}}
-                                                                    className="text-red-800 hover:text-black"/></button>
+                                                                    className="text-red-800 hover:text-black"
+                                                                    onClick={()=>{ClearSelected(Items.id)}}
+                                                                />
                                                             </td>
                                                         </tr>
                                                     )
@@ -116,7 +138,12 @@ export function Cart() {
                                                 <span className="font-semibold">$21.98</span>
                                             </div>
                                             <button
-                                                className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full">Checkout
+                                                className="bg-blue-500 text-white py-3 px-4 rounded-lg mt-4 w-full">Checkout
+                                            </button>
+                                            <button
+                                                onClick={ClearAll}
+                                                className="bg-red-800 text-white py-2 px-4 rounded-lg mt-4 w-full">Delete
+                                                All
                                             </button>
                                         </div>
                                     </div>

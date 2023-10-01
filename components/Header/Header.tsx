@@ -3,14 +3,13 @@ import Logo from '../../assets/icon/logo.png';
 import Image from 'next/image'
 import "../../src/app/globals.css"
 import Link from "next/link";
-import PersonIcon from '@mui/icons-material/Person';
-import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
-import DensityMediumIcon from '@mui/icons-material/DensityMedium';
+import PersonIcon from '../../assets/icon/minicon/person.png';
+import ShoppingBagIcon from '../../assets/icon/minicon/cart.png';
+import Menu from '../../assets/icon/minicon/menu.png';
 import Drawer from 'react-modern-drawer'
 import 'react-modern-drawer/dist/index.css'
 import React, {useState} from "react";
-import {Backdrop} from "@mui/material";
-import {Cart} from "../Cart/Cart";
+
 
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false)
@@ -30,16 +29,16 @@ export default function Header() {
                     />
                 </a>
             </div>
-            <div className="hidden md:flex mx-8 mt-7 justify-center align-middle z-10">
+            <div className="hidden md:flex mx-8 mt-8 justify-center align-middle z-10">
                 <Link href="" className="mx-5">Products</Link>
                 <Link href="" className="mx-5">About Us</Link>
                 <Link href="" className="mx-5">Contact US</Link>
             </div>
-            <div className="mt-8 md:mx-8 flex-nowrap z-10">
-                <Link href='/cart' className="mx-1"><ShoppingBagIcon className="lg:w-10 lg:h-10 w-8 h-8"/></Link>
-                <Link href="" className="mx-1"><PersonIcon className="lg:w-10 lg:h-10 w-8 h-8"/></Link>
-                <button onClick={toggleDrawer} className="md:hidden mx-1"><DensityMediumIcon className="lg:w-10 lg:h-10 w-8 h-8 z-10"/>
-                </button>
+            <div className="mt-8 md:mx-8 flex-nowrap z-10 flex">
+                <Link href='cart' className="mx-1"><Image alt="icon image for Cart page" src={ShoppingBagIcon} className="lg:w-10 lg:h-10 w-8 h-8 mr-3"/></Link>
+                <Link href="" className="mx-1"><Image alt="icon image for Personal page" src={PersonIcon} className="lg:w-10 lg:h-10 w-8 h-8 mr-3"/></Link>
+                <Image alt="icon image for Personal page" onClick={toggleDrawer} src={Menu} className="md:hidden mx-1 lg:w-10 lg:h-10 w-8 h-8 z-10"/>
+
                 <Drawer style={{borderBottom: "3px solid #FBAF42"}} open={isOpen} onClose={toggleDrawer}
                         direction='top'>
                     <div
