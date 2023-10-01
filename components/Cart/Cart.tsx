@@ -1,16 +1,31 @@
 'use client'
-import {LocalStorage} from "../Service/LocalStorage";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {EmptyCart} from "./EmptyCart";
+import {useEffect, useState} from "react";
 
 export function Cart() {
-    LocalStorage()
-    let GetItemFromStorage = LocalStorage();
+    let [state,setState] =useState({})
+    useEffect(() => {
+        if (typeof window !== 'undefined' && window.localStorage) {
+            let count = JSON.parse(localStorage.getItem('ShoppingCard') || '{}')
+            const nonDuplicatedData:any = [];
+            count.map((x:any) => {
+                if (!nonDuplicatedData[x.id]){
+                    nonDuplicatedData[x.id] = x;
+                }
+            });
+            const filteredData = nonDuplicatedData.filter((n:any)  => {return n != undefined});
+            state = filteredData
+            setState({...state})
+        }
+    }, []);
+    console.log(state)
+    const values = Object.values(state).map((key:any , value:number) => key)
     return (
         <>
 
             {(() => {
-                if (GetItemFromStorage.length == 0) {
+                if (Object.keys(state).length == 0) {
                     return (
                         <EmptyCart/>
                     )
@@ -33,25 +48,26 @@ export function Cart() {
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                {GetItemFromStorage.map((Items: any) => {
+                                                {values.map((Items: any,index:number) => {
+                                                    {console.log(Items)}
                                                     return (
-                                                        <tr key={GetItemFromStorage.id}>
+                                                        <tr key={Items.id}>
                                                             <td className="py-4">
                                                                 <div className="flex items-center">
                                                                     <img className="h-16 w-16 mr-4" src={Items.image}
                                                                          alt="Product image"/>
-                                                                    <span
-                                                                        className="font-semibold overflow-hidden text-ellipsis w-24  sm:w-full ">{(() => {
-                                                                        if (Items.title.length > 32) {
-                                                                            return (
-                                                                                Items.title.substring(0, 32) + "..."
-                                                                            )
-                                                                        } else {
-                                                                            return (
-                                                                                Items.title
-                                                                            )
-                                                                        }
-                                                                    })()}</span>
+                                                                    {/*<span*/}
+                                                                    {/*    className="font-semibold overflow-hidden text-ellipsis w-24  sm:w-full ">{(() => {*/}
+                                                                    {/*    if (Items.title.length > 32) {*/}
+                                                                    {/*        return (*/}
+                                                                    {/*            Items.title.substring(0, 32) + "..."*/}
+                                                                    {/*        )*/}
+                                                                    {/*    } else {*/}
+                                                                    {/*        return (*/}
+                                                                    {/*            Items.title*/}
+                                                                    {/*        )*/}
+                                                                    {/*    }*/}
+                                                                    {/*})()}</span>*/}
                                                                 </div>
                                                             </td>
 
