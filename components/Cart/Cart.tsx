@@ -49,25 +49,24 @@ export function Cart() {
                                                 </thead>
                                                 <tbody>
                                                 {values.map((Items: any,index:number) => {
-                                                    {console.log(Items)}
                                                     return (
                                                         <tr key={Items.id}>
                                                             <td className="py-4">
                                                                 <div className="flex items-center">
                                                                     <img className="h-16 w-16 mr-4" src={Items.image}
                                                                          alt="Product image"/>
-                                                                    {/*<span*/}
-                                                                    {/*    className="font-semibold overflow-hidden text-ellipsis w-24  sm:w-full ">{(() => {*/}
-                                                                    {/*    if (Items.title.length > 32) {*/}
-                                                                    {/*        return (*/}
-                                                                    {/*            Items.title.substring(0, 32) + "..."*/}
-                                                                    {/*        )*/}
-                                                                    {/*    } else {*/}
-                                                                    {/*        return (*/}
-                                                                    {/*            Items.title*/}
-                                                                    {/*        )*/}
-                                                                    {/*    }*/}
-                                                                    {/*})()}</span>*/}
+                                                                    <span
+                                                                        className="font-semibold overflow-hidden text-ellipsis w-24  sm:w-full ">{(() => {
+                                                                        if (Items.title.length > 32) {
+                                                                            return (
+                                                                                Items.title.substring(0, 32) + "..."
+                                                                            )
+                                                                        } else {
+                                                                            return (
+                                                                                Items.title
+                                                                            )
+                                                                        }
+                                                                    })()}</span>
                                                                 </div>
                                                             </td>
 
