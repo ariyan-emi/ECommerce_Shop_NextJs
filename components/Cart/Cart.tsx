@@ -5,10 +5,6 @@ import {useEffect, useState} from "react";
 
 export function Cart() {
     let [state, setState] = useState({})
-    const ShoppingCard: any = localStorage.getItem("ShoppingCard");
-    if (ShoppingCard == undefined){
-        localStorage.setItem('ShoppingCard', "[]")
-    }
     useEffect(() => {
         if (localStorage.getItem('ShoppingCard') || '{}' === null) {
             let count = JSON.parse(localStorage.getItem('ShoppingCard') || '{}')
@@ -41,11 +37,12 @@ export function Cart() {
         }
         window.location.reload();
     }
+
     return (
         <>
 
             {(() => {
-                if (ShoppingCard == null || ShoppingCard.length == 2 ) {
+                if (values.length == 0) {
                     return (
                         <EmptyCart/>
                     )
