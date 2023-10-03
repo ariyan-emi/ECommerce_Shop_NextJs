@@ -5,8 +5,11 @@ import {useEffect, useState} from "react";
 
 export function Cart() {
     let [state, setState] = useState({})
+
+    let [count, setCount] = useState<any[]|undefined>()
     useEffect(() => {
         if (localStorage.getItem('ShoppingCard') || '{}' === null) {
+
             let count = JSON.parse(localStorage.getItem('ShoppingCard') || '{}')
             const nonDuplicatedData: any = [];
             count.map((x: any) => {
@@ -24,19 +27,32 @@ export function Cart() {
         }
     }, []);
     const values = Object.values(state).map((key: any, value: number) => key)
+
     function ClearAll() {
         localStorage.setItem('ShoppingCard', "[]")
         window.location.reload();
     }
-    function ClearSelected(id:number) {
+
+    function ClearSelected(id: number) {
         let items = JSON.parse(localStorage.getItem('ShoppingCard') || '{}')
-        items = items.filter((item:any) => item.id !== id);
+        items = items.filter((item: any) => item.id !== id);
         localStorage.setItem("ShoppingCard", JSON.stringify(items));
         if (items.length === 0) {
             localStorage.removeItem("ShoppingCard");
         }
         window.location.reload();
     }
+    function CounterPlus(LocalCounter: any, id: number, indexItem: number) {
+        let localData: any = localStorage.getItem('ShoppingCard');
+        let newList = JSON.parse(localData)
+        let index = newList.findIndex((item: any) => item.id === id)
+        let LocalItems = newList[indexItem].count++;
+        localStorage.setItem("ShoppingCard", JSON.stringify(newList));
+        count = newList;
+        setCount(newList);
+    }
+
+
 
     return (
         <>
@@ -93,8 +109,24 @@ export function Cart() {
                                                                     <button
                                                                         className="border rounded-md py-2 px-4 mr-2">-
                                                                     </button>
-                                                                    <span className="text-center w-8">1</span>
+                                                                    <span className="text-center w-8">{(() => {
+                                                                        let Counter :any;
+                                                                        let localData: any = localStorage.getItem('ShoppingCard');
+                                                                        let newList = JSON.parse(localData)
+                                                                        let LocalItems = newList[index].count;
+                                                                        if(count !== undefined){
+                                                                            Counter = count[index].count
+                                                                        }else{
+                                                                            Counter = LocalItems;
+                                                                        }
+                                                                        return(
+                                                                            Counter
+                                                                        )
+                                                                    })()}</span>
                                                                     <button
+                                                                        onClick={() => {
+                                                                            CounterPlus(Items.count, Items.id, index)
+                                                                        }}
                                                                         className="border rounded-md py-2 px-4 ml-2">+
                                                                     </button>
                                                                 </div>
@@ -104,7 +136,9 @@ export function Cart() {
                                                                 <DeleteIcon
                                                                     style={{width: "40px", height: "40px"}}
                                                                     className="text-red-800 hover:text-black"
-                                                                    onClick={()=>{ClearSelected(Items.id)}}
+                                                                    onClick={() => {
+                                                                        ClearSelected(Items.id)
+                                                                    }}
                                                                 />
                                                             </td>
                                                         </tr>
