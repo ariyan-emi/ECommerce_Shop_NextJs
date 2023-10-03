@@ -55,7 +55,11 @@ export function Cart() {
         let localData: any = localStorage.getItem('ShoppingCard');
         let newList = JSON.parse(localData)
         let index = newList.findIndex((item: any) => item.id === id)
-        let LocalItems = newList[indexItem].count--;
+        if (newList[indexItem].count > 1){
+            let LocalItems = newList[indexItem].count--;
+        }else{
+            let LocalItems = newList[indexItem].count;
+        }
         localStorage.setItem("ShoppingCard", JSON.stringify(newList));
         count = newList;
         setCount(newList);
