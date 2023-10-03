@@ -51,6 +51,15 @@ export function Cart() {
         count = newList;
         setCount(newList);
     }
+    function CounteSubtract(LocalCounter: any, id: number, indexItem: number) {
+        let localData: any = localStorage.getItem('ShoppingCard');
+        let newList = JSON.parse(localData)
+        let index = newList.findIndex((item: any) => item.id === id)
+        let LocalItems = newList[indexItem].count--;
+        localStorage.setItem("ShoppingCard", JSON.stringify(newList));
+        count = newList;
+        setCount(newList);
+    }
 
 
 
@@ -106,7 +115,9 @@ export function Cart() {
                                                             <td className="py-4 text-center">{Items.price}</td>
                                                             <td className="py-4">
                                                                 <div className="flex items-center justify-center">
-                                                                    <button
+                                                                    <button onClick={() => {
+                                                                        CounteSubtract(Items.count, Items.id, index)
+                                                                    }}
                                                                         className="border rounded-md py-2 px-4 mr-2">-
                                                                     </button>
                                                                     <span className="text-center w-8">{(() => {
