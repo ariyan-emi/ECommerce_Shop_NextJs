@@ -116,7 +116,7 @@ export function Women() {
                                     <div className="flex items-center">
                                         <p className="text-lg font-semibold text-black cursor-auto my-3">{dataObj.price}</p>
                                         <del>
-                                            <p className="text-sm text-gray-600 cursor-auto ml-2">{dataObj.price + 10}</p>
+                                            <p className="text-sm text-gray-600 cursor-auto ml-2">{dataObj.price}</p>
                                         </del>
                                         <div className="ml-auto">
                                             <Button className="hover:bg-white" onClick={handleClick(GrowTransition)}>

@@ -64,7 +64,11 @@ export function Cart() {
         count = newList;
         setCount(newList);
     }
-
+    function Total(index:number,id: number) {
+        let localData: any = localStorage.getItem('ShoppingCard');
+        let newList = JSON.parse(localData)
+        return newList[index].count * newList[index].price
+    }
 
 
     return (
@@ -146,7 +150,12 @@ export function Cart() {
                                                                     </button>
                                                                 </div>
                                                             </td>
-                                                            <td className="py-4 text-center">$19.99</td>
+                                                            <td className="py-4 text-center">{(() => {
+                                                                let hell = Total(index,Items.id)
+                                                                return (
+                                                                    hell
+                                                                )})()}
+                                                            </td>
                                                             <td className="py-4 text-center">
                                                                 <DeleteIcon
                                                                     style={{width: "40px", height: "40px"}}
