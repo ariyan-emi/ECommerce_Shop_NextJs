@@ -78,17 +78,17 @@ export default function Eyes() {
     }, []);
     return(
         <>
-            <div className="m-0">
-            <div className="w-48 h-48 absolute -ml-24 -mt-24 overflow-hidden bg-white left-1/2 top-1/2 rounded-full" style={{marginLeft:"-225px"}}>
+            <div className="hidden lg:block m-0">
+            <div className="w-44 h-44 absolute -ml-24 -mt-24 overflow-hidden bg-yellow-400 left-1/2 rounded-full" style={{marginLeft:"-225px"}}>
                 <div className="pupil"></div>
             </div>
-            <div className="w-48 h-48 absolute -ml-24 -mt-24 overflow-hidden bg-white left-1/2 top-1/2 rounded-full" style={{marginLeft:"25px"}}>
+            <div className="w-44 h-44 absolute -ml-24 -mt-24 overflow-hidden bg-yellow-400 left-1/2 rounded-full" style={{marginLeft:"25px"}}>
                 <div className="pupil"></div>
             </div>
             </div>
             <style jsx>{`
               .pupil{
-                background-color:#000;
+                background-color:#f2f2f2;
                 width:50px;
                 height: 50px;
                 border-radius:50%;
