@@ -110,7 +110,7 @@ export default function MainPage() {
     let [state,setState]=useState("all")
     return (
         <>
-            <div className="hidden md:flex md:-top-24 relative w-full lg:-top-44">
+            <div className="hidden md:flex md:-top-24 relative w-full lg:-top-44 overflow-y: scroll;">
                 <ImageNext
                     className="-z-10"
                     src={BannerPc}

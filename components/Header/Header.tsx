@@ -8,7 +8,7 @@ import ShoppingBagIcon from '../../assets/icon/minicon/cart.png';
 import Menu from '../../assets/icon/minicon/menu.png';
 import Drawer from 'react-modern-drawer'
 import 'react-modern-drawer/dist/index.css'
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 
 export default function Header() {
@@ -16,7 +16,7 @@ export default function Header() {
     const toggleDrawer = () => {
         setIsOpen((prevState) => !prevState)
     }
-
+  
     return (
         <div className="flex justify-between h-24">
             <div className="md:mx-8 mt-4 z-10">
@@ -30,9 +30,9 @@ export default function Header() {
                 </a>
             </div>
             <div className="hidden md:flex mx-8 mt-8 justify-center align-middle z-10">
-                <Link href="" className="mx-5">Products</Link>
-                <Link href="" className="mx-5">About Us</Link>
-                <Link href="" className="mx-5">Contact US</Link>
+                <Link href="" className="mx-5 hover:border-t-2 border-solid border-violet-700 hover:border-0">Products</Link>
+                <Link href="" className="mx-5 hover:border-t-2 border-solid border-violet-700 hover:border-0">About Us</Link>
+                <Link href="" className="mx-5 hover:border-t-2 border-solid border-violet-700 hover:border-0">Contact US</Link>
             </div>
             <div className="mt-8 md:mx-8 flex-nowrap z-10 flex">
                 <Link href='cart' className="mx-1"><Image alt="icon image for Cart page" src={ShoppingBagIcon} className="lg:w-10 lg:h-10 w-8 h-8 mr-3"/></Link>
@@ -52,4 +52,5 @@ export default function Header() {
         </div>
     )
 };
+
 

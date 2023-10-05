@@ -2,6 +2,7 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import {EmptyCart} from "./EmptyCart";
 import {useEffect, useState} from "react";
+import Link from "next/link";
 
 export function Cart() {
     let [state, setState] = useState({})
@@ -229,9 +230,12 @@ export function Cart() {
                                                     })()}
                                                 </span>
                                             </div>
-                                            <button
-                                                className="bg-blue-500 text-white py-3 px-4 rounded-lg mt-4 w-full">Checkout
+                                            <Link href="/checkout">
+                                             <button
+                                                  className="bg-blue-500 text-white py-3 px-4 rounded-lg mt-4 w-full">Checkout
                                             </button>
+                                            </Link>
+
                                             <button
                                                 onClick={ClearAll}
                                                 className="bg-red-800 text-white py-2 px-4 rounded-lg mt-4 w-full">Delete
