@@ -64,7 +64,7 @@ export function Women() {
             count:1,
             id: dataObject.id,
             title: dataObject.title,
-            price: dataObject.price,
+            price: dataObject.price.toFixed(2),
             description:dataObject.description,
             category:dataObject.category,
             image: dataObject.image,
@@ -114,9 +114,9 @@ export function Women() {
                                     <span className="text-gray-400 mr-3 uppercase text-xs">{dataObj.category}</span>
                                     <p className="text-lg font-bold text-black truncate block capitalize">{dataObj.title}</p>
                                     <div className="flex items-center">
-                                        <p className="text-lg font-semibold text-black cursor-auto my-3">{dataObj.price}</p>
+                                        <p className="text-lg font-semibold text-black cursor-auto my-3">{dataObj.price.toFixed(2)}</p>
                                         <del>
-                                            <p className="text-sm text-gray-600 cursor-auto ml-2">{dataObj.price}</p>
+                                            <p className="text-sm text-gray-600 cursor-auto ml-2">{dataObj.price.toFixed(2)}</p>
                                         </del>
                                         <div className="ml-auto">
                                             <Button className="hover:bg-white" onClick={handleClick(GrowTransition)}>

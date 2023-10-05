@@ -6,7 +6,8 @@ import {useEffect, useState} from "react";
 export function Cart() {
     let [state, setState] = useState({})
 
-    let [count, setCount] = useState<any[]|undefined>()
+    let [count, setCount] = useState<any[] | undefined>()
+    let [total, setTotal] = useState()
     useEffect(() => {
         if (localStorage.getItem('ShoppingCard') || '{}' === null) {
 
@@ -42,6 +43,7 @@ export function Cart() {
         }
         window.location.reload();
     }
+
     function CounterPlus(LocalCounter: any, id: number, indexItem: number) {
         let localData: any = localStorage.getItem('ShoppingCard');
         let newList = JSON.parse(localData)
@@ -51,25 +53,45 @@ export function Cart() {
         count = newList;
         setCount(newList);
     }
+
     function CounteSubtract(LocalCounter: any, id: number, indexItem: number) {
         let localData: any = localStorage.getItem('ShoppingCard');
         let newList = JSON.parse(localData)
         let index = newList.findIndex((item: any) => item.id === id)
-        if (newList[indexItem].count > 1){
+        if (newList[indexItem].count > 1) {
             let LocalItems = newList[indexItem].count--;
-        }else{
+        } else {
             let LocalItems = newList[indexItem].count;
         }
         localStorage.setItem("ShoppingCard", JSON.stringify(newList));
         count = newList;
         setCount(newList);
     }
-    function Total(index:number,id: number) {
+
+    function TotalProducts(index: number, id: number) {
         let localData: any = localStorage.getItem('ShoppingCard');
         let newList = JSON.parse(localData)
         return newList[index].count * newList[index].price
     }
 
+    let Taxes: number = Number(1.99);
+
+    function AllTotal() {
+        let localData: any = localStorage.getItem('ShoppingCard');
+        let newList = JSON.parse(localData)
+        const nonDuplicatedData: any = [];
+        newList.map((x: any) => {
+            if (!nonDuplicatedData[x.id]) {
+                nonDuplicatedData[x.id] = x;
+            }
+        });
+        const filteredData = nonDuplicatedData.filter((n: any) => {
+            return n != undefined
+        });
+        const sum = filteredData.map((datum: any, index: number) => filteredData[index]["count"] * filteredData[index]["price"]).reduce((a: any, b: any) => a + b)
+        return sum.toFixed(2)
+
+    }
 
     return (
         <>
@@ -126,19 +148,19 @@ export function Cart() {
                                                                     <button onClick={() => {
                                                                         CounteSubtract(Items.count, Items.id, index)
                                                                     }}
-                                                                        className="border rounded-md py-2 px-4 mr-2">-
+                                                                            className="border rounded-md py-2 px-4 mr-2">-
                                                                     </button>
                                                                     <span className="text-center w-8">{(() => {
-                                                                        let Counter :any;
+                                                                        let Counter: any;
                                                                         let localData: any = localStorage.getItem('ShoppingCard');
                                                                         let newList = JSON.parse(localData)
                                                                         let LocalItems = newList[index].count;
-                                                                        if(count !== undefined){
+                                                                        if (count !== undefined) {
                                                                             Counter = count[index].count
-                                                                        }else{
+                                                                        } else {
                                                                             Counter = LocalItems;
                                                                         }
-                                                                        return(
+                                                                        return (
                                                                             Counter
                                                                         )
                                                                     })()}</span>
@@ -151,10 +173,11 @@ export function Cart() {
                                                                 </div>
                                                             </td>
                                                             <td className="py-4 text-center">{(() => {
-                                                                let hell = Total(index,Items.id)
+                                                                let GetTotalProducts = TotalProducts(index, Items.id)
                                                                 return (
-                                                                    hell
-                                                                )})()}
+                                                                    GetTotalProducts.toFixed(2)
+                                                                )
+                                                            })()}
                                                             </td>
                                                             <td className="py-4 text-center">
                                                                 <DeleteIcon
@@ -177,20 +200,34 @@ export function Cart() {
                                             <h2 className="text-lg font-semibold mb-4">Summary</h2>
                                             <div className="flex justify-between mb-2">
                                                 <span>Subtotal</span>
-                                                <span>$19.99</span>
+                                                <span>
+                                                    {(() => {
+                                                        let GetAllTotal = AllTotal()
+                                                        return (
+                                                            GetAllTotal
+                                                        )
+                                                    })()}
+                                                </span>
                                             </div>
                                             <div className="flex justify-between mb-2">
                                                 <span>Taxes</span>
-                                                <span>$1.99</span>
+                                                <span>${Taxes}</span>
                                             </div>
                                             <div className="flex justify-between mb-2">
                                                 <span>Shipping</span>
-                                                <span>$0.00</span>
+                                                <span>Free</span>
                                             </div>
                                             <hr className="my-2"/>
                                             <div className="flex justify-between mb-2">
                                                 <span className="font-semibold">Total</span>
-                                                <span className="font-semibold">$21.98</span>
+                                                <span className="font-semibold">
+                                                    {(() => {
+                                                        let GetAllTotal:any =Number(AllTotal()) + Taxes
+                                                        return (
+                                                            GetAllTotal.toFixed(2)
+                                                        )
+                                                    })()}
+                                                </span>
                                             </div>
                                             <button
                                                 className="bg-blue-500 text-white py-3 px-4 rounded-lg mt-4 w-full">Checkout
