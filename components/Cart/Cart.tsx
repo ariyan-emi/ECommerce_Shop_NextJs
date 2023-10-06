@@ -6,9 +6,8 @@ import Link from "next/link";
 
 export function Cart() {
     let [state, setState] = useState({})
-
     let [count, setCount] = useState<any[] | undefined>()
-    let [total, setTotal] = useState()
+    const [fade, setFade] = useState(false)
     useEffect(() => {
         if (localStorage.getItem('ShoppingCard') || '{}' === null) {
 
@@ -85,24 +84,30 @@ export function Cart() {
         let localData: any = localStorage.getItem('ShoppingCard');
         let newList = JSON.parse(localData)
         const nonDuplicatedData: any = [];
-        newList.map((x: any) => {
-            if (!nonDuplicatedData[x.id]) {
-                nonDuplicatedData[x.id] = x;
-            }
-        });
+        if (newList){
+            newList.map((x: any) => {
+                if (!nonDuplicatedData[x.id]) {
+                    nonDuplicatedData[x.id] = x;
+                }
+            });
+        }
         const filteredData = nonDuplicatedData.filter((n: any) => {
             return n != undefined
         });
-        const sum = filteredData.map((datum: any, index: number) => filteredData[index]["count"] * filteredData[index]["price"]).reduce((a: any, b: any) => a + b)
-        return sum.toFixed(2)
-
+        if (filteredData == null && undefined){
+            const sum = filteredData.map((datum: any, index: number) => filteredData[index]["count"] * filteredData[index]["price"]).reduce((a: any, b: any) => a + b)
+            return sum.toFixed(2)
+        }
     }
-
+    const triggerFade = () => {
+        setFade(!fade)
+    }
     return (
         <>
 
             {(() => {
-                if (values.length == 0) {
+                // @ts-ignore
+                if (state[0] === undefined) {
                     return (
                         <EmptyCart/>
                     )
@@ -127,7 +132,7 @@ export function Cart() {
                                                 <tbody>
                                                 {values.map((Items: any, index: number) => {
                                                     return (
-                                                        <tr key={Items.id} data-id={index}>
+                                                        <tr key={Items.id} data-id={index}  className={fade ? '' : 'visibleClass'}>
                                                             <td className="py-4">
                                                                 <div className="flex items-center">
                                                                     <img className="h-16 w-16 mr-4" src={Items.image}
@@ -193,6 +198,7 @@ export function Cart() {
                                                                     style={{width: "40px", height: "40px"}}
                                                                     className="text-red-800 hover:text-black"
                                                                     onClick={() => {
+                                                                        triggerFade()
                                                                         ClearSelected(Items.id)
                                                                     }}
                                                                 />
@@ -238,7 +244,7 @@ export function Cart() {
                                                     })()}
                                                 </span>
                                             </div>
-                                            <Link href="/checkout">
+                                            <Link href="checkout">
                                              <button
                                                   className="bg-blue-500 text-white py-3 px-4 rounded-lg mt-4 w-full">Checkout
                                             </button>
@@ -257,7 +263,14 @@ export function Cart() {
                     )
                 }
             })()}
-
+            <style jsx>{`
+              .visibleClass {
+                animation: OpenCart 1s ease-out forwards;
+              }
+              @keyframes OpenCart {
+                0% {opacity: 0.4}
+                100% {opacity: 1}
+              }`}</style>
         </>
     )
 }

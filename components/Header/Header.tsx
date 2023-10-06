@@ -14,7 +14,7 @@ import Badge from '@mui/material/Badge';
 
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false)
-    let [notification,setNotification]=useState<any[] | undefined>()
+    let [notification,setNotification]=useState<any[]>()
     const toggleDrawer = () => {
         setIsOpen((prevState) => !prevState)
     }
@@ -58,7 +58,14 @@ export default function Header() {
             </div>
             <div className="mt-8 md:mx-8 flex-nowrap z-10 flex">
                 <a href='cart' className="mx-1">
-                            <Badge anchorOrigin={{vertical: 'top', horizontal: 'left'}} badgeContent={notification?.length} color="secondary" overlap="circular">
+                            <Badge anchorOrigin={{vertical: 'top', horizontal: 'left'}} badgeContent={(() => {
+                                if (notification !== undefined) {
+                                    return notification.length
+                                }else {
+                                    return 0
+                                }
+                            })()}
+                                color="secondary" overlap="circular">
                                 <Image alt="icon image for Cart page" src={ShoppingBagIcon}
                                        className="lg:w-10 lg:h-10 w-8 h-8 mr-3 "/>
                             </Badge>
