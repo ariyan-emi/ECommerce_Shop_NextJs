@@ -94,10 +94,8 @@ export function Cart() {
         const filteredData = nonDuplicatedData.filter((n: any) => {
             return n != undefined
         });
-        if (filteredData == null && undefined){
             const sum = filteredData.map((datum: any, index: number) => filteredData[index]["count"] * filteredData[index]["price"]).reduce((a: any, b: any) => a + b)
             return sum.toFixed(2)
-        }
     }
     const triggerFade = () => {
         setFade(!fade)
