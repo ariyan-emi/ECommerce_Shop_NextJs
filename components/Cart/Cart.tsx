@@ -36,13 +36,13 @@ export function Cart() {
     }
 
     function ClearSelected(id: number) {
-        let items = JSON.parse(localStorage.getItem('ShoppingCard') || '{}')
+        let items = Object.values(state);
         items = items.filter((item: any) => item.id !== id);
         localStorage.setItem("ShoppingCard", JSON.stringify(items));
+        setState(items)
         if (items.length === 0) {
             localStorage.removeItem("ShoppingCard");
         }
-        window.location.reload();
     }
 
     function CounterPlus(LocalCounter: any, id: number, indexItem: number) {
@@ -55,7 +55,7 @@ export function Cart() {
         setCount(newList);
     }
 
-    function CounteSubtract(LocalCounter: any, id: number, indexItem: number) {
+    function CounterSubtract(LocalCounter: any, id: number, indexItem: number) {
         let localData: any = localStorage.getItem('ShoppingCard');
         let newList = JSON.parse(localData)
         let index = newList.findIndex((item: any) => item.id === id)
@@ -68,8 +68,12 @@ export function Cart() {
         count = newList;
         setCount(newList);
     }
-
-    function TotalProducts(index: number, id: number) {
+    function GetPrice(index: number){
+        let localData: any = localStorage.getItem('ShoppingCard');
+        let newList = JSON.parse(localData)
+        return newList[index].price
+    }
+    function TotalProducts(index: number) {
         let localData: any = localStorage.getItem('ShoppingCard');
         let newList = JSON.parse(localData)
         return newList[index].count * newList[index].price
@@ -143,11 +147,15 @@ export function Cart() {
                                                                 </div>
                                                             </td>
 
-                                                            <td className="py-4 text-center">{Items.price}</td>
+                                                            <td className="py-4 text-center">{(() => {
+                                                                return (
+                                                                    GetPrice(index)
+                                                                )
+                                                            })()}</td>
                                                             <td className="py-4">
                                                                 <div className="flex items-center justify-center">
                                                                     <button onClick={() => {
-                                                                        CounteSubtract(Items.count, Items.id, index)
+                                                                        CounterSubtract(Items.count, Items.id, index)
                                                                     }}
                                                                             className="border rounded-md py-2 px-4 mr-2">-
                                                                     </button>
@@ -174,7 +182,7 @@ export function Cart() {
                                                                 </div>
                                                             </td>
                                                             <td className="py-4 text-center">{(() => {
-                                                                let GetTotalProducts = TotalProducts(index, Items.id)
+                                                                let GetTotalProducts = TotalProducts(index)
                                                                 return (
                                                                     GetTotalProducts.toFixed(2)
                                                                 )

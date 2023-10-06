@@ -56,8 +56,6 @@ export default function Eyes() {
                     pupil.style.transform = `translate(${output.x.current}px, ${output.y.current}px)`;
                 }
             });
-
-            console.log('output.x.current', output.x.current);
         };
 
         const handleResize = () => {
