@@ -8,6 +8,7 @@ export function Cart() {
     let [state, setState] = useState({})
     let [count, setCount] = useState<any[] | undefined>()
     const [fade, setFade] = useState(false)
+    let fuck:any;
     useEffect(() => {
         if (localStorage.getItem('ShoppingCard') || '{}' === null) {
 
@@ -21,6 +22,7 @@ export function Cart() {
             const filteredData = nonDuplicatedData.filter((n: any) => {
                 return n != undefined
             });
+            fuck = filteredData
             state = filteredData
             setState({...state})
         } else {
@@ -81,31 +83,28 @@ export function Cart() {
     let Taxes: number = Number(1.99);
 
     function AllTotal() {
-        let localData: any = localStorage.getItem('ShoppingCard');
-        let newList = JSON.parse(localData)
-        const nonDuplicatedData: any = [];
-        if (newList){
-            newList.map((x: any) => {
-                if (!nonDuplicatedData[x.id]) {
-                    nonDuplicatedData[x.id] = x;
-                }
-            });
-        }
-        const filteredData = nonDuplicatedData.filter((n: any) => {
-            return n != undefined
-        });
-            const sum = filteredData.map((datum: any, index: number) => filteredData[index]["count"] * filteredData[index]["price"]).reduce((a: any, b: any) => a + b)
+        let filteredData = fuck;
+        if (filteredData == null && undefined){
+            const sum = Object.values(state).map((datum: any, index: number) => filteredData[index]["count"] * filteredData[index]["price"]).reduce((a: any, b: any) => a + b)
             return sum.toFixed(2)
+        }
     }
     const triggerFade = () => {
         setFade(!fade)
+    }
+    let getUserfromLocalStorage ;
+    if (global?.window !== undefined) {
+        getUserfromLocalStorage = localStorage.getItem("ShoppingCard") ? JSON.parse(localStorage.getItem("ShoppingCard") || '{}') : null;
     }
     return (
         <>
 
             {(() => {
-                // @ts-ignore
-                if (state[0] === undefined) {
+                let geter;
+                if (getUserfromLocalStorage !== undefined){
+                    geter = getUserfromLocalStorage
+                }
+                if (geter?.length == 0 || getUserfromLocalStorage === null) {
                     return (
                         <EmptyCart/>
                     )
