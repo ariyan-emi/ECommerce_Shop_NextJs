@@ -8,10 +8,9 @@ export function Cart() {
     let [state, setState] = useState({})
     let [count, setCount] = useState<any[] | undefined>()
     const [fade, setFade] = useState(false)
-    let fuck:any;
+
     useEffect(() => {
         if (localStorage.getItem('ShoppingCard') || '{}' === null) {
-
             let count = JSON.parse(localStorage.getItem('ShoppingCard') || '{}')
             const nonDuplicatedData: any = [];
             count.map((x: any) => {
@@ -22,7 +21,6 @@ export function Cart() {
             const filteredData = nonDuplicatedData.filter((n: any) => {
                 return n != undefined
             });
-            fuck = filteredData
             state = filteredData
             setState({...state})
         } else {
@@ -30,7 +28,7 @@ export function Cart() {
         }
     }, []);
     const values = Object.values(state).map((key: any, value: number) => key)
-
+    let fuck:any = state;
     function ClearAll() {
         localStorage.setItem('ShoppingCard', "[]")
         window.location.reload();
@@ -75,18 +73,19 @@ export function Cart() {
         return newList[index].price
     }
     function TotalProducts(index: number) {
-        let localData: any = localStorage.getItem('ShoppingCard');
+        let localData:any = localStorage.getItem('ShoppingCard');
         let newList = JSON.parse(localData)
         return newList[index].count * newList[index].price
     }
 
     let Taxes: number = Number(1.99);
-
     function AllTotal() {
         let filteredData = fuck;
-        if (filteredData == null && undefined){
-            const sum = Object.values(state).map((datum: any, index: number) => filteredData[index]["count"] * filteredData[index]["price"]).reduce((a: any, b: any) => a + b)
-            return sum.toFixed(2)
+        if (filteredData!){
+            const sum = Object.values(state).map((datum: any, index: number) => Number(filteredData[index]["count"]) * Number(filteredData[index]["price"]))
+            return (sum.reduce((a:any,b:any) =>a + b, 0).toFixed(2))
+        }else{
+            return 1
         }
     }
     const triggerFade = () => {
