@@ -109,7 +109,7 @@ export function Women() {
                             <Link href={`products/${dataObj.id}`}>
                                 <img
                                     src={dataObj.image}
-                                    alt="Product" className="h-80 w-72 object-cover rounded-t-xl"/>
+                                    alt="Product" className="h-80 w-72 rounded-t-xl"/>
                                 <div className="px-4 py-3 w-72">
                                     <span className="text-gray-400 mr-3 uppercase text-xs">{dataObj.category}</span>
                                     <p className="text-lg font-bold text-black truncate block capitalize">{dataObj.title}</p>

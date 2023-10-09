@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
 import Link from "next/link";
-import Brand1 from '../../assets/icon/Brands/asos-design-logo_256_v4.jpg';
+import Brand1 from '../../assets/icon/Brands/asos-design-logo_256_v4.png';
 import Brand2 from '../../assets/icon/Brands/adidas-hp-logos-256x256---v2.png';
 import Brand3 from '../../assets/icon/Brands/topman_logo_256x128_v3.png';
 import Brand4 from '../../assets/icon/Brands/new-balance-hp-logos-256x256v2.png';

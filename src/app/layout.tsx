@@ -22,7 +22,7 @@ export default function RootLayout({
         href="/src/app/favicon.ico"
         type="ico"
     />
-      <body className={inter.className}>{children}</body>
+      <body className={`bg-gray-100 ${inter.className}`}>{children}</body>
     </html>
   )
 }
