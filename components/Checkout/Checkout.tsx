@@ -109,7 +109,7 @@ export function Checkout() {
                                 </svg>
                                 <li className="flex items-center space-x-3 text-left sm:space-x-4">
                                     <p className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-400 text-xs font-semibold text-white">3</p>
-                                    <span className="font-semibold text-gray-500">Payment</span>
+                                    <span className="font-semibold text-gray-500">Invoice</span>
                                 </li>
                             </ul>
                         </div>
@@ -326,7 +326,7 @@ export function Checkout() {
                         </div>
                         <button
                             className="mt-4 mb-8 w-full rounded-md bg-violet-700 px-6 py-3 font-medium hover:bg-violet-600 text-white disabled:bg-gray-500"
-                            disabled={enable.length <= 0} onClick={() => open('payment')}>Place
+                            disabled={enable.length <= 0} onClick={() => location.href = "invoice"}>Place
                             Order
                         </button>
                     </div>

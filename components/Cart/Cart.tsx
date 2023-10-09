@@ -155,7 +155,7 @@ export function Cart() {
 
                                             <li className="flex items-center space-x-3 text-left sm:space-x-4">
                                                 <p className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-400 text-xs font-semibold text-white">3</p>
-                                                <span className="font-semibold text-gray-500">Payment</span>
+                                                <span className="font-semibold text-gray-500">Invoice</span>
                                             </li>
                                         </ul>
                                     </div>

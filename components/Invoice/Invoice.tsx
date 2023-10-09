@@ -1,4 +1,4 @@
-export function Payment() {
+export function Invoice() {
     return (
     <>
     </>
