@@ -3,7 +3,7 @@ import DeleteIcon from '@mui/icons-material/DeleteForever';
 import {EmptyCart} from "./EmptyCart";
 import {useEffect, useState} from "react";
 import Link from "next/link";
-
+import HomeIcon from '@mui/icons-material/Home';
 export function Cart() {
     let [state, setState] = useState({})
     let [count, setCount] = useState<any[] | undefined>()
@@ -126,7 +126,7 @@ export function Cart() {
 
 
                             <div className="flex flex-col items-center border-b border-violet-700 bg-gray-100 py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32">
-                                <p className="text-2xl font-bold text-gray-800">Cart</p>
+                                <Link href="/" className="text-2xl font-bold text-gray-800 text-center">H<HomeIcon className="mb-2" style={{width:30,height:30}}/>ME</Link>
                                 <div className="mt-4 py-2 text-xs sm:mt-0 sm:ml-auto sm:text-base">
                                     <div className="relative">
                                         <ul className="relative flex w-full items-center justify-between space-x-2 sm:space-x-4">
