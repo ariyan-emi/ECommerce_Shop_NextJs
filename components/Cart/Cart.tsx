@@ -4,104 +4,29 @@ import {EmptyCart} from "./EmptyCart";
 import {useEffect, useState} from "react";
 import Link from "next/link";
 import HomeIcon from '@mui/icons-material/Home';
+import {
+    AllTotal, ClearAll,
+    ClearSelected,
+    CounterPlus,
+    CounterSubtract,
+    GetPrice,
+    GetTaxes, stateMap,
+    TotalProducts
+} from "../Utils/CartUtil";
+
+
 export function Cart() {
-    let [state, setState] = useState({})
     let [count, setCount] = useState<any[] | undefined>()
     const [fade, setFade] = useState(false)
 
-    useEffect(() => {
-        if (localStorage.getItem('ShoppingCard') || '{}' === null) {
-            let count = JSON.parse(localStorage.getItem('ShoppingCard') || '{}')
-            const nonDuplicatedData: any = [];
-            count.map((x: any) => {
-                if (!nonDuplicatedData[x.id]) {
-                    nonDuplicatedData[x.id] = x;
-                }
-            });
-            const filteredData = nonDuplicatedData.filter((n: any) => {
-                return n != undefined
-            });
-            state = filteredData
-            setState({...state})
-        } else {
-            window.localStorage.setItem('ShoppingCard', "[]")
-        }
-    }, []);
-    const values = Object.values(state).map((key: any, value: number) => key)
-    let dataChanger: any = state;
 
-    function ClearAll() {
-        localStorage.setItem('ShoppingCard', "[]")
-        window.location.reload();
-    }
 
-    function ClearSelected(id: number) {
-        let items = Object.values(state);
-        items = items.filter((item: any) => item.id !== id);
-        localStorage.setItem("ShoppingCard", JSON.stringify(items));
-        setState(items)
-        if (items.length === 0) {
-            localStorage.removeItem("ShoppingCard");
-        }
-    }
-
-    function CounterPlus(LocalCounter: any, id: number, indexItem: number) {
-        let localData: any = localStorage.getItem('ShoppingCard');
-        let newList = JSON.parse(localData)
-        let index = newList.findIndex((item: any) => item.id === id)
-        let LocalItems = newList[indexItem].count++;
-        localStorage.setItem("ShoppingCard", JSON.stringify(newList));
-        count = newList;
-        setCount(newList);
-    }
-
-    function CounterSubtract(LocalCounter: any, id: number, indexItem: number) {
-        let localData: any = localStorage.getItem('ShoppingCard');
-        let newList = JSON.parse(localData)
-        let index = newList.findIndex((item: any) => item.id === id)
-        if (newList[indexItem].count > 1) {
-            let LocalItems = newList[indexItem].count--;
-        } else {
-            let LocalItems = newList[indexItem].count;
-        }
-        localStorage.setItem("ShoppingCard", JSON.stringify(newList));
-        count = newList;
-        setCount(newList);
-    }
-
-    function GetPrice(index: number) {
-        let localData: any = localStorage.getItem('ShoppingCard');
-        let newList = JSON.parse(localData)
-        return newList[index].price
-    }
-
-    function TotalProducts(index: number) {
-        let localData: any = localStorage.getItem('ShoppingCard');
-        let newList = JSON.parse(localData)
-        return newList[index].count * newList[index].price
-    }
-
-    let Taxes: number = Number(1.99);
-
-    function AllTotal() {
-        let filteredData = dataChanger;
-        if (filteredData!) {
-            const sum = Object.values(state).map((datum: any, index: number) => Number(filteredData[index]["count"]) * Number(filteredData[index]["price"]))
-            return (sum.reduce((a: any, b: any) => a + b, 0).toFixed(2))
-        } else {
-            return 1
-        }
-    }
 
     const triggerFade = () => {
         setFade(!fade)
     }
 
-    function GetProducts() {
-        let filteredData: any;
-        const sum = Object.values(state).map((datum: any, index: number) => filteredData[index]);
-        return sum
-    }
+
 
     let getUserfromLocalStorage;
     if (global?.window !== undefined) {
@@ -179,7 +104,7 @@ export function Cart() {
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    {values.map((Items: any, index: number) => {
+                                                    {stateMap().map((Items: any, index: number) => {
                                                         return (
                                                             <tr key={Items.id} data-id={index}
                                                                 className={fade ? '' : 'visibleClass'}>
@@ -211,7 +136,7 @@ export function Cart() {
                                                                 <td className="py-4">
                                                                     <div className="flex items-center justify-center">
                                                                         <button onClick={() => {
-                                                                            CounterSubtract(Items.count, Items.id, index)
+                                                                            CounterSubtract(Items.count, Items.id, index,count,setCount)
                                                                         }}
                                                                                 className="border rounded-md py-2 px-4 mr-2">-
                                                                         </button>
@@ -231,7 +156,7 @@ export function Cart() {
                                                                         })()}</span>
                                                                         <button
                                                                             onClick={() => {
-                                                                                CounterPlus(Items.count, Items.id, index)
+                                                                                CounterPlus(Items.count, Items.id, index,count,setCount)
                                                                             }}
                                                                             className="border rounded-md py-2 px-4 ml-2">+
                                                                         </button>
@@ -266,7 +191,7 @@ export function Cart() {
 
 
                                                 <div className="md:hidden">
-                                                    {values.map((Items: any, index: number) => {
+                                                    {stateMap().map((Items: any, index: number) => {
                                                         return(
                                                             <div className="flex flex-col md:flex-row border-b border-gray-400 py-4">
                                                                 <div className="flex-shrink-0">
@@ -293,7 +218,7 @@ export function Cart() {
                                                                         <span className="mr-2 text-gray-600">Quantity:</span>
                                                                         <div className="flex items-center">
                                                                             <button className="bg-gray-200 rounded-l-lg px-2 py-1" onClick={() => {
-                                                                                CounterSubtract(Items.count, Items.id, index)
+                                                                                CounterSubtract(Items.count, Items.id, index,count,setCount)
                                                                             }}>
                                                                                 -
                                                                             </button>
@@ -312,14 +237,14 @@ export function Cart() {
                                                                                 )
                                                                             })()}</span>
                                                                             <button className="bg-gray-200 rounded-r-lg px-2 py-1" onClick={() => {
-                                                                                CounterPlus(Items.count, Items.id, index)
+                                                                                CounterPlus(Items.count, Items.id, index,count,setCount)
                                                                             }}>
                                                                                 +
                                                                             </button>
                                                                         </div>
                                                                         <DeleteIcon
                                                                         style={{width: "30px", height: "30px"}}
-                                                                        className="text-red-800 hover:text-black"
+                                                                        className="text-red-800 md:hover:text-black"
                                                                         onClick={() => {
                                                                             triggerFade()
                                                                             ClearSelected(Items.id)
@@ -362,7 +287,7 @@ export function Cart() {
                                                 </div>
                                                 <div className="flex justify-between mb-2">
                                                     <span>Taxes</span>
-                                                    <span>${Taxes}</span>
+                                                    <span>${GetTaxes()}</span>
                                                 </div>
                                                 <div className="flex justify-between mb-2">
                                                     <span>Shipping</span>
@@ -373,7 +298,7 @@ export function Cart() {
                                                     <span className="font-semibold">Total</span>
                                                     <span className="font-semibold">$
                                                     {(() => {
-                                                        let GetAllTotal: any = Number(AllTotal()) + Taxes
+                                                        let GetAllTotal: any = Number(AllTotal()) + GetTaxes()
                                                         return (
                                                             GetAllTotal.toFixed(2)
                                                         )

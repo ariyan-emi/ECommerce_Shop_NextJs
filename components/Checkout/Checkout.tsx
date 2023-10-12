@@ -1,18 +1,15 @@
 'use client'
-import {useEffect, useState} from "react";
+import {createContext, useContext, useEffect, useState} from 'react';
 import Fedex from '../../assets/icon/Brands/FedEx.svg';
 import AmazonFresh from '../../assets/icon/Brands/AmazonFresh.png';
 import Image from "next/image";
 import Link from "next/link";
 import DeleteIcon from '@mui/icons-material/DeleteForever';
 import {EmptyCart} from "../Cart/EmptyCart";
-// import {useRouter} from "next/navigation";
+import {Invoice} from "../Invoice/Invoice";
 
 export function Checkout() {
-    // const router = useRouter();
-    // function SendInvoice() {
-    //     router.push(`/invoice?userid=21&orderid=22`);
-    // }
+
     let [state, setState] = useState({})
     let [showPage, setShowPage] = useState(true)
     let [enable, setEnable] = useState('')
@@ -153,7 +150,7 @@ export function Checkout() {
                                                     <div className="justify-end align-middle float-right">
                                                         <DeleteIcon
                                                             style={{width: "40px", height: "40px"}}
-                                                            className="text-red-800 hover:text-black hover:opacity-80"
+                                                            className="text-red-800 md:hover:text-black md:hover:opacity-80"
                                                             onClick={() => {
                                                                 triggerFade()
                                                                 ClearSelected(data.id)
@@ -282,9 +279,7 @@ export function Checkout() {
                                            placeholder="Street Address"/>
                                     <div
                                         className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
-                                        <img className="h-4 w-4 object-contain"
-                                             src="https://flagpack.xyz/_nuxt/4c829b6c0131de7162790d2f897a90fd.svg"
-                                             alt=""/>
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="opacity-40" width="20" height="20" viewBox="0 0 24 24"><g fill="none"><path stroke="currentColor" strokeWidth="1.5" d="M12 22c-4.714 0-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12s0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22Z"/><path stroke="currentColor" strokeWidth="1.5" d="M5.5 8.757C5.5 6.958 7.067 5.5 9 5.5s3.5 1.458 3.5 3.257c0 1.785-1.117 3.868-2.86 4.613a1.638 1.638 0 0 1-1.28 0c-1.743-.745-2.86-2.828-2.86-4.613Z"/><path stroke="currentColor" strokeLinecap="round" strokeWidth="1.5" d="m14 14l6.5 6.5M14 14l-7.605 7.605M14 14l7.607-7.606"/><path fill="currentColor" d="M10 9a1 1 0 1 1-2 0a1 1 0 0 1 2 0Z"/></g></svg>
                                     </div>
                                 </div>
                                 <select name="billing-state"

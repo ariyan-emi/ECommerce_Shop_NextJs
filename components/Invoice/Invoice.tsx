@@ -1,16 +1,14 @@
-'use client'
 import Image from "next/image";
-import React, {useEffect} from "react";
 import Logo from '../../assets/icon/logo.png';
-
 
 export function Invoice() {
     const date = new Date()
-
+    const random = Math.floor((Math.random() * 10000) + 1)
+    // Don't Use in Use Clint
     return (
         <>
             <div className="md:absolute md:top-2/4 md:left-2/4 md:-mr-[50%] md:-translate-x-1/2 md:-translate-y-1/2 md:w-3/4">
-                <div className="bg-white border-gray-900 border-b rounded-t-2xl">
+                <div className="bg-white border-gray-900 border-b md:rounded-t-2xl">
                     <div className="flex flex-col md:flex-row justify-between mx-8 py-8 ">
                         <div className="my-auto flex flex-row justify-center">
                             <a href="https://webvave.ir/">
@@ -34,7 +32,7 @@ export function Invoice() {
                         <div className="my-auto p-4">
                             <span className="font-bold text-lg">WebVaVe</span>
                             <br/>
-                            Invoice No: #{Math.floor((Math.random() * 10000) + 1)}
+                            Invoice No: #{random}
                             <br/>
                             Date: {date.getDay()}/{date.getMonth()}/{date.getFullYear()}
                         </div>
@@ -46,7 +44,7 @@ export function Invoice() {
                         </div>
                     </div>
 
-                    <div className="flex flex-col m-10 bg-gray-200">
+                    <div className="flex flex-col m-10 bg-gray-200 rounded-xl">
                         <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                             <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
                                 <div className="overflow-hidden">
@@ -107,7 +105,7 @@ export function Invoice() {
                         </div>
                     </div>
                 </div>
-                <div className="rounded-b-2xl" style={{backgroundColor: "#FCA311"}}>
+                <div className="md:rounded-b-2xl" style={{backgroundColor: "#FCA311"}}>
                         <div className="flex flex-col-reverse md:flex-row mx-10 justify-center text-center">
                         <div className="flex-col md:w-1/2 text-center justify-center align-middle mt-10">
                             <div className="border-white border-b font-bold text-xl mb-5">Bank Info</div>
