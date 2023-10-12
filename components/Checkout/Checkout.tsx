@@ -6,8 +6,13 @@ import Image from "next/image";
 import Link from "next/link";
 import DeleteIcon from '@mui/icons-material/DeleteForever';
 import {EmptyCart} from "../Cart/EmptyCart";
+// import {useRouter} from "next/navigation";
 
 export function Checkout() {
+    // const router = useRouter();
+    // function SendInvoice() {
+    //     router.push(`/invoice?userid=21&orderid=22`);
+    // }
     let [state, setState] = useState({})
     let [showPage, setShowPage] = useState(true)
     let [enable, setEnable] = useState('')

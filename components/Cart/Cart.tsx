@@ -317,12 +317,21 @@ export function Cart() {
                                                                                 +
                                                                             </button>
                                                                         </div>
+                                                                        <DeleteIcon
+                                                                        style={{width: "30px", height: "30px"}}
+                                                                        className="text-red-800 hover:text-black"
+                                                                        onClick={() => {
+                                                                            triggerFade()
+                                                                            ClearSelected(Items.id)
+                                                                        }}
+                                                                    />
                                                                         <span className="ml-auto font-bold">${(() => {
                                                                             let GetTotalProducts = TotalProducts(index)
                                                                             return (
                                                                                 GetTotalProducts.toFixed(2)
                                                                             )
                                                                         })()}</span>
+
                                                                     </div>
                                                                 </div>
                                                             </div>
