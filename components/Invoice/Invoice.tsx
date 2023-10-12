@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Logo from '../../assets/icon/logo.png';
 
-export function Invoice() {
+export function Invoice({state}:any) {
     const date = new Date()
     const random = Math.floor((Math.random() * 10000) + 1)
     // Don't Use in Use Clint

@@ -1,15 +1,35 @@
-import {makeStateAsLocalStorage} from "./CartHook";
+import {useEffect, useState} from "react";
 
+export function GetState() {
+    let [state, setState] = useState({})
+    useEffect(() => {
+        if (localStorage.getItem('ShoppingCard') || '{}' === null) {
+            let count = JSON.parse(localStorage.getItem('ShoppingCard') || '{}')
+            const nonDuplicatedData: any = [];
+            count.map((x: any) => {
+                if (!nonDuplicatedData[x.id]) {
+                    nonDuplicatedData[x.id] = x;
+                }
+            });
+            const filteredData = nonDuplicatedData.filter((n: any) => {
+                return n != undefined
+            });
+            state = filteredData
+            setState({...state})
+        } else {
+            window.localStorage.setItem('ShoppingCard', "[]")
+        }
+    }, []);
+    return state
+}
 export function ClearAll() {
     localStorage.setItem('ShoppingCard', "[]")
     window.location.reload();
 }
 export function ClearSelected(id: number) {
-    [state, setState] = makeStateAsLocalStorage()
-    let items = Object.values(state);
+    let items = JSON.parse(localStorage.getItem('ShoppingCard') || '{}')
     items = items.filter((item: any) => item.id !== id);
     localStorage.setItem("ShoppingCard", JSON.stringify(items));
-    setState(items)
     if (items.length === 0) {
         localStorage.removeItem("ShoppingCard");
     }
@@ -51,6 +71,7 @@ export function GetTaxes() {
 }
 
 export function AllTotal() {
+    const state = GetState()
     let dataChanger: any = state;
     let filteredData = dataChanger;
     if (filteredData!) {
@@ -61,10 +82,11 @@ export function AllTotal() {
     }
 }
 export function GetProducts() {
+    const state = GetState()
     let filteredData: any;
-    const sum = Object.values(state).map((datum: any, index: number) => filteredData[index]);
-    return sum
+    return Object.values(state).map((datum: any, index: number) => filteredData[index])
 }
 export function stateMap() {
+    const state = GetState()
      return  Object.values(state).map((key: any, value: number) => key)
 }

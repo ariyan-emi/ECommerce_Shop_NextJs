@@ -1,17 +1,14 @@
 'use client'
-import {createContext, useContext, useEffect, useState} from 'react';
+import {useState} from 'react';
 import Fedex from '../../assets/icon/Brands/FedEx.svg';
 import AmazonFresh from '../../assets/icon/Brands/AmazonFresh.png';
 import Image from "next/image";
 import Link from "next/link";
 import DeleteIcon from '@mui/icons-material/DeleteForever';
-import {EmptyCart} from "../Cart/EmptyCart";
-import {Invoice} from "../Invoice/Invoice";
+import {AllTotal, ClearSelected, GetTaxes, stateMap, TotalProducts} from "../Utils/CartUtil";
 
-export function Checkout() {
+export function Checkout({Component,setComponent}:any) {
 
-    let [state, setState] = useState({})
-    let [showPage, setShowPage] = useState(true)
     let [enable, setEnable] = useState('')
     const [fade, setFade] = useState(false)
 
@@ -19,63 +16,9 @@ export function Checkout() {
         setEnable(e.target.value)
     }
 
-    useEffect(() => {
-        if (localStorage.getItem('ShoppingCard') || '{}' === null) {
-            let count = JSON.parse(localStorage.getItem('ShoppingCard') || '{}')
-            const nonDuplicatedData: any = [];
-            count.map((x: any) => {
-                if (!nonDuplicatedData[x.id]) {
-                    nonDuplicatedData[x.id] = x;
-                }
-            });
-            const filteredData = nonDuplicatedData.filter((n: any) => {
-                return n != undefined
-            });
-            state = filteredData
-            setState({...state})
-        } else {
-            window.localStorage.setItem('ShoppingCard', "[]")
-        }
-    }, []);
-    const values = Object.values(state).map((key: any, value: number) => key)
-    let Taxes: number = Number(1.99);
-
-    function TotalProducts(index: number) {
-        // @ts-ignore
-        return state[index].count * state[index].price
-    }
-
-    function AllTotal() {
-        if (state!) {
-            // @ts-ignore
-            const sum = Object.values(state).map((datum: any, index: number) => Number(state[index]["count"]) * Number(state[index]["price"]))
-            return (sum.reduce((a: any, b: any) => a + b, 0).toFixed(2))
-        } else {
-            return 1
-        }
-    }
-
-    function ClearSelected(id: number) {
-        let items = Object.values(state);
-        items = items.filter((item: any) => item.id !== id);
-        localStorage.setItem("ShoppingCard", JSON.stringify(items));
-        setState(items)
-        if (items.length === 0) {
-            localStorage.removeItem("ShoppingCard");
-        }
-    }
-
     const triggerFade = () => {
         setFade(!fade)
     }
-    showPage = Object.values(state).length === 0;
-    if (showPage) {
-        return (
-            <>
-                <EmptyCart/>
-            </>
-        )
-    } else {
         return (
             <>
                 <div
@@ -125,7 +68,7 @@ export function Checkout() {
                         <p className="text-gray-400 bg-white px-5 py-1 border border-t-0 rounded-lg rounded-t-none">Check
                             your items. And select a suitable shipping method.</p>
                         <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
-                            {values.map((data: any, index: number) => {
+                            {stateMap().map((data: any, index: number) => {
                                 return (
                                     <div className={fade ? '' : 'visibleClass'}>
                                         <div className="flex flex-col rounded-lg bg-white sm:flex-row">
@@ -305,7 +248,7 @@ export function Checkout() {
                                 </div>
                                 <div className="flex items-center justify-between">
                                     <p className="text-sm font-medium text-gray-900">Taxes</p>
-                                    <p className="font-semibold text-gray-900">${Taxes}</p>
+                                    <p className="font-semibold text-gray-900">${GetTaxes()}</p>
                                 </div>
                                 <div className="flex items-center justify-between">
                                     <p className="text-sm font-medium text-gray-900">Shipping</p>
@@ -316,7 +259,7 @@ export function Checkout() {
                                 <p className="text-sm font-medium text-gray-900">Total</p>
                                 <p className="text-2xl font-semibold text-gray-900">$
                                     {(() => {
-                                        let GetAllTotal: any = Number(AllTotal()) + Taxes
+                                        let GetAllTotal: any = Number(AllTotal()) + GetTaxes()
                                         return (
                                             GetAllTotal.toFixed(2)
                                         )
@@ -326,7 +269,9 @@ export function Checkout() {
                         </div>
                         <button
                             className="mt-4 mb-8 w-full rounded-md bg-violet-700 px-6 py-3 font-medium hover:bg-violet-600 text-white disabled:bg-gray-500"
-                            disabled={enable.length <= 0} onClick={() => location.href = "invoice"}>Place
+                            disabled={enable.length <= 0} onClick={()=>{
+                            Component = "invoice"
+                            setComponent("invoice")}}>Place
                             Order
                         </button>
                     </div>
@@ -346,6 +291,4 @@ export function Checkout() {
                   }`}</style>
             </>
         )
-    }
-
 }
