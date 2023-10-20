@@ -8,6 +8,8 @@ import Snackbar from '@mui/material/Snackbar';
 import Slide, {SlideProps} from '@mui/material/Slide';
 import {Alert, Fade, Grow, GrowProps} from "@mui/material";
 import {TransitionProps} from "@mui/material/transitions";
+import {addToCart} from "../Redux/cartSlice";
+import {useDispatch} from "react-redux";
 
 function SlideTransition(props: SlideProps) {
     return <Slide {...props} direction="up" />;
@@ -57,48 +59,7 @@ export function Women() {
             open: false,
         });
     };
-    let counter = 0;
-    function getProductInfo(dataObject:any){
-        // course info
-        const ProductInfo = {
-            count:1,
-            id: dataObject.id,
-            title: dataObject.title,
-            price: dataObject.price.toFixed(2),
-            description:dataObject.description,
-            category:dataObject.category,
-            image: dataObject.image,
-            rating:dataObject.rating,
-        }
-
-
-        // adding the course to the cart
-        addToCart(ProductInfo)
-    }
-    function addToCart(Products:any) {
-        // get array of courses from storage
-        let courses = getFromStorage()
-
-        // add the new course to the array of courses
-        courses.push(Products)
-
-        localStorage.setItem('ShoppingCard', JSON.stringify(courses) )
-
-    }
-    function getFromStorage(){
-        let courses;
-
-        // if courses exist before
-        if (localStorage.getItem('ShoppingCard')) {
-            courses = JSON.parse(localStorage.getItem('ShoppingCard') || '{}')
-        } else {
-            courses = []
-        }
-
-        return courses
-    }
-
-
+    const dispatch = useDispatch();
     return(
         <>
             <section id="Projects" className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5">
@@ -122,7 +83,7 @@ export function Women() {
                                             <Button className="hover:bg-white" onClick={handleClick(GrowTransition)}>
                                                 <button className="hover:text-violet-950" onClick={(e)=>{
                                                     e.preventDefault();
-                                                    getProductInfo(dataObj)
+                                                    dispatch(addToCart({data: dataObj}))
                                                 }}>
                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                          fill="currentColor" className="font-bold w-8 h-8 hover:w-10 hover:h-10 bi bi-bag-plus" viewBox="0 0 16 16">

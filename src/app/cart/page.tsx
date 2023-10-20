@@ -2,7 +2,7 @@ import {Cart} from "../../../components/Cart/Cart";
 
 export default function Home() {
   return (
-      <body className="bg-gray-100">
+      <body style={{backgroundColor:"#E5E5E5"}}>
     <Cart/>
       </body>
   )

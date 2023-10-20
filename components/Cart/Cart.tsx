@@ -1,14 +1,16 @@
 'use client'
 import {EmptyCart} from "./EmptyCart";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {ShoppingCard} from "./ShoppingCard";
 import {Checkout} from "../Checkout/Checkout";
 import {Invoice} from "../Invoice/Invoice";
+import {Provider} from "react-redux";
+import store from "../Redux/store";
 
 export function Cart() {
     let [showComponent,setShowComponent] =useState("cart")
-
     return (
+        <Provider store={store}>
         <>
             {(() => {
                  if (showComponent == "cart") {
@@ -53,5 +55,6 @@ export function Cart() {
                 }
               }`}</style>
         </>
+        </Provider>
     )
 }

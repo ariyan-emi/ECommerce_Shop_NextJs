@@ -19,6 +19,8 @@ import {Women} from "./Women";
 import {Men} from "./Men";
 import {AllProducts} from "./AllProducts";
 import {Accessories} from "./Accessories";
+import {Provider} from "react-redux";
+import store from "../Redux/store";
 
 
 
@@ -109,7 +111,9 @@ const ImageMarked = styled('span')(({theme}) => ({
 export default function MainPage() {
     let [state,setState]=useState("all")
     return (
+        <Provider store={store}>
         <>
+
             <div className="hidden md:flex md:-top-24 relative w-full lg:-top-44 overflow-y: scroll;">
                 <ImageNext
                     className="-z-10"
@@ -257,6 +261,8 @@ export default function MainPage() {
                     </li>
                 </ul>
         </>
+</Provider>
+
     );
 };
 

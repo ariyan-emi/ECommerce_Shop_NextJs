@@ -2,29 +2,25 @@ import Link from "next/link";
 import HomeIcon from "@mui/icons-material/Home";
 import DeleteIcon from "@mui/icons-material/DeleteForever";
 import {useState} from "react";
-import {
-    AllTotal, ClearAll,
-    ClearSelected,
-    CounterPlus,
-    CounterSubtract,
-    GetPrice, GetTaxes,
-    stateMap,
-    TotalProducts
-} from "../Utils/CartUtil";
+import {useDispatch, useSelector} from "react-redux";
+import {CounterPlus, CounterSubtract, removeFromCart, restCart} from "../Redux/cartSlice";
+import {GetTaxes} from "../Utils/cartUtils";
 
 export function ShoppingCard({Component,setComponent}:any) {
     let [count, setCount] = useState<any[] | undefined>()
     const [fade, setFade] = useState(false)
-
-
-
+    const cart = useSelector((state:any) => state.cart);
+    const dispatch = useDispatch();
     const triggerFade = () => {
         setFade(!fade)
     }
+    const removeFromCartHandler = (index:any) => {
+        dispatch(removeFromCart({index:index}));
+    };
 
     return(
         <>
-            <div className="flex flex-col items-center border-b border-violet-700 bg-gray-100 py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32">
+            <div className="flex flex-col items-center border-b border-violet-700 bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32">
                 <Link href="/" className="text-2xl font-bold text-gray-800 text-center">H<HomeIcon className="mb-2" style={{width:30,height:30}}/>ME</Link>
                 <div className="mt-4 py-2 text-xs sm:mt-0 sm:ml-auto sm:text-base">
                     <div className="relative">
@@ -62,7 +58,7 @@ export function ShoppingCard({Component,setComponent}:any) {
             </div>
 
             {/*Header*/}
-            <div className="bg-gray-100 h-screen py-8">
+            <div className="h-screen py-8">
                 <div className="container mx-auto px-4">
                     <div className="flex flex-col md:flex-row gap-4">
                         <div className="md:w-3/4">
@@ -79,7 +75,7 @@ export function ShoppingCard({Component,setComponent}:any) {
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        {stateMap().map((Items: any, index: number) => {
+                                        {cart.map((Items: any, index: number) => {
                                             return (
                                                 <tr key={Items.id} data-id={index}
                                                     className={fade ? '' : 'visibleClass'}>
@@ -104,41 +100,32 @@ export function ShoppingCard({Component,setComponent}:any) {
                                                     </td>
 
                                                     <td className="py-4 text-center">${(() => {
-                                                        return (
-                                                            GetPrice(index)
+                                                        return(
+                                                            cart[index].price
                                                         )
                                                     })()}</td>
                                                     <td className="py-4">
                                                         <div className="flex items-center justify-center">
                                                             <button onClick={() => {
-                                                                CounterSubtract(Items.count, Items.id, index,count,setCount)
+                                                                dispatch(CounterSubtract({action:index}))
                                                             }}
                                                                     className="border rounded-md py-2 px-4 mr-2">-
                                                             </button>
                                                             <span className="text-center w-8">{(() => {
-                                                                let Counter: any;
-                                                                let localData: any = localStorage.getItem('ShoppingCard');
-                                                                let newList = JSON.parse(localData)
-                                                                let LocalItems = newList[index].count;
-                                                                if (count !== undefined) {
-                                                                    Counter = count[index].count
-                                                                } else {
-                                                                    Counter = LocalItems;
-                                                                }
                                                                 return (
-                                                                    Counter
+                                                                    cart[index].count
                                                                 )
                                                             })()}</span>
                                                             <button
                                                                 onClick={() => {
-                                                                    CounterPlus(Items.count, Items.id, index,count,setCount)
+                                                                    dispatch(CounterPlus({action:index}))
                                                                 }}
                                                                 className="border rounded-md py-2 px-4 ml-2">+
                                                             </button>
                                                         </div>
                                                     </td>
                                                     <td className="py-4 text-center">${(() => {
-                                                        let GetTotalProducts = TotalProducts(index)
+                                                        let GetTotalProducts = cart[index].count * cart[index].price
                                                         return (
                                                             GetTotalProducts.toFixed(2)
                                                         )
@@ -150,7 +137,7 @@ export function ShoppingCard({Component,setComponent}:any) {
                                                             className="text-red-800 hover:text-black"
                                                             onClick={() => {
                                                                 triggerFade()
-                                                                ClearSelected(Items.id)
+                                                                removeFromCartHandler(index)
                                                             }}
                                                         />
                                                     </td>
@@ -166,7 +153,7 @@ export function ShoppingCard({Component,setComponent}:any) {
 
 
                                 <div className="md:hidden">
-                                    {stateMap().map((Items: any, index: number) => {
+                                    {cart.map((Items: any, index: number) => {
                                         return(
                                             <div className="flex flex-col md:flex-row border-b border-gray-400 py-4">
                                                 <div className="flex-shrink-0">
@@ -193,26 +180,17 @@ export function ShoppingCard({Component,setComponent}:any) {
                                                         <span className="mr-2 text-gray-600">Quantity:</span>
                                                         <div className="flex items-center">
                                                             <button className="bg-gray-200 rounded-l-lg px-2 py-1" onClick={() => {
-                                                                CounterSubtract(Items.count, Items.id, index,count,setCount)
+                                                                dispatch(CounterSubtract({action:index}))
                                                             }}>
                                                                 -
                                                             </button>
                                                             <span className="mx-2 text-gray-600">{(() => {
-                                                                let Counter: any;
-                                                                let localData: any = localStorage.getItem('ShoppingCard');
-                                                                let newList = JSON.parse(localData)
-                                                                let LocalItems = newList[index].count;
-                                                                if (count !== undefined) {
-                                                                    Counter = count[index].count
-                                                                } else {
-                                                                    Counter = LocalItems;
-                                                                }
                                                                 return (
-                                                                    Counter
+                                                                    cart[index].count
                                                                 )
                                                             })()}</span>
                                                             <button className="bg-gray-200 rounded-r-lg px-2 py-1" onClick={() => {
-                                                                CounterPlus(Items.count, Items.id, index,count,setCount)
+                                                                dispatch(CounterPlus({action:index}))
                                                             }}>
                                                                 +
                                                             </button>
@@ -222,11 +200,11 @@ export function ShoppingCard({Component,setComponent}:any) {
                                                             className="text-red-800 md:hover:text-black"
                                                             onClick={() => {
                                                                 triggerFade()
-                                                                ClearSelected(Items.id)
+                                                                removeFromCartHandler(index)
                                                             }}
                                                         />
                                                         <span className="ml-auto font-bold">${(() => {
-                                                            let GetTotalProducts = TotalProducts(index)
+                                                            let GetTotalProducts = cart[index].count * cart[index].price
                                                             return (
                                                                 GetTotalProducts.toFixed(2)
                                                             )
@@ -253,12 +231,11 @@ export function ShoppingCard({Component,setComponent}:any) {
                                     <span>Subtotal</span>
                                     <span>$
                                         {(() => {
-                                            let GetAllTotal = AllTotal()
                                             return (
-                                                GetAllTotal
+                                                cart.reduce((acc:any, item:any) => acc + item.count * item.price, 0).toFixed(2)
                                             )
                                         })()}
-                                                </span>
+                                    </span>
                                 </div>
                                 <div className="flex justify-between mb-2">
                                     <span>Taxes</span>
@@ -273,12 +250,12 @@ export function ShoppingCard({Component,setComponent}:any) {
                                     <span className="font-semibold">Total</span>
                                     <span className="font-semibold">$
                                         {(() => {
-                                            let GetAllTotal: any = Number(AllTotal()) + GetTaxes()
+                                            let num = Number(cart.reduce((acc:any, item:any) => acc + item.count * item.price, 0))+GetTaxes()
                                             return (
-                                                GetAllTotal.toFixed(2)
+                                                num.toFixed(2)
                                             )
                                         })()}
-                                                </span>
+                                    </span>
                                 </div>
 
                                     <button onClick={()=>{
@@ -290,7 +267,9 @@ export function ShoppingCard({Component,setComponent}:any) {
 
 
                                 <button
-                                    onClick={ClearAll}
+                                    onClick={()=>{
+                                        dispatch(restCart())
+                                    }}
                                     className="bg-red-800 text-white py-2 px-4 rounded-lg mt-4 w-full">Delete
                                     All
                                 </button>
