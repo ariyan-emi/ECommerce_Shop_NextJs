@@ -2,8 +2,8 @@
 import {EmptyCart} from "./EmptyCart";
 import {useState} from "react";
 import {ShoppingCard} from "./ShoppingCard";
-import {Checkout} from "../Checkout/Checkout";
-import {Invoice} from "../Invoice/Invoice";
+import {Checkout} from "./Checkout";
+import {Invoice} from "./Invoice";
 import {Provider} from "react-redux";
 import store from "../Redux/store";
 
@@ -28,7 +28,7 @@ export function Cart() {
                 }else if (showComponent == "invoice") {
                     return (
                         <>
-                            <Invoice />
+                            <Invoice Component={showComponent} setComponent={setShowComponent}/>
                         </>
                     )
                 }else if (showComponent == "empty") {

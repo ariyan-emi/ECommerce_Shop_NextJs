@@ -27,8 +27,11 @@ export function ShoppingCard({Component,setComponent}:any) {
                         <ul className="relative flex w-full items-center justify-between space-x-2 sm:space-x-4">
 
                             <li className="flex items-center space-x-3 text-left sm:space-x-4">
-                                <a className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-600 text-xs font-semibold text-white ring ring-gray-600 ring-offset-2"
-                                   href="cart">1</a>
+                                <button onClick={()=>{
+                                    Component = "cart"
+                                    setComponent("cart")
+                                }} className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-600 text-xs font-semibold text-white ring ring-gray-600 ring-offset-2"
+                                   >1</button>
                                 <span className="font-semibold text-gray-900">Cart</span>
                             </li>
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400"
@@ -38,8 +41,11 @@ export function ShoppingCard({Component,setComponent}:any) {
                             </svg>
 
                             <li className="flex items-center space-x-3 text-left sm:space-x-4">
-                                <a className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-400 text-xs font-semibold text-white"
-                                   href="checkout">2</a>
+                                <button onClick={()=>{
+                                    Component = "checkout"
+                                    setComponent("checkout")
+                                }} className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-400 text-xs font-semibold text-white"
+                                >2</button>
                                 <span className="font-semibold text-gray-500">Checkout</span>
                             </li>
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400"
@@ -49,7 +55,10 @@ export function ShoppingCard({Component,setComponent}:any) {
                             </svg>
 
                             <li className="flex items-center space-x-3 text-left sm:space-x-4">
-                                <p className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-400 text-xs font-semibold text-white">3</p>
+                                <button onClick={()=>{
+                                    Component = "invoice"
+                                    setComponent("invoice")
+                                }} className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-400 text-xs font-semibold text-white">3</button>
                                 <span className="font-semibold text-gray-500">Invoice</span>
                             </li>
                         </ul>
