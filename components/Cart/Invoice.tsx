@@ -152,7 +152,7 @@ export function Invoice({Component, setComponent}: any) {
                     <div className="flex flex-col-reverse md:flex-row mx-10 justify-center text-center">
                         <div className="flex-col md:w-1/2 text-center justify-center align-middle mt-10">
                             <div className="border-white border-b font-bold text-xl mb-5">Bank Info</div>
-                            <p><strong>University's bank name</strong>: Bank of America, NA<br/>
+                            <p><strong>University&#39;s bank name</strong>: Bank of America, NA<br/>
                                 <strong>Bank routing number</strong>: 0260-0959-3 (wire transfer only)<br/>
                                 <strong>Bank account number</strong>: 0175380001<br/>
                                 <strong>Bank address</strong>: 1655 Grant Street; Concord, CA 94520<br/></p>

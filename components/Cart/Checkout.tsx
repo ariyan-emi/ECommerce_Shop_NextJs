@@ -86,7 +86,7 @@ export function Checkout({Component, setComponent}: any) {
                     <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
                         {cart.map((data: any, index: number) => {
                             return (
-                                <div className={fade ? '' : 'visibleClass'}>
+                                <div key={index} className={fade ? '' : 'visibleClass'}>
                                     <div className="flex flex-col rounded-lg bg-white sm:flex-row">
                                         <Link href={`products/${data.id}`}>
                                             <img className="m-2 h-24 w-24"

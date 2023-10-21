@@ -86,7 +86,7 @@ export function ShoppingCard({Component,setComponent}:any) {
                                         <tbody>
                                         {cart.map((Items: any, index: number) => {
                                             return (
-                                                <tr key={Items.id} data-id={index}
+                                                <tr key={index} data-id={index}
                                                     className={fade ? '' : 'visibleClass'}>
                                                     <td className="py-4">
                                                         <div className="flex items-center">
@@ -164,7 +164,7 @@ export function ShoppingCard({Component,setComponent}:any) {
                                 <div className="md:hidden">
                                     {cart.map((Items: any, index: number) => {
                                         return(
-                                            <div className="flex flex-col md:flex-row border-b border-gray-400 py-4">
+                                            <div key={index} className="flex flex-col md:flex-row border-b border-gray-400 py-4">
                                                 <div className="flex-shrink-0">
                                                     <img
                                                         src={Items.image}
