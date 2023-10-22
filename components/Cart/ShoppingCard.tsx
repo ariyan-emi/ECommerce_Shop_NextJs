@@ -10,9 +10,11 @@ import {EmptyCart} from "./EmptyCart";
 export function ShoppingCard({Component, setComponent}: any) {
     let [count, setCount] = useState<any[] | undefined>()
     const [fade, setFade] = useState(false)
-    const cart = useSelector((state: any) => state.cart);
-    const dispatch = useDispatch();
     const [isClient, setIsClient] = useState(false)
+    const cart = useSelector((state: any) => state.cart);
+    const info = useSelector((state: any) => state.info);
+    const dispatch = useDispatch();
+
 
     useEffect(() => {
         setIsClient(true)
@@ -23,8 +25,13 @@ export function ShoppingCard({Component, setComponent}: any) {
     const removeFromCartHandler = (index: any) => {
         dispatch(removeFromCart({index: index}));
     };
+    function checkEnabled(){
+        return info == "";
+    }
+    console.log(info)
+
     if (!isClient) {
-        console.log("Prerender")
+
     } else {
         return (
             <>
@@ -72,7 +79,9 @@ export function ShoppingCard({Component, setComponent}: any) {
                                 </svg>
 
                                 <li className="flex items-center space-x-3 text-left sm:space-x-4">
-                                    <p className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-400 text-xs font-semibold text-white">3</p>
+                                    <button disabled={checkEnabled()} onClick={() => {
+                                        Component = "invoice"
+                                        setComponent("invoice")}} className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-400 text-xs font-semibold text-white">3</button>
                                     <span className="font-semibold text-gray-500">Invoice</span>
                                 </li>
                             </ul>

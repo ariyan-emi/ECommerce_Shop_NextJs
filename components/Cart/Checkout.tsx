@@ -6,17 +6,18 @@ import Image from "next/image";
 import Link from "next/link";
 import DeleteIcon from '@mui/icons-material/DeleteForever';
 import {useDispatch, useSelector} from "react-redux";
-import {removeFromCart} from "../Redux/cartSlice";
+import {CounterPlus, removeFromCart} from "../Redux/cartSlice";
 import {GetTaxes} from "../Utils/cartUtils";
 import HomeIcon from "@mui/icons-material/Home";
+import {getState} from "../Redux/infoSlice";
 
 export function Checkout({Component, setComponent}: any) {
 
-    let [enable, setEnable] = useState({zipcode: '',address: '',name: ''})
+    let [enable, setEnable] = useState({email: '',address: '',name: ''})
     const [fade, setFade] = useState(false)
 
-    function handleChangeZip(e: any) {
-        enable.zipcode = e.target.value
+    function handleChangeEmail(e: any) {
+        enable.email = e.target.value
         setEnable({...enable})
     }
     function handleChangeAddress(e: any) {
@@ -28,7 +29,7 @@ export function Checkout({Component, setComponent}: any) {
         setEnable({...enable})
     }
     function checkEnabled(){
-    return !(enable.address !== "" && enable.name !== "" && enable.zipcode !== "");
+    return !(enable.address !== "" && enable.name !== "" && enable.email !== "");
     }
     const triggerFade = () => {
         setFade(!fade)
@@ -39,6 +40,7 @@ export function Checkout({Component, setComponent}: any) {
         dispatch(removeFromCart({index:index}));
     };
 
+    const info = useSelector((state: any) => state.info);
     return (
         <>
             <div
@@ -76,7 +78,9 @@ export function Checkout({Component, setComponent}: any) {
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/>
                             </svg>
                             <li className="flex items-center space-x-3 text-left sm:space-x-4">
-                                <p className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-400 text-xs font-semibold text-white">3</p>
+                                <button disabled={checkEnabled()} onClick={() => {
+                                    Component = "invoice"
+                                    setComponent("invoice")}} className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-400 text-xs font-semibold text-white">3</button>
                                 <span className="font-semibold text-gray-500">Invoice</span>
                             </li>
                         </ul>
@@ -184,7 +188,7 @@ export function Checkout({Component, setComponent}: any) {
                     <div className="">
                         <label htmlFor="email" className="mt-4 mb-2 block text-sm font-medium">Email</label>
                         <div className="relative">
-                            <input type="text" id="email" name="email"
+                            <input type="text" id="email" name="email" onChange={handleChangeEmail}
                                    className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                                    placeholder="you@gmail.com"/>
                             <div
@@ -265,7 +269,7 @@ export function Checkout({Component, setComponent}: any) {
                             </select>
                             <input type="number" name="billing-zip"
                                    className="flex-shrink-0 rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none sm:w-1/6 focus:z-10 focus:border-blue-500 focus:ring-blue-500"
-                                   placeholder="ZIP" onChange={handleChangeZip}/>
+                                   placeholder="ZIP"/>
                         </div>
 
                         <div className="mt-6 border-t border-b py-2">
@@ -303,6 +307,7 @@ export function Checkout({Component, setComponent}: any) {
                     <button
                         className="mt-4 mb-8 w-full rounded-md bg-violet-700 px-6 py-3 font-medium hover:bg-violet-600 text-white disabled:bg-gray-500"
                         disabled={checkEnabled()} onClick={() => {
+                            dispatch(getState({data: enable}))
                         Component = "invoice"
                         setComponent("invoice")
                     }}>

@@ -9,6 +9,7 @@ export function Invoice({Component, setComponent}: any) {
     const date = new Date()
     const random = Math.floor((Math.random() * 10000) + 1)
     const cart = useSelector((state: any) => state.cart);
+    const info = useSelector((state: any) => state.info);
     return (
         <>
             <div
@@ -95,9 +96,10 @@ export function Invoice({Component, setComponent}: any) {
                             Date: {date.getDay()}/{date.getMonth()}/{date.getFullYear()}
                         </div>
                         <div className="my-auto text-right">
-                            <span className="font-bold text-lg">Name</span><br/>
-                            Your Address<br/>
-                            ZipCode<br/>
+                            <span className="font-bold text-lg">{info.name}</span><br/>
+                            {info.email}<br/>
+                            {info.address}<br/>
+                          <br/>
                         </div>
                     </div>
 
@@ -147,8 +149,8 @@ export function Invoice({Component, setComponent}: any) {
                         </div>
                     </div>
                 </div>
-                <div className="md:rounded-b-2xl" style={{backgroundColor: "#FCA311"}}>
-                    <div className="flex flex-col-reverse md:flex-row mx-10 justify-center text-center">
+                <div className="md:rounded-b-2xl" style={{backgroundColor: "#8338ec"}}>
+                    <div className=" text-zinc-300 flex flex-col-reverse md:flex-row mx-10 justify-center text-center">
                         <div className="flex-col md:w-1/2 text-center justify-center align-middle mt-10">
                             <div className="border-white border-b font-bold text-xl mb-5">Bank Info</div>
                             <p><strong>University&#39;s bank name</strong>: Bank of America, NA<br/>
@@ -161,18 +163,18 @@ export function Invoice({Component, setComponent}: any) {
                             <div className="p-2">
                                 <p className="font-bold">Ariyan Emami</p>
                                 <p>WebVaVe</p>
-                                <p className="text-gray-600">Washington,1600 Pennsylvania Ave NW, <br/>The White House
+                                <p className="text-zinc-400">Washington,1600 Pennsylvania Ave NW, <br/>The White House
                                 </p>
                             </div>
                         </div>
                         <div className="flex-col md:w-1/2 text-center justify-center align-middle mt-10">
                             <div className="border-white border-b font-bold text-xl mb-5">Summary</div>
                             <div className="p-2">
-                                <strong>Subtotal</strong>:${(() => {
+                                <strong>Subtotal</strong>: ${(() => {
                                 return (cart.reduce((acc: any, item: any) => acc + item.count * item.price, 0).toFixed(2))
                             })()}<br/>
-                                <strong>Taxes</strong>:${GetTaxes()}<br/>
-                                <strong>Total</strong>:${(() => {
+                                <strong>Taxes</strong>: ${GetTaxes()}<br/>
+                                <strong>Total</strong>: ${(() => {
                                 let num = Number(cart.reduce((acc: any, item: any) => acc + item.count * item.price, 0)) + GetTaxes()
                                 return (num.toFixed(2))
                             })()}
