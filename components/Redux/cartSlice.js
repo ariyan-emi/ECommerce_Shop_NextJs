@@ -1,8 +1,10 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-let getLocalStorage;
-if (typeof window !== 'undefined') {
-  getLocalStorage = localStorage.getItem("ShoppingCard") ? JSON.parse(localStorage.getItem("ShoppingCard")) : null;
+const getLocalStorage = () => {
+  if (typeof localStorage !== 'undefined') {
+    return JSON.parse(localStorage.getItem("ShoppingCard"));
+  }
+  return null;
 }
 const initialState = getLocalStorage
 
