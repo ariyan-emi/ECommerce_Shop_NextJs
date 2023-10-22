@@ -72,12 +72,7 @@ export function ShoppingCard({Component, setComponent}: any) {
                                 </svg>
 
                                 <li className="flex items-center space-x-3 text-left sm:space-x-4">
-                                    <button onClick={() => {
-                                        Component = "invoice"
-                                        setComponent("invoice")
-                                    }}
-                                            className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-400 text-xs font-semibold text-white">3
-                                    </button>
+                                    <p className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-400 text-xs font-semibold text-white">3</p>
                                     <span className="font-semibold text-gray-500">Invoice</span>
                                 </li>
                             </ul>
@@ -131,7 +126,7 @@ export function ShoppingCard({Component, setComponent}: any) {
 
                                                         <td className="py-4 text-center">${(() => {
                                                             return (
-                                                                cart[index].price
+                                                                cart[index].price.toFixed(2)
                                                             )
                                                         })()}</td>
                                                         <td className="py-4">

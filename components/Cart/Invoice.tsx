@@ -97,8 +97,7 @@ export function Invoice({Component, setComponent}: any) {
                         <div className="my-auto text-right">
                             <span className="font-bold text-lg">Name</span><br/>
                             Your Address<br/>
-                            Town, City,<br/>
-                            Postcode
+                            ZipCode<br/>
                         </div>
                     </div>
 

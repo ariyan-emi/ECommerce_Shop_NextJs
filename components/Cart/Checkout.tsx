@@ -10,16 +10,26 @@ import {removeFromCart} from "../Redux/cartSlice";
 import {GetTaxes} from "../Utils/cartUtils";
 import HomeIcon from "@mui/icons-material/Home";
 
-
 export function Checkout({Component, setComponent}: any) {
 
-    let [enable, setEnable] = useState('')
+    let [enable, setEnable] = useState({zipcode: '',address: '',name: ''})
     const [fade, setFade] = useState(false)
 
-    function handleChange(e: any) {
-        setEnable(e.target.value)
+    function handleChangeZip(e: any) {
+        enable.zipcode = e.target.value
+        setEnable({...enable})
     }
-
+    function handleChangeAddress(e: any) {
+        enable.address = e.target.value
+        setEnable({...enable})
+    }
+    function handleChangeName(e: any) {
+        enable.name = e.target.value
+        setEnable({...enable})
+    }
+    function checkEnabled(){
+    return !(enable.address !== "" && enable.name !== "" && enable.zipcode !== "");
+    }
     const triggerFade = () => {
         setFade(!fade)
     }
@@ -66,10 +76,7 @@ export function Checkout({Component, setComponent}: any) {
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/>
                             </svg>
                             <li className="flex items-center space-x-3 text-left sm:space-x-4">
-                                <button onClick={()=>{
-                                    Component = "invoice"
-                                    setComponent("invoice")
-                                }} className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-400 text-xs font-semibold text-white">3</button>
+                                <p className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-400 text-xs font-semibold text-white">3</p>
                                 <span className="font-semibold text-gray-500">Invoice</span>
                             </li>
                         </ul>
@@ -118,7 +125,7 @@ export function Checkout({Component, setComponent}: any) {
                                                 </div>
                                                 <div>
                                             <span className="text-gray-400"><span
-                                                className="font-bold text-gray-600">{data.count}</span> x ${data.price}</span>
+                                                className="font-bold text-gray-600">{data.count}</span> x ${data.price.toFixed(2)}</span>
                                                     <p className="text-lg font-bold">$
                                                         {(() => {
                                                             let GetTotalProducts = cart[index].count * cart[index].price
@@ -192,7 +199,7 @@ export function Checkout({Component, setComponent}: any) {
                         <label htmlFor="card-holder" className="mt-4 mb-2 block text-sm font-medium">Card
                             Holder</label>
                         <div className="relative">
-                            <input type="text" id="card-holder" name="card-holder"
+                            <input type="text" id="card-holder" name="card-holder" onChange={handleChangeName}
                                    className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm uppercase shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                                    placeholder="Your full name here"/>
                             <div
@@ -233,7 +240,7 @@ export function Checkout({Component, setComponent}: any) {
                             Address</label>
                         <div className="flex flex-col sm:flex-row">
                             <div className="relative flex-shrink-0 sm:w-7/12">
-                                <input type="text" id="billing-address" name="billing-address"
+                                <input type="text" id="billing-address" name="billing-address" onChange={handleChangeAddress}
                                        className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                                        placeholder="Street Address"/>
                                 <div
@@ -258,7 +265,7 @@ export function Checkout({Component, setComponent}: any) {
                             </select>
                             <input type="number" name="billing-zip"
                                    className="flex-shrink-0 rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none sm:w-1/6 focus:z-10 focus:border-blue-500 focus:ring-blue-500"
-                                   placeholder="ZIP" onChange={handleChange}/>
+                                   placeholder="ZIP" onChange={handleChangeZip}/>
                         </div>
 
                         <div className="mt-6 border-t border-b py-2">
@@ -295,10 +302,11 @@ export function Checkout({Component, setComponent}: any) {
                     </div>
                     <button
                         className="mt-4 mb-8 w-full rounded-md bg-violet-700 px-6 py-3 font-medium hover:bg-violet-600 text-white disabled:bg-gray-500"
-                        disabled={enable.length <= 0} onClick={() => {
+                        disabled={checkEnabled()} onClick={() => {
                         Component = "invoice"
                         setComponent("invoice")
-                    }}>Place
+                    }}>
+                        Place
                         Order
                     </button>
                 </div>
