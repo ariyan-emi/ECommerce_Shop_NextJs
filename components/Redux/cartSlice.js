@@ -23,14 +23,13 @@ const cartSlice = createSlice({
         image: action.payload.data.image,
         rating:action.payload.data.rating,
       }
-      console.log(Products)
       let courses = JSON.parse(localStorage.getItem('ShoppingCard'))
       if(!courses.some(el => el.id === action.payload.data.id)){
         courses.push(Products);
-        localStorage.setItem('ShoppingCard', JSON.stringify(courses) )
+        localStorage.setItem('ShoppingCard', JSON.stringify(courses))
+        state = courses
+        return state
       }
-
-
     },
     CounterPlus: (state,action) => {
      state[action.payload.action].count +=1;
@@ -48,7 +47,6 @@ const cartSlice = createSlice({
       console.log(action.payload.index)
       state.splice(action.payload.index, 1);
       localStorage.setItem("ShoppingCard", JSON.stringify(state));
-      console.log(state)
     },
     restCart: (state) => {
       state.splice(0, state.length);

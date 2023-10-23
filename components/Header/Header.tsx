@@ -4,39 +4,23 @@ import Image from 'next/image'
 import "../../src/app/globals.css"
 import Link from "next/link";
 import PersonIcon from '../../assets/icon/minicon/person.png';
-import ShoppingBagIcon from '../../assets/icon/minicon/cart.png';
 import Menu from '../../assets/icon/minicon/menu.png';
 import Drawer from 'react-modern-drawer'
 import 'react-modern-drawer/dist/index.css'
-import React, {useEffect, useState} from "react";
-import Badge from '@mui/material/Badge';
+import React, {useState} from "react";
+import {Provider} from "react-redux";
+import store from "../Redux/store";
+import {BadgeCart} from "./Badge";
 
 
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false)
-    let [notification,setNotification]=useState<any[]>()
     const toggleDrawer = () => {
         setIsOpen((prevState) => !prevState)
     }
-    useEffect(() => {
-        if (localStorage.getItem('ShoppingCard') || '{}' === null) {
-            let count = JSON.parse(localStorage.getItem('ShoppingCard') || '{}')
-            const nonDuplicatedData: any = [];
-            count.map((x: any) => {
-                if (!nonDuplicatedData[x.id]) {
-                    nonDuplicatedData[x.id] = x;
-                }
-            });
-            const filteredData = nonDuplicatedData.filter((n: any) => {
-                return n != undefined
-            });
-            notification = filteredData
-            setNotification(filteredData)
-        } else {
-            window.localStorage.setItem('ShoppingCard', "[]")
-        }
-    }, [notification]);
     return (
+        <Provider store={store}>
+        <>
         <div className="flex justify-between h-24">
             <div className="md:mx-8 mt-4 z-10">
                 <a href="https://webvave.ir/">
@@ -57,19 +41,7 @@ export default function Header() {
                     US</Link>
             </div>
             <div className="mt-8 md:mx-8 flex-nowrap z-10 flex">
-                <a href='cart' className="mx-1">
-                            <Badge anchorOrigin={{vertical: 'top', horizontal: 'left'}} badgeContent={(() => {
-                                if (notification !== undefined) {
-                                    return notification.length
-                                }else {
-                                    return 0
-                                }
-                            })()}
-                                color="secondary" overlap="circular">
-                                <Image alt="icon image for Cart page" src={ShoppingBagIcon}
-                                       className="lg:w-10 lg:h-10 w-8 h-8 mr-3 "/>
-                            </Badge>
-                </a>
+                    <BadgeCart/>
                 <Link href="" className="mx-1"><Image alt="icon image for Personal page" src={PersonIcon}
                                                       className="lg:w-10 lg:h-10 w-8 h-8 mr-3"/></Link>
                 <Image alt="icon image for Personal page" onClick={toggleDrawer} src={Menu}
@@ -86,6 +58,8 @@ export default function Header() {
                 </Drawer>
             </div>
         </div>
+        </>
+        </Provider>
     )
 };
 

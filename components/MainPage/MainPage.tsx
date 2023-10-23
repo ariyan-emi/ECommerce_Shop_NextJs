@@ -15,12 +15,9 @@ import Brand4 from '../../assets/icon/Brands/new-balance-hp-logos-256x256v2.png'
 import Brand5 from '../../assets/icon/Brands/jack-jones-hp-logos-256x256v2.png';
 import Brand6 from '../../assets/icon/Brands/north-face.png';
 import {useState} from "react";
-import {Women} from "./Women";
-import {Men} from "./Men";
-import {AllProducts} from "./AllProducts";
-import {Accessories} from "./Accessories";
 import {Provider} from "react-redux";
 import store from "../Redux/store";
+import {Products} from "./Products";
 
 
 
@@ -120,12 +117,12 @@ export default function MainPage() {
                     src={BannerPc}
                     alt="Banner offer 30%"
                 />
-                <a href="products" className="hidden md:flex sm:bottom-2 absolute left-12 md:bottom-14">
+                <Link href={"products"} className="hidden md:flex sm:bottom-2 absolute left-12 md:bottom-14">
                     <button
                         className="bg-violet-700 hover:bg-violet-950 shadow-2xl text-white font-bold py-2 px-4 rounded-full">
                         Go For Nice Buy Today
                     </button>
-                </a>
+                </Link>
             </div>
 
             <div className="md:hidden w-full relative -top-24">
@@ -134,12 +131,12 @@ export default function MainPage() {
                     src={BannerPhone}
                     alt="Banner offer 30% on mobile"
                 />
-                <a href="products" className="md:hidden absolute right-2 bottom-16">
+                <Link href={"products"} className="md:hidden absolute right-2 bottom-16">
                     <button
                         className="bg-violet-700 hover:bg-violet-950 shadow-2xl text-white font-bold py-2 px-4 rounded-full">
                         Nice Buy
                     </button>
-                </a>
+                </Link>
             </div>
 
 
@@ -166,7 +163,7 @@ export default function MainPage() {
                                             position: 'relative',
                                             p: 4,
                                             pt: 2,
-                                            pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
+                                            pb: (theme:any) => `calc(${theme.spacing(1)} + 6px)`,
                                         }}
                                     >
                                         {image.title}
@@ -217,10 +214,10 @@ export default function MainPage() {
             <div>
                 {
                     {
-                        'all':<AllProducts/>,
-                        'men' : <Men/>,
-                        'women':<Women/>,
-                        'accessories':<Accessories/>,
+                        'all':<Products Axios={"https://fakestoreapi.com/products"}/>,
+                        'men' : <Products Axios={"https://fakestoreapi.com/products/category/men's%20clothing"}/>,
+                        'women':<Products Axios={"https://fakestoreapi.com/products/category/women's%20clothing"}/>,
+                        'accessories':<Products Axios={"https://fakestoreapi.com/products/category/jewelery"}/>,
                     }[state]
                 }
             </div>

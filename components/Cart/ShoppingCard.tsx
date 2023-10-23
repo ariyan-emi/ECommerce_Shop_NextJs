@@ -5,10 +5,8 @@ import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {CounterPlus, CounterSubtract, removeFromCart, restCart} from "../Redux/cartSlice";
 import {GetTaxes} from "../Utils/cartUtils";
-import {EmptyCart} from "./EmptyCart";
 
 export function ShoppingCard({Component, setComponent}: any) {
-    let [count, setCount] = useState<any[] | undefined>()
     const [fade, setFade] = useState(false)
     const [isClient, setIsClient] = useState(false)
     const cart = useSelector((state: any) => state.cart);
@@ -28,11 +26,8 @@ export function ShoppingCard({Component, setComponent}: any) {
     function checkEnabled(){
         return info == "";
     }
-    console.log(info)
 
-    if (!isClient) {
-
-    } else {
+    if (isClient) {
         return (
             <>
                 <div
