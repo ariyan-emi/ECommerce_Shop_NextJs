@@ -133,11 +133,7 @@ export function ShoppingCard({Component, setComponent}: any) {
                                                             </div>
                                                         </td>
 
-                                                        <td className="py-4 text-center">${(() => {
-                                                            return (
-                                                                cart[index].price.toFixed(2)
-                                                            )
-                                                        })()}</td>
+                                                        <td className="py-4 text-center">hello</td>
                                                         <td className="py-4">
                                                             <div className="flex items-center justify-center">
                                                                 <button onClick={() => {
