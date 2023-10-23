@@ -5,20 +5,15 @@ import axios from "axios";
 import Link from "next/link";
 import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
-import Slide, {SlideProps} from '@mui/material/Slide';
 import {Alert, Fade, Grow, GrowProps} from "@mui/material";
 import {TransitionProps} from "@mui/material/transitions";
 import {useDispatch} from "react-redux";
 import {addToCart} from "../Redux/cartSlice";
 
-function SlideTransition(props: SlideProps) {
-    return <Slide {...props} direction="up" />;
-}
-
 function GrowTransition(props: GrowProps) {
     return <Grow {...props} />;
 }
-export function Products({Axios}: any) {
+export function MainProducts({Axios}: any) {
     let [data, setData] = useState<any>([]);
     const fetchInfo = () => {
         return axios.get(Axios).then((res) => setData(res.data));

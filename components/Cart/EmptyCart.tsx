@@ -11,7 +11,7 @@ export function EmptyCart() {
                             <div className="bg-white rounded-lg shadow-md p-6 mb-4">
                                 <p className="my-3 text-2xl text-center">Your Cart is Empty</p>
                                 <p className="text-center"> Please first select the desired product from the store menu, and then return to this page so that we can assist you better.</p>
-                                <Link href="/" className="mx-auto flex justify-center mt-2 inline-block px-12 py-3 text-sm font-medium text-white bg-violet-600 border border-violet-600 rounded active:text-violet-500 hover:bg-amber-400 hover:text-violet-600 focus:outline-none focus:ring">Get It Now</Link>
+                                <Link href="/" className="mx-auto flex justify-center mt-2 px-12 py-3 text-sm font-medium text-white bg-violet-600 border border-violet-600 rounded active:text-violet-500 hover:bg-amber-400 hover:text-violet-600 focus:outline-none focus:ring">Get It Now</Link>
                             </div>
                         </div>
                     </div>

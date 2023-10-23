@@ -17,7 +17,7 @@ import Brand6 from '../../assets/icon/Brands/north-face.png';
 import {useState} from "react";
 import {Provider} from "react-redux";
 import store from "../Redux/store";
-import {Products} from "./Products";
+import {MainProducts} from "./MainProducts";
 
 
 
@@ -214,10 +214,10 @@ export default function MainPage() {
             <div>
                 {
                     {
-                        'all':<Products Axios={"https://fakestoreapi.com/products"}/>,
-                        'men' : <Products Axios={"https://fakestoreapi.com/products/category/men's%20clothing"}/>,
-                        'women':<Products Axios={"https://fakestoreapi.com/products/category/women's%20clothing"}/>,
-                        'accessories':<Products Axios={"https://fakestoreapi.com/products/category/jewelery"}/>,
+                        'all':<MainProducts Axios={"https://fakestoreapi.com/products"}/>,
+                        'men' : <MainProducts Axios={"https://fakestoreapi.com/products/category/men's%20clothing"}/>,
+                        'women':<MainProducts Axios={"https://fakestoreapi.com/products/category/women's%20clothing"}/>,
+                        'accessories':<MainProducts Axios={"https://fakestoreapi.com/products/category/jewelery"}/>,
                     }[state]
                 }
             </div>

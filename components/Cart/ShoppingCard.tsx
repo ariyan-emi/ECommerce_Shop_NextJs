@@ -26,6 +26,11 @@ export function ShoppingCard({Component, setComponent}: any) {
     function checkEnabled(){
         return info == "";
     }
+    if (cart !== null){
+        if (cart.length <= 0){
+            setComponent('empty')
+        }
+    }
 
     if (isClient) {
         return (

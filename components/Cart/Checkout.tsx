@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import DeleteIcon from '@mui/icons-material/DeleteForever';
 import {useDispatch, useSelector} from "react-redux";
-import {CounterPlus, removeFromCart} from "../Redux/cartSlice";
+import {removeFromCart} from "../Redux/cartSlice";
 import {GetTaxes} from "../Utils/cartUtils";
 import HomeIcon from "@mui/icons-material/Home";
 import {getState} from "../Redux/infoSlice";
@@ -39,8 +39,6 @@ export function Checkout({Component, setComponent}: any) {
     const removeFromCartHandler = (index:any) => {
         dispatch(removeFromCart({index:index}));
     };
-
-    const info = useSelector((state: any) => state.info);
     return (
         <>
             <div
