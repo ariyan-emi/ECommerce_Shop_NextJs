@@ -1,5 +1,5 @@
 import * as React from "react";
-import Eyes from "../Eyes/Eyes";
+import Eyes from "./Eyes/Eyes";
 import Link from "next/link";
 
 export default function Footer() {

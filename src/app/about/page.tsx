@@ -1,4 +1,4 @@
-import {About} from "../../../components/About/About";
+import {About} from "../../../components/Screens/About";
 
 export default function Home() {
   return (

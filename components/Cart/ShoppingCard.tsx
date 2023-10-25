@@ -23,11 +23,13 @@ export function ShoppingCard({Component, setComponent}: any) {
     const removeFromCartHandler = (index: any) => {
         dispatch(removeFromCart({index: index}));
     };
-    function checkEnabled(){
+
+    function checkEnabled() {
         return info == "";
     }
-    if (cart !== null){
-        if (cart.length <= 0){
+
+    if (cart !== null) {
+        if (cart.length <= 0) {
             setComponent('empty')
         }
     }
@@ -81,7 +83,10 @@ export function ShoppingCard({Component, setComponent}: any) {
                                 <li className="flex items-center space-x-3 text-left sm:space-x-4">
                                     <button disabled={checkEnabled()} onClick={() => {
                                         Component = "invoice"
-                                        setComponent("invoice")}} className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-400 text-xs font-semibold text-white">3</button>
+                                        setComponent("invoice")
+                                    }}
+                                            className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-400 text-xs font-semibold text-white">3
+                                    </button>
                                     <span className="font-semibold text-gray-500">Invoice</span>
                                 </li>
                             </ul>

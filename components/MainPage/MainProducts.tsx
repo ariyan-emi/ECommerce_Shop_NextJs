@@ -16,12 +16,13 @@ function GrowTransition(props: GrowProps) {
 export function MainProducts({Axios}: any) {
     let [data, setData] = useState<any>([]);
     const fetchInfo = () => {
-        return axios.get(Axios).then((res) => setData(res.data));
+        return axios.get(Axios).then((res:any) => setData(res.data));
     };
 
     useEffect(() => {
         fetchInfo();
-    }, [Axios]);const [state, setState] = React.useState<{
+    }, [Axios]);
+    const [state, setState] = React.useState<{
         open: boolean;
         Transition: React.ComponentType<
             TransitionProps & {
@@ -59,26 +60,26 @@ export function MainProducts({Axios}: any) {
     return(
         <>
             <section id="Projects" className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5">
-                {data.map((dataObj:any,index:number) => {
+                {data.map((data:any,index:number) => {
                     return (
                         <div key={index} className="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
-                            <Link href={`products/${dataObj.id}`}>
+                            <Link href={`products/${data.id}`}>
                                 <img
-                                    src={dataObj.image}
+                                    src={data.image}
                                     alt="Product" className="h-80 w-72 rounded-t-xl"/>
                                 <div className="px-4 py-3 w-72">
-                                    <span className="text-gray-400 mr-3 uppercase text-xs">{dataObj.category}</span>
-                                    <p className="text-lg font-bold text-black truncate block capitalize">{dataObj.title}</p>
+                                    <span className="text-gray-400 mr-3 uppercase text-xs">{data.category}</span>
+                                    <p className="text-lg font-bold text-black truncate block capitalize">{data.title}</p>
                                     <div className="flex items-center">
-                                        <p className="text-lg font-semibold text-black cursor-auto my-3">{dataObj.price.toFixed(2)}</p>
+                                        <p className="text-lg font-semibold text-black cursor-auto my-3">{data.price.toFixed(2)}</p>
                                         <del>
-                                            <p className="text-sm text-gray-600 cursor-auto ml-2">{dataObj.price.toFixed(2)}</p>
+                                            <p className="text-sm text-gray-600 cursor-auto ml-2">{data.price.toFixed(2)}</p>
                                         </del>
                                         <div className="ml-auto">
                                             <Button className="hover:bg-white" onClick={handleClick(GrowTransition)}>
                                                 <button className="hover:text-violet-950" onClick={(e)=>{
                                                     e.preventDefault();
-                                                    dispatch(addToCart({data: dataObj}))
+                                                    dispatch(addToCart({data: data}))
                                                 }}>
                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                          fill="currentColor" className="font-bold w-8 h-8 hover:w-10 hover:h-10 bi bi-bag-plus" viewBox="0 0 16 16">

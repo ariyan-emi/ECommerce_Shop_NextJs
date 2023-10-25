@@ -1,4 +1,4 @@
-import {Terms} from "../../../components/Terms/Terms";
+import {Terms} from "../../../components/Screens/Terms";
 
 
 export default function Home() {

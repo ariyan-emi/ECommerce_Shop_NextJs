@@ -1,7 +1,8 @@
 import './globals.css'
-import Header from "../../components/Header/Header";
+import Header from "../../components/Navigating/Header";
 import MainPage from "../../components/MainPage/MainPage";
-import Footer from "../../components/Footer/Footer";
+import Footer from "../../components/Navigating/Footer";
+
 
 
 export default function Home() {

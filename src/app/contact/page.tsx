@@ -1,4 +1,4 @@
-import {Contact} from "../../../components/Contact/Contact";
+import {Contact} from "../../../components/Screens/Contact";
 
 export default function Home() {
   return (
