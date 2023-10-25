@@ -5,7 +5,7 @@ export default function Products({params}:{params:{id:number}}) {
     const id = params.id
     return(
         <>
-        <ProductScreen id={id}/>
+            <ProductScreen id={id}/>
         </>
     )
 }

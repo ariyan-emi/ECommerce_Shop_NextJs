@@ -11,7 +11,7 @@ import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfi
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import {Divider} from "@mui/material";
 import {SimilarProducts} from "./SimilarProducts";
-import {Loading} from "./Loading/Loading";
+import {Loading} from "./Loading";
 import Header from "../Navigating/Header";
 
 const StyledRating = styled(Rating)(({theme}) => ({

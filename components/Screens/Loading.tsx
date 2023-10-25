@@ -1,7 +1,7 @@
 export function Loading(){
     return(
         <>
-        <div className='flex flex-col  justify-center items-center bg-white h-screen dark:invert'>
+            <div className='flex flex-col justify-center items-center bg-white h-screen dark:invert' style={{backgroundColor:"#E5E5E5"}}>
             <div className="flex flex-row space-x-3">
             <span className='sr-only text-black'>Loading...</span>
             <div className='h-8 w-8 bg-black rounded-full animate-bounce [animation-delay:-0.3s]'></div>

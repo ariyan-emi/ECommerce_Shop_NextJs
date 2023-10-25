@@ -20,7 +20,7 @@ export function BadgeCart() {
     }
     if (isClient){
         return(
-            <Link href='cart' className="mx-1">
+            <Link href={'/cart'} className="mx-1">
                 <Badge anchorOrigin={{vertical: 'top', horizontal: 'left'}} badgeContent={(() => {
                     if (notification !== undefined) {
                         return notification
