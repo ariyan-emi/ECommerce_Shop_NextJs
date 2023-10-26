@@ -13,6 +13,10 @@ import {Divider} from "@mui/material";
 import {SimilarProducts} from "./SimilarProducts";
 import {Loading} from "./Loading";
 import Header from "../Navigating/Header";
+import {useDispatch} from "react-redux";
+import {addToCart} from "../Redux/cartSlice";
+import {UseButton} from "./Button";
+import {ShowAlert} from "../Utils/Utils";
 
 const StyledRating = styled(Rating)(({theme}) => ({
     '& .MuiRating-iconEmpty .MuiSvgIcon-root': {
@@ -65,6 +69,7 @@ export function ProductScreen({id}: any) {
             }, 3000)
         });
     }, [id]);
+    const dispatch = useDispatch();
     const labels: { [index: string]: string } = {
         1: 'Useless',
         2: 'Poor',
@@ -92,10 +97,10 @@ export function ProductScreen({id}: any) {
                                 </div>
                                 <div className="flex -mx-2 mb-5">
                                     <div className="w-full px-2">
-                                        <button
-                                            className="w-full bg-violet-700 hover:bg-violet-900 text-white py-2 px-4 rounded-2xl font-bold">Add
-                                            to Cart
-                                        </button>
+                                        <UseButton className={"w-full bg-violet-700 hover:bg-violet-900 text-white py-2 px-4 rounded-2xl font-bold"} display={'Add to Cart'} onClick={() =>{
+                                            dispatch(addToCart({data: data}))
+                                            ShowAlert('An Amazing Choice!',"Product successfully added to the cart","success")
+                                        }} disable={false}/>
                                     </div>
                                 </div>
                             </div>
@@ -159,7 +164,7 @@ export function ProductScreen({id}: any) {
                                 <div className="mb-5">
                                     <span className="font-bold text-gray-800">Similar Products</span>
                                     <Divider />
-                                    {/*<SimilarProducts category={data.category}/>*/}
+                                    <SimilarProducts category={data.category} id={id}/>
                                 </div>
                             </div>
                         </div>

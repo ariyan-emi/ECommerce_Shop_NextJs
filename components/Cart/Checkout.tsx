@@ -7,7 +7,7 @@ import Link from "next/link";
 import DeleteIcon from '@mui/icons-material/DeleteForever';
 import {useDispatch, useSelector} from "react-redux";
 import {removeFromCart} from "../Redux/cartSlice";
-import {GetTaxes} from "../Utils/cartUtils";
+import {GetTaxes} from "../Utils/Utils";
 import HomeIcon from "@mui/icons-material/Home";
 import {getState} from "../Redux/infoSlice";
 

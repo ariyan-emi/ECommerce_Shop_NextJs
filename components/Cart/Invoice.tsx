@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Logo from '../../assets/icon/logo.png';
-import {GetTaxes} from "../Utils/cartUtils";
+import {GetTaxes} from "../Utils/Utils";
 import {useSelector} from "react-redux";
 import Link from "next/link";
 import HomeIcon from "@mui/icons-material/Home";

@@ -1,40 +1,42 @@
+import * as React from "react";
 import {useEffect, useState} from "react";
+import axios from "axios";
+import Link from "next/link";
+import {useDispatch} from "react-redux";
+import {addToCart} from "../Redux/cartSlice";
+import {UseButton} from "./Button";
+import {ShowAlert} from "../Utils/Utils";
 
-export function SimilarProducts(){
-    // const [similar, setSimilar] = useState<any>({});
-    // useEffect(() => {
-    //     axios.get(`https://fakestoreapi.com/products/category/${data.category}`).then((res: any) => setSimilar(res.data));
-    // }, [data]);
-    // return(
-        // <div className="p-1 flex flex-wrap items-center justify-center">
-        //     {(() => {
-        //         if (similar !== null){
-        //             {Object.values(similar).map((data:any,index:number) => {
-        //                 return (
-        //                     <div
-        //                         className="flex-shrink-0 m-6 relative overflow-hidden bg-white rounded-lg max-w-xs shadow-lg group">
-        //                         <div
-        //                             className="relative pt-10 px-10 flex items-center justify-center group-hover:scale-110 transition-transform">
-        //                             <img
-        //                                 className="relative w-40"
-        //                                 src={data.image}
-        //                                 alt=""
-        //                             />
-        //                         </div>
-        //                         <div className="relative text-white px-6 pb-6 mt-6">
-        //                             <span className="block text-black opacity-75 -mb-1">Indoor</span>
-        //                             <div className="flex justify-between">
-        //                                 <span className="block text-black font-semibold text-xl">Peace Lily</span>
-        //                                 <span className="bg-violet-700 rounded-full text-white text-xs font-bold px-3 py-2 leading-none flex items-center">$36.00</span>
-        //                             </div>
-        //                         </div>
-        //                     </div>
-        //                 )
-        //             })}
-        //         }else {
-        //             return <h1>duckkk you</h1>
-        //         }
-        //     })()}
-        // </div>
-    // )
+export function SimilarProducts({category, id}: any) {
+    let [similar, setSimilar] = useState<any>({});
+    const dispatch = useDispatch();
+    useEffect(() => {
+        axios.get(`https://fakestoreapi.com/products/category/${category}`).then((res: any) => setSimilar(res.data));
+    }, []);
+    similar = Object.values(similar).filter((item: any) => item['id'] !== Number(id))
+    if (similar !== null) {
+        return (
+            <>
+                <section id="Projects"
+                         className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 justify-items-center justify-center gap-y-9 gap-x-14 mt-4 mb-5 md:mt-10 md:mb-5">
+                    {Object.values(similar).slice(0, 2).map((data: any, index: number) => {
+                        return (
+                            <div className="rounded-xl h-fit">
+                                <div className="bg-white h-[300px] mb-3">
+                                <Link href={`/products/${data.id}`} key={index}>
+                                    <img src={data.image}
+                                         alt="Product" className="h-72 w-72 rounded-t-xl mb-5"/>
+                                </Link>
+                                </div>
+                                <UseButton className={"w-full rounded-xl bg-violet-700 py-1 font-medium hover:bg-violet-900 text-white disabled:bg-gray-500"} display={'Buy Now'} onClick={() =>{
+                                    dispatch(addToCart({data: data}))
+                                    ShowAlert('An Amazing Choice!',"Product successfully added to the cart","success")
+                                }} disable={false}/>
+                            </div>
+                        )
+                    })}
+                </section>
+            </>
+        )
+    }
 }

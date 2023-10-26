@@ -4,8 +4,8 @@ import DeleteIcon from "@mui/icons-material/DeleteForever";
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {CounterPlus, CounterSubtract, removeFromCart, restCart} from "../Redux/cartSlice";
-import {GetTaxes} from "../Utils/cartUtils";
-
+import {GetTaxes} from "../Utils/Utils";
+import swal from 'sweetalert';
 export function ShoppingCard({Component, setComponent}: any) {
     const [fade, setFade] = useState(false)
     const [isClient, setIsClient] = useState(false)
@@ -33,6 +33,22 @@ export function ShoppingCard({Component, setComponent}: any) {
             setComponent('empty')
         }
     }
+function DeleteAlert() {
+
+    swal({
+        title: "Are you sure?",
+        text: "Would you like to delete your shopping cart!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+        closeOnClickOutside: true,
+    })
+        .then((willDelete) => {
+            if (willDelete) {
+                dispatch(restCart())
+            }
+        });
+}
 
     if (isClient) {
         return (
@@ -301,7 +317,7 @@ export function ShoppingCard({Component, setComponent}: any) {
 
                                     <button
                                         onClick={() => {
-                                            dispatch(restCart())
+                                            DeleteAlert()
                                         }}
                                         className="bg-red-800 text-white py-2 px-4 rounded-lg mt-4 w-full">Delete
                                         All
