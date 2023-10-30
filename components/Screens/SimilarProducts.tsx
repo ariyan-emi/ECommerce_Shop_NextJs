@@ -21,7 +21,7 @@ export function SimilarProducts({category, id}: any) {
                          className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 justify-items-center justify-center gap-y-9 gap-x-14 mt-4 mb-5 md:mt-10 md:mb-5">
                     {Object.values(similar).slice(0, 2).map((data: any, index: number) => {
                         return (
-                            <div className="rounded-xl h-fit">
+                            <div className="rounded-xl h-fit" key={index}>
                                 <div className="bg-white h-[300px] mb-3">
                                 <Link href={`/products/${data.id}`} key={index}>
                                     <img src={data.image}

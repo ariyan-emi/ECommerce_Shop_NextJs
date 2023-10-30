@@ -24,18 +24,21 @@ import {MainProducts} from "./MainProducts";
 const images = [
     {
         url: 'https://webvave.ir/temp/men.jpg',
+        alt:'Men Products',
         title: 'Men',
         href: 'men',
         width: '25%',
     },
     {
         url: 'https://webvave.ir/temp/acsesory.jpg',
+        alt:'Accessories Products',
         title: 'Accessories',
         href: 'accessories',
         width: '50%',
     },
     {
         url: 'https://webvave.ir/temp/women.jpg',
+        alt:'Women Products',
         title: 'Women',
         href: 'women',
         width: '25%',
