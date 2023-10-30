@@ -10,11 +10,7 @@ export default function Home() {
         setIsLoading(false)
     }, 500);
     if (!isLoading){
-        if (true){
-            return(<AuthDesktop/>)
-        }else {
             return(<AuthPhone/>)
-        }
     }
     else {
         return(<Loading/>)
