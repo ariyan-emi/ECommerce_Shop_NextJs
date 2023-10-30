@@ -39,7 +39,7 @@ function DeleteAlert() {
         title: "Are you sure?",
         text: "Would you like to delete your shopping cart!",
         icon: "warning",
-        buttons: true ,
+        buttons: ["Cancel", "Ok"],
         dangerMode: true,
         closeOnClickOutside: true,
     })
