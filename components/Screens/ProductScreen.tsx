@@ -13,8 +13,8 @@ import {Divider} from "@mui/material";
 import {SimilarProducts} from "./SimilarProducts";
 import {Loading} from "./Loading";
 import Header from "../Navigating/Header";
-import {useDispatch} from "react-redux";
-import {addToCart} from "../Redux/cartSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {addToCart, CounterPlus, CounterSubtract} from "../Redux/cartSlice";
 import {UseButton} from "./Button";
 import {ShowAlert} from "../Utils/Utils";
 
@@ -77,7 +77,12 @@ export function ProductScreen({id}: any) {
         4: 'Good',
         5: 'Excellent',
     };
+    const cart = useSelector((state: any) => state.cart);
 
+    const indexItem = cart.findIndex((object:any) => {
+        return object.id === Number(id);
+    });
+    console.log(indexItem)
     if (!isLoading || data !== null){
         return (
             <>
@@ -97,10 +102,37 @@ export function ProductScreen({id}: any) {
                                 </div>
                                 <div className="flex -mx-2 mb-5">
                                     <div className="w-full px-2">
-                                        <UseButton className={"w-full bg-violet-700 hover:bg-violet-900 text-white py-2 px-4 rounded-2xl font-bold"} display={'Add to Cart'} onClick={() =>{
-                                            dispatch(addToCart({data: data}))
-                                            ShowAlert('An Amazing Choice!',"Product successfully added to the cart","success")
-                                        }} disable={false}/>
+                                        {(() => {
+                                            if (indexItem == -1) {
+                                                return (
+                                                    <UseButton className={"w-full bg-violet-700 hover:bg-violet-900 text-white py-2 px-4 rounded-2xl font-bold"} display={'Add to Cart'} onClick={() =>{
+                                                        dispatch(addToCart({data: data}))
+                                                    }} disable={false}/>
+                                                )
+                                            } else {
+                                                return (
+                                                        <div className="flex items-center justify-center w-full">
+                                                            <button onClick={() => {
+                                                                dispatch(CounterSubtract({action: indexItem}))
+                                                            }}
+                                                                    className="border text-xl font-bold text-white rounded-xl w-1/3 bg-violet-700 hover:bg-violet-900 py-2 px-4 mr-2">-
+                                                            </button>
+                                                            <span className="text-center my-auto w-1/4 text-xl font-bold">{(() => {
+                                                                return (
+                                                                    cart[indexItem].count
+                                                                )
+                                                            })()}</span>
+                                                            <button
+                                                                onClick={() => {
+                                                                    dispatch(CounterPlus({action: indexItem}))
+                                                                }}
+                                                                className="border text-xl font-bold text-white rounded-xl w-1/3 bg-violet-700 hover:bg-violet-900 py-2 px-4 ml-2">+
+                                                            </button>
+                                                        </div>
+                                                )
+                                            }
+                                        })()}
+
                                     </div>
                                 </div>
                             </div>
