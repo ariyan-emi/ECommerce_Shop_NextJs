@@ -10,13 +10,13 @@ export function Terms() {
                             className="pb-6 text-lg">Read about the terms and conditions for WebVaVe.</p></div>
                         <div className="justify-center col-span-4 lg:col-span-8 lg:col-start-3"><p
                             className="pb-6 text-md">These Terms of Use constitute a legally binding agreement made
-                            between you, whether personally or on behalf of an entity ("you") and WebVaVe UI ("Company",
-                            "we", "us", or "our"), concerning your access to and use of the<a href="/"
+                            between you, whether personally or on behalf of an entity (	&quot;you	&quot;) and WebVaVe UI (	&quot;Company	&quot;,
+                            	&quot;we	&quot;, 	&quot;us	&quot;, or 	&quot;our	&quot;), concerning your access to and use of the<a href="/"
                                                                                                        className="text-emerald-500"> https://webvave</a> website
                             as well as any other media form, media channel, mobile website or mobile application
-                            related, linked, or otherwise connected thereto (collectively, the "Site"). The Site
+                            related, linked, or otherwise connected thereto (collectively, the 	&quot;Site	&quot;). The Site
                             provides an online marketplace for the following goods, products, and/or services: website
-                            themes and templates (the "Marketplace Offerings"). In order to help make the Site a secure
+                            themes and templates (the 	&quot;Marketplace Offerings	&quot;). In order to help make the Site a secure
                             environment for the purchase and sale of Marketplace Offerings, all users are required to
                             accept and comply with these Terms of Use. You agree that by accessing the Site and/or the
                             Marketplace Offerings, you have read, understood, and agree to be bound by all of these
@@ -27,7 +27,7 @@ export function Terms() {
                             on the Site from time to time are hereby expressly incorporated herein by reference. We
                             reserve the right, in our sole discretion, to make changes or modifications to these Terms
                             of Use at any time and for any reason. We will alert you about any changes by updating the
-                            "Last updated" date of these Terms of Use, and you waive any right to receive specific
+                            	&quot;Last updated	&quot; date of these Terms of Use, and you waive any right to receive specific
                             notice of each such change. It is your responsibility to periodically review these Terms of
                             Use to stay informed of updates. You will be subject to, and will be deemed to have been
                             made aware of and to have accepted, the changes in any revised Terms of Use by your
@@ -42,11 +42,11 @@ export function Terms() {
                             Property Rights</h2><p className="pb-6 text-md">Unless otherwise indicated, the Site and the
                             Marketplace Offerings are our proprietary property and all source code, databases,
                             functionality, software, website designs, audio, video, text, photographs, and graphics on
-                            the Site (collectively, the "Content") and the trademarks, service marks, and logos
-                            contained therein (the "Marks") are owned or controlled by us or licensed to us, and are
+                            the Site (collectively, the 	&quot;Content	&quot;) and the trademarks, service marks, and logos
+                            contained therein (the 	&quot;Marks	&quot;) are owned or controlled by us or licensed to us, and are
                             protected by copyright and trademark laws and various other intellectual property rights and
                             unfair competition laws of the United States, international copyright laws, and
-                            international conventions. The Content and the Marks are provided on the Site "AS IS" for
+                            international conventions. The Content and the Marks are provided on the Site 	&quot;AS IS	&quot; for
                             your information and personal use only. Except as expressly provided in these Terms of Use,
                             no part of the Site or the Marketplace Offerings and no Content or Marks may be copied,
                             reproduced, aggregated, republished, uploaded, posted, publicly displayed, encoded,
@@ -79,7 +79,7 @@ export function Terms() {
                             contained on the Site or the Marketplace Offerings displayed or offered through the Site.
                             You understand and agree that the content of the Site does not contain or constitute
                             representations to be reasonably relied upon, and you agree to hold us harmless from any
-                            errors, omissions, or misrepresentations contained within the Site’s content. We do not
+                            errors, omissions, or misrepresentations contained within the Site	&apos;s content. We do not
                             endorse or recommend any Marketplace Offerings and the Site is provided for informational
                             and advertising purposes only.</p><h2
                             className="pb-6 text-xl font-medium text-wuiSlate-800">Marketplace Offerings</h2><p

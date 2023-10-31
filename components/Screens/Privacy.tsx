@@ -64,7 +64,7 @@ export function Privacy() {
                 <h2 className="text-2xl font-bold mb-2">Cookies</h2>
 
                 <p className="mb-4">
-                    A cookie is a small file that asks permission to be placed on your computer's hard drive. Once you
+                    A cookie is a small file that asks permission to be placed on your computer	&apos; s hard drive. Once you
                     agree,
                     the
                     file
