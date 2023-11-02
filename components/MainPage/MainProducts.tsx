@@ -11,19 +11,15 @@ import {addToCart} from "../Redux/cartSlice";
 import {LoadingProduct} from "../Screens/LoadingProduct";
 import {ShowAlert} from "../Utils/Utils";
 import {UseButton} from "../Screens/Button";
+import {useData} from "../../firebase/useData";
 
 function GrowTransition(props: GrowProps) {
     return <Grow {...props} />;
 }
-export function MainProducts({Axios}: any) {
-    let [data, setData] = useState<any>([]);
+export function MainProducts({Category}: any) {
+    let data =  useData("Products")
     const [isLoading, setIsLoading] = useState(true);
-    const fetchInfo = () => {
-        return axios.get(Axios).then((res:any) => setData(res.data));
-    };
-
     useEffect(() => {
-        fetchInfo();
         if (data.length > 0) {
             setTimeout(() => {
                 setIsLoading(false)
@@ -31,7 +27,7 @@ export function MainProducts({Axios}: any) {
         }else {
             setIsLoading(true)
         }
-    }, );
+    }, [data]);
     const [state, setState] = React.useState<{
         open: boolean;
         Transition: React.ComponentType<
@@ -58,15 +54,14 @@ export function MainProducts({Axios}: any) {
                     Transition,
                 });
             };
-
-    const handleClose = () => {
-        setState({
-            ...state,
-            open: false,
-        });
-    };
     const dispatch = useDispatch();
-    data = data.filter((item:any) => item['category'] !== "electronics");
+    if (Category == "men"){
+        data = data.filter((item:any) => item['category'] == "men");
+    }else if (Category == "women"){
+        data = data.filter((item:any) => item['category'] == "women");
+    }else if (Category == "jewelery"){
+        data = data.filter((item:any) => item['category'] == "jewelery");
+    }
     if (!isLoading){
         return(
             <>

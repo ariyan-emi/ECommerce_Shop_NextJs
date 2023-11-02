@@ -82,7 +82,7 @@ export function ProductScreen({id}: any) {
     const indexItem = cart.findIndex((object:any) => {
         return object.id === Number(id);
     });
-    console.log(indexItem)
+
     if (!isLoading || data !== null){
         return (
             <>

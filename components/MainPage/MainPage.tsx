@@ -217,10 +217,10 @@ export default function MainPage() {
             <div>
                 {
                     {
-                        'all':<MainProducts Axios={"https://fakestoreapi.com/products"}/>,
-                        'men' : <MainProducts Axios={"https://fakestoreapi.com/products/category/men's%20clothing"}/>,
-                        'women':<MainProducts Axios={"https://fakestoreapi.com/products/category/women's%20clothing"}/>,
-                        'accessories':<MainProducts Axios={"https://fakestoreapi.com/products/category/jewelery"}/>,
+                        'all':<MainProducts Category={"all"}/>,
+                        'men' : <MainProducts Category={"men"}/>,
+                        'women':<MainProducts Category={"women"}/>,
+                        'accessories':<MainProducts Category={"jewelery"}/>,
                     }[state]
                 }
             </div>
