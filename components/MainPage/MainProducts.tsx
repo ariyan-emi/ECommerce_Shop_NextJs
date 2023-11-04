@@ -1,7 +1,6 @@
 "use client"
 import * as React from "react";
 import {useEffect, useState} from "react";
-import axios from "axios";
 import Link from "next/link";
 import Button from '@mui/material/Button';
 import {Fade, Grow, GrowProps} from "@mui/material";
@@ -54,6 +53,7 @@ export function MainProducts({Category}: any) {
                     Transition,
                 });
             };
+
     const dispatch = useDispatch();
     if (Category == "men"){
         data = data.filter((item:any) => item['category'] == "men");
