@@ -7,26 +7,28 @@ import {Fade, Grow, GrowProps} from "@mui/material";
 import {TransitionProps} from "@mui/material/transitions";
 import {useDispatch} from "react-redux";
 import {addToCart} from "../Redux/cartSlice";
-import {LoadingProduct} from "../Screens/LoadingProduct";
 import {ShowAlert} from "../Utils/Utils";
 import {UseButton} from "../Screens/Button";
 import {useData} from "../../firebase/useData";
+import {Loading, Network} from "./ProductsBug";
 
 function GrowTransition(props: GrowProps) {
     return <Grow {...props} />;
 }
 export function MainProducts({Category}: any) {
     let data =  useData("Products")
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState("true");
     useEffect(() => {
-        if (data.length > 0) {
-            setTimeout(() => {
-                setIsLoading(false)
-            }, 1000);
-        }else {
-            setIsLoading(true)
-        }
-    }, [data]);
+        console.log(data)
+            if (data.length !== 0) {
+                    setIsLoading("false")
+            }else {
+                setTimeout(
+                    function() {
+                        setIsLoading("network")
+                    }, 7000);
+            }
+    }, [isLoading]);
     const [state, setState] = React.useState<{
         open: boolean;
         Transition: React.ComponentType<
@@ -62,7 +64,7 @@ export function MainProducts({Category}: any) {
     }else if (Category == "jewelery"){
         data = data.filter((item:any) => item['category'] == "jewelery");
     }
-    if (!isLoading){
+    if (isLoading == "false"){
         return(
             <>
                 <section id="Projects" className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5">
@@ -100,8 +102,10 @@ export function MainProducts({Category}: any) {
                 </section>
             </>
         )
+    }else if (isLoading == "true") {
+       return <Loading/>
     }else{
-       return <LoadingProduct/>
+        return <Network/>
     }
 
 }

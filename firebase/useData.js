@@ -1,4 +1,3 @@
-'use client'
 import React, { useEffect, useState } from "react";
 import { db } from "./config";
 import { onValue, ref } from "firebase/database";
