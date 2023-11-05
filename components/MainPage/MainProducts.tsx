@@ -26,7 +26,7 @@ export function MainProducts({Category}: any) {
                 setTimeout(
                     function() {
                         setIsLoading("network")
-                    }, 4000);
+                    }, 3800);
             }
     }, [isLoading]);
     const [state, setState] = React.useState<{
