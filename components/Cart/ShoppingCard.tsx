@@ -140,13 +140,9 @@ function DeleteAlert() {
                                                                 <span
                                                                     className="font-semibold overflow-hidden text-ellipsis w-24  sm:w-full ">
                                                                 {(() => {
-                                                                    if (data.title.length > 32) {
+                                                                    if (data.title !== undefined) {
                                                                         return (
                                                                             data.title.substring(0, 32) + "..."
-                                                                        )
-                                                                    } else {
-                                                                        return (
-                                                                            data.title
                                                                         )
                                                                     }
                                                                 })()}
@@ -154,7 +150,14 @@ function DeleteAlert() {
                                                             </div>
                                                         </td>
 
-                                                        <td className="py-4 text-center">${data.price.toFixed(2)}</td>
+                                                        <td className="py-4 text-center">$
+                                                            {(() => {
+                                                                if (data.price !== undefined) {
+                                                                    return (
+                                                                        data.price.toFixed(2)
+                                                                    )
+                                                                }
+                                                            })()}</td>
                                                         <td className="py-4">
                                                             <div className="flex items-center justify-center">
                                                                 <button onClick={() => {
@@ -215,13 +218,9 @@ function DeleteAlert() {
                                                     <div className="mt-4 md:mt-0 md:ml-6">
                                                         <h2 className="text-lg font-bold">
                                                             {(() => {
-                                                                if (data.title.length > 32) {
+                                                                if (data.title !== undefined) {
                                                                     return (
                                                                         data.title.substring(0, 32) + "..."
-                                                                    )
-                                                                } else {
-                                                                    return (
-                                                                        data.title
                                                                     )
                                                                 }
                                                             })()}

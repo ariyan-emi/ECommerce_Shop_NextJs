@@ -17,6 +17,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {addToCart, CounterPlus, CounterSubtract} from "../Redux/cartSlice";
 import {UseButton} from "./Button";
 import {ShowAlert} from "../Utils/Utils";
+import {useData} from "../../firebase/useData";
 
 const StyledRating = styled(Rating)(({theme}) => ({
     '& .MuiRating-iconEmpty .MuiSvgIcon-root': {
@@ -58,16 +59,16 @@ function IconContainer(props: IconContainerProps) {
 }
 
 export function ProductScreen({id}: any) {
-    const [data, setData] = useState<any>(null);
+    let allProducts =  useData(`products`)
+    let data:any = allProducts[id-1]
     const [isLoading, setIsLoading] = useState(true);
-
     useEffect(() => {
-        axios.get(`https://fakestoreapi.com/products/${id}`).then(response => {
-            setData(response.data)
+        if (allProducts.length < 0){
             setTimeout(() => {
                 setIsLoading(false)
-            }, 3000)
-        });
+            }, 1000)
+        }
+
     }, [id]);
     const dispatch = useDispatch();
     const labels: { [index: string]: string } = {
@@ -78,12 +79,13 @@ export function ProductScreen({id}: any) {
         5: 'Excellent',
     };
     const cart = useSelector((state: any) => state.cart);
-
-    const indexItem = cart.findIndex((object:any) => {
+    let indexItem :any;
+if (cart !== null){
+     indexItem = cart.findIndex((object:any) => {
         return object.id === Number(id);
     });
-
-    if (!isLoading || data !== null){
+}
+    if (!isLoading || data !== undefined){
         return (
             <>
                 <Header/>
@@ -107,28 +109,29 @@ export function ProductScreen({id}: any) {
                                                 return (
                                                     <UseButton className={"w-full bg-violet-700 hover:bg-violet-900 text-white py-2 px-4 rounded-2xl font-bold"} display={'Add to Cart'} onClick={() =>{
                                                         dispatch(addToCart({data: data}))
+                                                        ShowAlert('An Amazing Choice!',"Product successfully added to the cart","success")
                                                     }} disable={false}/>
                                                 )
                                             } else {
                                                 return (
-                                                        <div className="flex items-center justify-center w-full">
-                                                            <button onClick={() => {
-                                                                dispatch(CounterSubtract({action: indexItem}))
+                                                    <div className="flex items-center justify-center w-full">
+                                                        <button onClick={() => {
+                                                            dispatch(CounterSubtract({action: indexItem}))
+                                                        }}
+                                                                className="border text-xl font-bold text-white rounded-xl w-1/3 bg-violet-700 hover:bg-violet-900 py-2 px-4 mr-2">-
+                                                        </button>
+                                                        <span className="text-center my-auto w-1/4 text-xl font-bold">{(() => {
+                                                            return (
+                                                                cart[indexItem].count
+                                                            )
+                                                        })()}</span>
+                                                        <button
+                                                            onClick={() => {
+                                                                dispatch(CounterPlus({action: indexItem}))
                                                             }}
-                                                                    className="border text-xl font-bold text-white rounded-xl w-1/3 bg-violet-700 hover:bg-violet-900 py-2 px-4 mr-2">-
-                                                            </button>
-                                                            <span className="text-center my-auto w-1/4 text-xl font-bold">{(() => {
-                                                                return (
-                                                                    cart[indexItem].count
-                                                                )
-                                                            })()}</span>
-                                                            <button
-                                                                onClick={() => {
-                                                                    dispatch(CounterPlus({action: indexItem}))
-                                                                }}
-                                                                className="border text-xl font-bold text-white rounded-xl w-1/3 bg-violet-700 hover:bg-violet-900 py-2 px-4 ml-2">+
-                                                            </button>
-                                                        </div>
+                                                            className="border text-xl font-bold text-white rounded-xl w-1/3 bg-violet-700 hover:bg-violet-900 py-2 px-4 ml-2">+
+                                                        </button>
+                                                    </div>
                                                 )
                                             }
                                         })()}

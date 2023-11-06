@@ -6,14 +6,13 @@ import {useDispatch} from "react-redux";
 import {addToCart} from "../Redux/cartSlice";
 import {UseButton} from "./Button";
 import {ShowAlert} from "../Utils/Utils";
+import {useData} from "../../firebase/useData";
 
 export function SimilarProducts({category, id}: any) {
-    let [similar, setSimilar] = useState<any>({});
+    let data =  useData(`products`)
     const dispatch = useDispatch();
-    useEffect(() => {
-        axios.get(`https://fakestoreapi.com/products/category/${category}`).then((res: any) => setSimilar(res.data));
-    }, []);
-    similar = Object.values(similar).filter((item: any) => item['id'] !== Number(id))
+    data = data.filter((item:any) => item['category'] == category);
+    let similar = Object.values(data).filter((item: any) => item['id'] !== Number(id))
     if (similar !== null) {
         return (
             <>
@@ -21,7 +20,7 @@ export function SimilarProducts({category, id}: any) {
                          className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 justify-items-center justify-center gap-y-9 gap-x-14 mt-4 mb-5 md:mt-10 md:mb-5">
                     {Object.values(similar).slice(0, 2).map((data: any, index: number) => {
                         return (
-                            <div className="rounded-xl h-fit" key={index}>
+                            <div className="rounded-2xl h-fit" key={index}>
                                 <div className="bg-white h-[300px] mb-3">
                                 <Link href={`/products/${data.id}`} key={index}>
                                     <img src={data.image}
