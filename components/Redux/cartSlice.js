@@ -2,11 +2,16 @@ import {createSlice} from '@reduxjs/toolkit';
 
 const getLocalStorage = () => {
   if (typeof localStorage !== 'undefined') {
-    return JSON.parse(localStorage.getItem("ShoppingCard"));
+    if (!localStorage.getItem("ShoppingCard")) {
+      localStorage.setItem("ShoppingCard", []);
+      return JSON.parse(localStorage.getItem("ShoppingCard"));
+    }else{
+      return JSON.parse(localStorage.getItem("ShoppingCard"));
+    }
   }
   return null;
 }
-const initialState = getLocalStorage
+const initialState = getLocalStorage()
 
 const cartSlice = createSlice({
   name: 'cart',

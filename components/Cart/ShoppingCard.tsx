@@ -13,7 +13,6 @@ export function ShoppingCard({Component, setComponent}: any) {
     const info = useSelector((state: any) => state.info);
     const dispatch = useDispatch();
 
-
     useEffect(() => {
         setIsClient(true)
     }, [])

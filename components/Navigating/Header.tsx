@@ -11,13 +11,22 @@ import React, {useState} from "react";
 import {Provider} from "react-redux";
 import store from "../Redux/store";
 import {BadgeCart} from "./Badge";
+import {auth} from "../../firebase/config";
 
 
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false)
+    const [login, setLogin] = useState(false);
     const toggleDrawer = () => {
         setIsOpen((prevState) => !prevState)
     }
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            setLogin(true);
+        } else {
+            setLogin(false);
+        }
+    });
     return (
         <Provider store={store}>
         <>
@@ -42,8 +51,20 @@ export default function Header() {
             </div>
             <div className="mt-8 md:mx-8 flex-nowrap z-10 flex">
                     <BadgeCart/>
-                <Link href={"/auth"} className="mx-1"><Image alt="icon image for Personal page" src={PersonIcon}
-                                                      className="lg:w-10 lg:h-10 w-8 h-8 mr-3"/></Link>
+                {(() => {
+                    if (!login){
+                        return (
+                            <Link href={"/auth"} className="mx-1"><Image alt="icon image for Personal page" src={PersonIcon}
+                                                                         className="lg:w-10 lg:h-10 w-8 h-8 mr-3"/></Link>
+                        )
+                    }else{
+                        return (
+                            <Link href={"/profile"} className="mx-1"><Image alt="icon image for Personal page" src={PersonIcon}
+                                                                         className="lg:w-10 lg:h-10 w-8 h-8 mr-3"/></Link>
+                        )
+                    }
+                })()}
+
                 <Image alt="icon image for Personal page" onClick={toggleDrawer} src={Menu}
                        className="md:hidden mx-1 lg:w-10 lg:h-10 w-8 h-8 z-10"/>
 

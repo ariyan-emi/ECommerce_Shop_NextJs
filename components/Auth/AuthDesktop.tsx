@@ -3,41 +3,99 @@ import {useState} from 'react';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import PublicIcon from '@mui/icons-material/Public';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "@firebase/auth";
+import {auth} from "../../firebase/config"
+import swal from 'sweetalert';
 
 export function AuthDesktop() {
     let [container, setContainer] = useState("container")
+    let [User, setUser] = useState({email: "", password: ""})
+    let [UserLogin, setUserLogin] = useState({email: "", password: ""})
+    function onChangePassword(e: any) {
+        User.password = e.target.value
+        setUser({...User})
+    }
+
+    function onChangeEmail(e: any) {
+        User.email = e.target.value
+        setUser({...User})
+    }
+
+    function onChangePasswordLogin(e: any) {
+        UserLogin.password = e.target.value
+        setUserLogin({...User})
+    }
+
+    function onChangeEmailLogin(e: any) {
+        UserLogin.email = e.target.value
+        setUserLogin({...User})
+    }
+    function createUser() {
+        createUserWithEmailAndPassword(auth, User.email, User.password)
+            .then((userCredential) => {
+                swal("Good job!", `Welcome ${userCredential.user.email}!`, "success");
+                container = "container"
+                setContainer("container")
+            }).catch((error) => {
+            if (error.code == 'auth/email-already-in-use') {
+                swal("Wrong!", `This Email already in use`, "error");
+            } else {
+                swal("Wrong!", error.message, "error");
+            }
+        });
+    }
+    function loginUser() {
+        signInWithEmailAndPassword(auth, UserLogin.email, UserLogin.password)
+            .then((userCredential) => {
+                swal("Good job!", `Welcome ${userCredential.user.email}!`, "success");
+            }).catch((error) => {
+            if (error.code == 'auth/invalid-login-credentials') {
+                swal("Wrong!", `User Not Found`, "error");
+            } else {
+                swal("Wrong!", error.message, "error");
+            }
+        });
+    }
+
+
     return (
-        <div className="box-border bg-[#f6f5f7] flex justify-center items-center flex-col h-screen -mt-[20px] mx-[0] mb-[50px]">
+        <div
+            className="box-border bg-[#f6f5f7] flex justify-center items-center flex-col h-screen -mt-[20px] mx-[0] mb-[50px]">
             <div className={container} id="container">
                 <div className="form-container sign-up-container">
-                    <form>
-                        <h1>Create Account</h1>
-                        <h3>Dont Have Database and use LocalStorage</h3>
+                    <form onSubmit={(e) => {
+                        e.preventDefault()
+                    }}>
+                        <h1 className="font-bold ">Create Account</h1>
+                        <h3>Welcome To Your Shop</h3>
                         <div className="social-container">
-                            <a href="#" className="social hover:bg-violet-500"><LinkedInIcon/></a>
-                            <a href="#" className="social hover:bg-violet-500"><GitHubIcon/></a>
-                            <a href="#" className="social hover:bg-violet-500"><PublicIcon/></a>
+                            <a href="https://www.linkedin.com/in/ariyan-emami-8b99a3251/"
+                               className="social hover:bg-violet-500"><LinkedInIcon/></a>
+                            <a href="https://github.com/ariyan-emi" className="social hover:bg-violet-500"><GitHubIcon/></a>
+                            <a href="https://webvave.ir/" className="social hover:bg-violet-500"><PublicIcon/></a>
                         </div>
                         <span>or use your email for registration</span>
-                        <input type="text" placeholder="Name"/>
-                        <input type="email" placeholder="Email"/>
-                        <input type="password" placeholder="Password"/>
-                        <button style={{background:"#f2f2f2",color:"#FF4B2B"}}>Unavailable</button>
+                        <input type="email" placeholder="Email" onChange={onChangeEmail}/>
+                        <input type="password" placeholder="Password" onChange={onChangePassword}/>
+                        <button className="mt-3" onClick={createUser}>SignUp</button>
                     </form>
                 </div>
                 <div className="form-container sign-in-container">
-                    <form>
+                    <form onSubmit={(e) => {
+                        e.preventDefault()
+                    }}>
                         <h1>Sign in</h1>
                         <div className="social-container">
-                            <a href="#" className="social hover:bg-violet-500"><LinkedInIcon/></a>
-                            <a href="#" className="social hover:bg-violet-500"><GitHubIcon/></a>
-                            <a href="#" className="social hover:bg-violet-500"><PublicIcon/></a>
+                            <a href="https://www.linkedin.com/in/ariyan-emami-8b99a3251/"
+                               className="social hover:bg-violet-500"><LinkedInIcon/></a>
+                            <a href="https://github.com/ariyan-emi" className="social hover:bg-violet-500"><GitHubIcon/></a>
+                            <a href="https://webvave.ir/" className="social hover:bg-violet-500"><PublicIcon/></a>
                         </div>
                         <span>or use your account</span>
-                        <input type="text" placeholder="Username"/>
-                        <input type="password" placeholder="Password"/>
+                        <input type="email" placeholder="Email" onChange={onChangeEmailLogin}/>
+                        <input type="password" placeholder="Password" onChange={onChangePasswordLogin}/>
                         <a href="#">Forgot your password?</a>
-                        <button>Sign In</button>
+                        <button onClick={loginUser}>Sign In</button>
                     </form>
                 </div>
                 <div className="overlay-container">
@@ -46,7 +104,7 @@ export function AuthDesktop() {
                             <h1>Welcome Back!</h1>
                             <p>To keep connected with us please login with your personal info</p>
                             <button className="ghost" id="signIn" onClick={() => {
-                                container="container"
+                                container = "container"
                                 setContainer("container")
                             }
                             }>Sign In
@@ -56,10 +114,11 @@ export function AuthDesktop() {
                             <h1>Hello, Friend!</h1>
                             <p>Enter your personal details and start journey with us</p>
                             <button className="ghost" id="signUp" onClick={() => {
-                                container="container right-panel-active"
+                                container = "container right-panel-active"
                                 setContainer("container right-panel-active")
                             }
-                            }>Sign Up</button>
+                            }>Sign Up
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -122,8 +181,9 @@ export function AuthDesktop() {
               }
 
               input {
-                background-color: #eee;
+                background-color: #eadfdf;
                 border: none;
+                border-radius: 5px;
                 padding: 12px 15px;
                 margin: 8px 0;
                 width: 100%;
@@ -136,9 +196,9 @@ export function AuthDesktop() {
                 0 10px 10px rgba(0, 0, 0, 0.22);
                 position: relative;
                 overflow: hidden;
-                width: 768px;
+                width: 1000px;
                 max-width: 100%;
-                min-height: 480px;
+                min-height: 640px;
               }
 
               .form-container {

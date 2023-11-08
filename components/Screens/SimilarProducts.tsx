@@ -1,6 +1,4 @@
 import * as React from "react";
-import {useEffect, useState} from "react";
-import axios from "axios";
 import Link from "next/link";
 import {useDispatch} from "react-redux";
 import {addToCart} from "../Redux/cartSlice";
