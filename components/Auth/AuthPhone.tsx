@@ -1,6 +1,9 @@
 import React, {useState} from "react";
 import Logo from "../../assets/icon/logo.png";
 import Image from "next/image";
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "@firebase/auth";
+import {auth} from "../../firebase/config";
+import swal from "sweetalert";
 
 export function AuthPhone(){
     let [state,setState] =useState("login")
@@ -15,6 +18,29 @@ export function AuthPhone(){
     }
 }
 function Login({setState}:any){
+    const [emailLogin, setEmailLogin] = useState("");
+    const [passwordLogin, setPasswordLogin] = useState("");
+    function changeEmailLogin(e:any) {
+        setEmailLogin(e.target.value);
+    }
+    function changePasswordLogin(e:any) {
+        setPasswordLogin(e.target.value);
+    }
+
+    function login(e:any) {
+        e.preventDefault();
+        signInWithEmailAndPassword(auth, emailLogin, passwordLogin)
+            .then((userCredential) => {
+                swal("Good job!", `Welcome ${userCredential.user.email}!`, "success");
+            })
+            .catch(error => {
+                if (error.code == 'auth/invalid-login-credentials') {
+                    swal("Wrong!", `User Not Found`, "error");
+                } else {
+                    swal("Wrong!", error.message, "error");
+                }
+            });
+    }
     return(
         <div className="flex h-screen">
             <div className="w-full max-w-xs m-auto rounded-2xl p-5 bg-zinc-300">
@@ -39,6 +65,7 @@ function Login({setState}:any){
                             type="text"
                             name="username"
                             placeholder="Username"
+                            onChange={changeEmailLogin}
                         />
                     </div>
                     <div>
@@ -50,6 +77,7 @@ function Login({setState}:any){
                             type="password"
                             name="password"
                             placeholder="Password"
+                            onChange={changePasswordLogin}
                         />
                     </div>
                     <div>
@@ -77,6 +105,29 @@ function Login({setState}:any){
     )
 }
 function SignUp({setState}:any){
+        const [emailSignUp, setEmailSignUp] = useState("");
+    const [passwordSignUp, setPasswordSignUp] = useState("");
+
+    function changeEmailSignUp(e:any) {
+        setEmailSignUp(e.target.value);
+    }
+    function changePasswordSignUp(e:any) {
+        setPasswordSignUp(e.target.value);
+    }
+
+    function signUp() {
+        createUserWithEmailAndPassword(auth, emailSignUp, passwordSignUp)
+            .then((userCredential) => {
+                swal("Good job!", `Welcome ${userCredential.user.email}!`, "success");
+            })
+            .catch(error => {
+                if (error.code == 'auth/invalid-login-credentials') {
+                    swal("Wrong!", `User Not Found`, "error");
+                } else {
+                    swal("Wrong!", error.message, "error");
+                }
+            });
+    }
     return(
         <div className="flex h-screen">
             <div className="w-full max-w-xs m-auto rounded-2xl p-5 bg-zinc-300">
@@ -112,6 +163,7 @@ function SignUp({setState}:any){
                         type="text"
                         name="username"
                         placeholder="Username"
+                        onChange={changeEmailSignUp}
                     />
                 </div>
                 <div>
@@ -123,6 +175,7 @@ function SignUp({setState}:any){
                         type="password"
                         name="password"
                         placeholder="Password"
+                        onChange={changePasswordSignUp}
                     />
                 </div>
                 <div>

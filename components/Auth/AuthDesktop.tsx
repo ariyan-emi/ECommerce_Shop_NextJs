@@ -9,52 +9,52 @@ import swal from 'sweetalert';
 
 export function AuthDesktop() {
     let [container, setContainer] = useState("container")
-    let [User, setUser] = useState({email: "", password: ""})
-    let [UserLogin, setUserLogin] = useState({email: "", password: ""})
-    function onChangePassword(e: any) {
-        User.password = e.target.value
-        setUser({...User})
+    const [emailSignUp, setEmailSignUp] = useState("");
+    const [passwordSignUp, setPasswordSignUp] = useState("");
+    const [emailLogin, setEmailLogin] = useState("");
+    const [passwordLogin, setPasswordLogin] = useState("");
+    function changeEmailSignUp(e:any) {
+        setEmailSignUp(e.target.value);
+    }
+    function changePasswordSignUp(e:any) {
+        setPasswordSignUp(e.target.value);
+    }
+    function changeEmailLogin(e:any) {
+        setEmailLogin(e.target.value);
+    }
+    function changePasswordLogin(e:any) {
+        setPasswordLogin(e.target.value);
     }
 
-    function onChangeEmail(e: any) {
-        User.email = e.target.value
-        setUser({...User})
+    function login(e:any) {
+        e.preventDefault();
+        signInWithEmailAndPassword(auth, emailLogin, passwordLogin)
+            .then((userCredential) => {
+                swal("Good job!", `Welcome ${userCredential.user.email}!`, "success");
+            })
+            .catch(error => {
+                if (error.code == 'auth/invalid-login-credentials') {
+                    swal("Wrong!", `User Not Found`, "error");
+                } else {
+                    swal("Wrong!", error.message, "error");
+                }
+            });
     }
 
-    function onChangePasswordLogin(e: any) {
-        UserLogin.password = e.target.value
-        setUserLogin({...User})
-    }
-
-    function onChangeEmailLogin(e: any) {
-        UserLogin.email = e.target.value
-        setUserLogin({...User})
-    }
-    function createUser() {
-        createUserWithEmailAndPassword(auth, User.email, User.password)
+    function signUp() {
+        createUserWithEmailAndPassword(auth, emailSignUp, passwordSignUp)
             .then((userCredential) => {
                 swal("Good job!", `Welcome ${userCredential.user.email}!`, "success");
                 container = "container"
                 setContainer("container")
-            }).catch((error) => {
-            if (error.code == 'auth/email-already-in-use') {
-                swal("Wrong!", `This Email already in use`, "error");
-            } else {
-                swal("Wrong!", error.message, "error");
-            }
-        });
-    }
-    function loginUser() {
-        signInWithEmailAndPassword(auth, UserLogin.email, UserLogin.password)
-            .then((userCredential) => {
-                swal("Good job!", `Welcome ${userCredential.user.email}!`, "success");
-            }).catch((error) => {
-            if (error.code == 'auth/invalid-login-credentials') {
-                swal("Wrong!", `User Not Found`, "error");
-            } else {
-                swal("Wrong!", error.message, "error");
-            }
-        });
+            })
+            .catch(error => {
+                if (error.code == 'auth/invalid-login-credentials') {
+                    swal("Wrong!", `User Not Found`, "error");
+                } else {
+                    swal("Wrong!", error.message, "error");
+                }
+            });
     }
 
 
@@ -75,9 +75,9 @@ export function AuthDesktop() {
                             <a href="https://webvave.ir/" className="social hover:bg-violet-500"><PublicIcon/></a>
                         </div>
                         <span>or use your email for registration</span>
-                        <input type="email" placeholder="Email" onChange={onChangeEmail}/>
-                        <input type="password" placeholder="Password" onChange={onChangePassword}/>
-                        <button className="mt-3" onClick={createUser}>SignUp</button>
+                        <input type="email" placeholder="Email" onChange={changeEmailSignUp}/>
+                        <input type="password" placeholder="Password" onChange={changePasswordSignUp}/>
+                        <button className="mt-3" onClick={signUp}>SignUp</button>
                     </form>
                 </div>
                 <div className="form-container sign-in-container">
@@ -92,10 +92,10 @@ export function AuthDesktop() {
                             <a href="https://webvave.ir/" className="social hover:bg-violet-500"><PublicIcon/></a>
                         </div>
                         <span>or use your account</span>
-                        <input type="email" placeholder="Email" onChange={onChangeEmailLogin}/>
-                        <input type="password" placeholder="Password" onChange={onChangePasswordLogin}/>
+                        <input type="email" placeholder="Email" onChange={changeEmailLogin}/>
+                        <input type="password" placeholder="Password" onChange={changePasswordLogin}/>
                         <a href="#">Forgot your password?</a>
-                        <button onClick={loginUser}>Sign In</button>
+                        <button onClick={login}>Sign In</button>
                     </form>
                 </div>
                 <div className="overlay-container">
