@@ -1,13 +1,12 @@
 import * as React from "react";
 import Link from "next/link";
-import {useDispatch} from "react-redux";
-import {addToCart} from "../Redux/cartSlice";
+import {useDispatch, useSelector} from "react-redux";
 import {UseButton} from "./Button";
 import {ShowAlert} from "../Utils/Utils";
-import {useData} from "../../firebase/useData";
+import {getAllProducts} from "../Redux/slices/productsSlice";
 
 export function SimilarProducts({category, id}: any) {
-    let data =  useData(`products`)
+    let data = useSelector(getAllProducts);
     const dispatch = useDispatch();
     data = data.filter((item:any) => item['category'] == category);
     let similar = Object.values(data).filter((item: any) => item['id'] !== Number(id))
@@ -26,7 +25,7 @@ export function SimilarProducts({category, id}: any) {
                                 </Link>
                                 </div>
                                 <UseButton className={"w-full rounded-xl bg-violet-700 py-1 font-medium hover:bg-violet-900 text-white disabled:bg-gray-500"} display={'Buy Now'} onClick={() =>{
-                                    dispatch(addToCart({data: data}))
+                                    // dispatch(addToCart({data: data}))
                                     ShowAlert('An Amazing Choice!',"Product successfully added to the cart","success")
                                 }} disable={false}/>
                             </div>

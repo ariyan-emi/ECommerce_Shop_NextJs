@@ -6,12 +6,14 @@ import {Checkout} from "./Checkout";
 import {Invoice} from "./Invoice";
 import {Provider} from "react-redux";
 import store from "../Redux/store";
+import {SetData} from "../Utils/SetData";
 
 export function Cart() {
     let [showComponent,setShowComponent] =useState("cart")
     return (
         <Provider store={store}>
         <>
+            <SetData/>
             {(() => {
                  if (showComponent == "cart") {
                     return (

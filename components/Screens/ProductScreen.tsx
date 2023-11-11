@@ -14,10 +14,9 @@ import {SimilarProducts} from "./SimilarProducts";
 import {Loading} from "./Loading";
 import Header from "../Navigating/Header";
 import {useDispatch, useSelector} from "react-redux";
-import {addToCart, CounterPlus, CounterSubtract} from "../Redux/cartSlice";
 import {UseButton} from "./Button";
 import {ShowAlert} from "../Utils/Utils";
-import {useData} from "../../firebase/useData";
+import {getAllProducts} from "../Redux/slices/productsSlice";
 
 const StyledRating = styled(Rating)(({theme}) => ({
     '& .MuiRating-iconEmpty .MuiSvgIcon-root': {
@@ -59,7 +58,7 @@ function IconContainer(props: IconContainerProps) {
 }
 
 export function ProductScreen({id}: any) {
-    let allProducts =  useData(`products`)
+    let allProducts = useSelector(getAllProducts);
     let data:any = allProducts[id-1]
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
@@ -108,7 +107,7 @@ if (cart !== null){
                                             if (indexItem == -1) {
                                                 return (
                                                     <UseButton className={"w-full bg-violet-700 hover:bg-violet-900 text-white py-2 px-4 rounded-2xl font-bold"} display={'Add to Cart'} onClick={() =>{
-                                                        dispatch(addToCart({data: data}))
+                                                        // dispatch(addToCart({data: data}))
                                                         ShowAlert('An Amazing Choice!',"Product successfully added to the cart","success")
                                                     }} disable={false}/>
                                                 )
@@ -116,7 +115,7 @@ if (cart !== null){
                                                 return (
                                                     <div className="flex items-center justify-center w-full">
                                                         <button onClick={() => {
-                                                            dispatch(CounterSubtract({action: indexItem}))
+                                                            // dispatch(CounterSubtract({action: indexItem}))
                                                         }}
                                                                 className="border text-xl font-bold text-white rounded-xl w-1/3 bg-violet-700 hover:bg-violet-900 py-2 px-4 mr-2">-
                                                         </button>
@@ -127,7 +126,7 @@ if (cart !== null){
                                                         })()}</span>
                                                         <button
                                                             onClick={() => {
-                                                                dispatch(CounterPlus({action: indexItem}))
+                                                                // dispatch(CounterPlus({action: indexItem}))
                                                             }}
                                                             className="border text-xl font-bold text-white rounded-xl w-1/3 bg-violet-700 hover:bg-violet-900 py-2 px-4 ml-2">+
                                                         </button>

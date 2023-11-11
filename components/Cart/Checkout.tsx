@@ -6,15 +6,17 @@ import Image from "next/image";
 import Link from "next/link";
 import DeleteIcon from '@mui/icons-material/DeleteForever';
 import {useDispatch, useSelector} from "react-redux";
-import {removeFromCart} from "../Redux/cartSlice";
 import {GetTaxes} from "../Utils/Utils";
 import HomeIcon from "@mui/icons-material/Home";
-import {getState} from "../Redux/infoSlice";
+import {getState} from "../Redux/slices/infoSlice";
+import swal from "sweetalert";
+import {deleteItemFromCart} from "../Redux/slices/shoppingCartSlice";
+import { auth } from "../../firebase/firebase";
+
 
 export function Checkout({Component, setComponent}: any) {
 
     let [enable, setEnable] = useState({email: '',address: '',name: ''})
-    const [fade, setFade] = useState(false)
 
     function handleChangeEmail(e: any) {
         enable.email = e.target.value
@@ -31,14 +33,13 @@ export function Checkout({Component, setComponent}: any) {
     function checkEnabled(){
     return !(enable.address !== "" && enable.name !== "" && enable.email !== "");
     }
-    const triggerFade = () => {
-        setFade(!fade)
-    }
-    const cart = useSelector((state:any) => state.cart);
+
+    // @ts-ignore
+    const {shoppingCart} = useSelector(state => state);
     const dispatch = useDispatch();
-    const removeFromCartHandler = (index:any) => {
-        dispatch(removeFromCart({index:index}));
-    };
+    const totalPrice = shoppingCart
+        .reduce((accumulator:any, element:any) => accumulator + element.totalPrice, 0)
+        .toFixed(2);
     return (
         <>
             <div
@@ -86,63 +87,16 @@ export function Checkout({Component, setComponent}: any) {
                 </div>
             </div>
             {/*Header*/}
-            <div className="grid bg-gray-100 sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32 px-4 pt-8 space-x-2">
+            <div style={{backgroundColor:"#E5E5E5"}} className="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32 px-4 pt-8 space-x-2">
                 <div className="">
-                    <p className="text-xl font-medium bg-white px-5 py-3 border border-b-0 rounded-lg rounded-b-none">Order
+                    <p className="text-xl font-medium bg-gray-100 px-5 py-3 border border-b-0 rounded-lg rounded-b-none">Order
                         Summary</p>
-                    <p className="text-gray-400 bg-white px-5 py-1 border border-t-0 rounded-lg rounded-t-none">Check
+                    <p className="text-gray-400 bg-gray-100 px-5 py-1 border border-t-0 rounded-lg rounded-t-none">Check
                         your items. And select a suitable shipping method.</p>
-                    <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
-                        {cart.map((data: any, index: number) => {
+                    <div className="mt-8 space-y-3 rounded-lg border bg-gray-100 px-2 py-4 sm:px-6">
+                        {shoppingCart.map((data: any, index: number) => {
                             return (
-                                <div key={index} className={fade ? '' : 'visibleClass'}>
-                                    <div className="flex flex-col rounded-lg bg-white sm:flex-row">
-                                        <Link href={`products/${data.id}`}>
-                                            <img className="m-2 h-24 w-24"
-                                                 src={data.image}
-                                                 alt={data.description}/>
-                                        </Link>
-                                        <div className="flex w-full flex-col px-4 py-4">
-                                            <span className="font-semibold">{(() => {
-                                                if (data.title.length > 32) {
-                                                    return (
-                                                        data.title.substring(0, 45) + "..."
-                                                    )
-                                                } else {
-                                                    return (
-                                                        data.title
-                                                    )
-                                                }
-                                            })()}</span>
-                                            <div className="flex-row">
-                                                <div className="justify-end align-middle float-right">
-                                                    <DeleteIcon
-                                                        style={{width: "40px", height: "40px"}}
-                                                        className="text-red-800 md:hover:text-black md:hover:opacity-80"
-                                                        onClick={() => {
-                                                            triggerFade()
-                                                            removeFromCartHandler(index)
-                                                        }}
-                                                    />
-                                                </div>
-                                                <div>
-                                            <span className="text-gray-400"><span
-                                                className="font-bold text-gray-600">{data.count}</span> x ${data.price.toFixed(2)}</span>
-                                                    <p className="text-lg font-bold">$
-                                                        {(() => {
-                                                            let GetTotalProducts = cart[index].count * cart[index].price
-                                                            return (
-                                                                GetTotalProducts.toFixed(2)
-                                                            )
-                                                        })()}
-                                                    </p>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
+                                <OneItem product={data} index={index}/>
                             )
                         })}
                     </div>
@@ -151,9 +105,9 @@ export function Checkout({Component, setComponent}: any) {
                         <div className="relative">
                             <input className="peer hidden" id="radio_1" type="radio" name="radio" checked/>
                             <span
-                                className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
+                                className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-400 bg-gray-100"></span>
                             <label
-                                className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
+                                className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 bg-zinc-300 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
                                 htmlFor="radio_1">
                                 <Image className="w-14 object-contain" src={Fedex}
                                        alt="Fedex Delivery"/>
@@ -166,9 +120,9 @@ export function Checkout({Component, setComponent}: any) {
                         <div className="relative">
                             <input className="peer hidden" id="radio_2" type="radio" name="radio" checked/>
                             <span
-                                className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
+                                className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-400 bg-gray-100"></span>
                             <label
-                                className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
+                                className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 bg-zinc-300 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
                                 htmlFor="radio_2">
                                 <Image className="w-14 object-contain" src={AmazonFresh}
                                        alt="Amazon Fresh Delivery"/>
@@ -180,7 +134,7 @@ export function Checkout({Component, setComponent}: any) {
                         </div>
                     </form>
                 </div>
-                <div className="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0 border rounded-lg h-fit">
+                <div className="mt-10 bg-gray-100 px-4 pt-8 lg:mt-0 border rounded-lg h-fit">
                     <p className="text-xl font-medium">Payment Details</p>
                     <p className="text-gray-400">Complete your order by providing your payment details.</p>
                     <div className="">
@@ -274,11 +228,7 @@ export function Checkout({Component, setComponent}: any) {
                             <div className="flex items-center justify-between">
                                 <p className="text-sm font-medium text-gray-900">Subtotal</p>
                                 <p className="font-semibold text-gray-900">$
-                                    {(() => {
-                                        return (
-                                            cart.reduce((acc:any, item:any) => acc + item.count * item.price, 0).toFixed(2)
-                                        )
-                                    })()}
+                                    {totalPrice}
                                 </p>
                             </div>
                             <div className="flex items-center justify-between">
@@ -294,7 +244,7 @@ export function Checkout({Component, setComponent}: any) {
                             <p className="text-sm font-medium text-gray-900">Total</p>
                             <p className="text-2xl font-semibold text-gray-900">$
                                 {(() => {
-                                    let num = Number(cart.reduce((acc:any, item:any) => acc + item.count * item.price, 0))+GetTaxes()
+                                    let num = Number(totalPrice) + Number(GetTaxes())
                                     return (
                                         num.toFixed(2)
                                     )
@@ -328,5 +278,79 @@ export function Checkout({Component, setComponent}: any) {
                 }
               }`}</style>
         </>
+    )
+}
+function OneItem({product,index}:any) {
+    const [fade, setFade] = useState(false)
+    const triggerFade = () => {
+        setFade(!fade)
+    }
+    const dispatch = useDispatch();
+    const {image, totalPrice, id, items,description, title, price} = product;
+    function showHideDeleteConfirmation() {
+        swal({
+            title: "Are you sure?",
+            text: "Would you like to delete your shopping cart!",
+            icon: "warning",
+            buttons: ["Cancel", "Ok"],
+            dangerMode: true,
+            closeOnClickOutside: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    deleteItem()
+                }
+            });
+    }
+// @ts-ignore
+    const uid = auth.currentUser.uid;
+    function deleteItem() {
+        // @ts-ignore
+        dispatch(deleteItemFromCart(id, uid));
+    }
+    return(
+        <div key={index} className={fade ? '' : 'visibleClass'}>
+            <div className="flex flex-col rounded-lg bg-gray-100 sm:flex-row">
+                <Link href={`products/${id}`}>
+                    <img className="m-2 h-24 w-24"
+                         src={image}
+                         alt={description}/>
+                </Link>
+                <div className="flex w-full flex-col px-4 py-4">
+                                            <span className="font-semibold">{(() => {
+                                                if (title.length > 32) {
+                                                    return (
+                                                        title.substring(0, 45) + "..."
+                                                    )
+                                                } else {
+                                                    return (
+                                                        title
+                                                    )
+                                                }
+                                            })()}</span>
+                    <div className="flex-row">
+                        <div className="justify-end align-middle float-right">
+                            <DeleteIcon
+                                style={{width: "40px", height: "40px"}}
+                                className="text-red-800 md:hover:text-black md:hover:opacity-80"
+                                onClick={() => {
+                                    triggerFade()
+                                    showHideDeleteConfirmation()
+                                }}
+                            />
+                        </div>
+                        <div>
+                                            <span className="text-gray-400"><span
+                                                className="font-bold text-gray-600">{items}</span> x ${price.toFixed(2)}</span>
+                            <p className="text-lg font-bold">$
+                                {totalPrice}
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
     )
 }

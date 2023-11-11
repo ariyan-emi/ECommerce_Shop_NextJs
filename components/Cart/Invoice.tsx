@@ -8,8 +8,11 @@ import HomeIcon from "@mui/icons-material/Home";
 export function Invoice({Component, setComponent}: any) {
     const date = new Date()
     const random = Math.floor((Math.random() * 10000) + 1)
-    const cart = useSelector((state: any) => state.cart);
+    // @ts-ignore
+    const {shoppingCart} = useSelector(state => state);
     const info = useSelector((state: any) => state.info);
+    const totalPrice = shoppingCart
+        .reduce((accumulator:any, element:any) => accumulator + element.totalPrice, 0);
     return (
         <>
             <div
@@ -129,16 +132,14 @@ export function Invoice({Component, setComponent}: any) {
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        {cart.map((data: any, index: number) => {
+                                        {shoppingCart.map((data: any, index: number) => {
                                             return(
                                                 <tr key={index}>
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index+1}</td>
                                                     <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{data.title}</td>
-                                                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{data.price}</td>
-                                                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{data.count}</td>
-                                                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{(() => {
-                                                        let GetTotalProducts = cart[index].count * cart[index].price
-                                                        return (GetTotalProducts.toFixed(2))})()}</td>
+                                                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{data.price.toFixed(2)}</td>
+                                                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{data.items}</td>
+                                                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{data.totalPrice.toFixed(2)}</td>
                                                 </tr>
                                             )
                                         })}
@@ -170,13 +171,13 @@ export function Invoice({Component, setComponent}: any) {
                         <div className="flex-col md:w-1/2 text-center justify-center align-middle mt-10">
                             <div className="border-white border-b font-bold text-xl mb-5">Summary</div>
                             <div className="p-2">
-                                <strong>Subtotal</strong>: ${(() => {
-                                return (cart.reduce((acc: any, item: any) => acc + item.count * item.price, 0).toFixed(2))
-                            })()}<br/>
+                                <strong>Subtotal</strong>: ${totalPrice.toFixed(2)}<br/>
                                 <strong>Taxes</strong>: ${GetTaxes()}<br/>
                                 <strong>Total</strong>: ${(() => {
-                                let num = Number(cart.reduce((acc: any, item: any) => acc + item.count * item.price, 0)) + GetTaxes()
-                                return (num.toFixed(2))
+                                let num = Number(totalPrice) + Number(GetTaxes())
+                                return (
+                                    num.toFixed(2)
+                                )
                             })()}
                             </div>
 

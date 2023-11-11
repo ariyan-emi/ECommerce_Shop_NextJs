@@ -1,7 +1,8 @@
 'use client'
 import swal from 'sweetalert';
 import { useState, useEffect } from 'react';
-import {auth} from "../../firebase/config";
+
+export const wait = (time:any) => new Promise(resolve => setTimeout(resolve, time));
 
 export function GetTaxes() {
     return Number(1.99)

@@ -4,7 +4,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import PublicIcon from '@mui/icons-material/Public';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "@firebase/auth";
-import {auth} from "../../firebase/config"
+import {auth} from "../../firebase/firebase"
 import swal from 'sweetalert';
 
 export function AuthDesktop() {

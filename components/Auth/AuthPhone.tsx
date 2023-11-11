@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import Logo from "../../assets/icon/logo.png";
 import Image from "next/image";
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "@firebase/auth";
-import {auth} from "../../firebase/config";
+import {auth} from "../../firebase/firebase";
 import swal from "sweetalert";
 
 export function AuthPhone(){

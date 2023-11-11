@@ -8,10 +8,8 @@ import Menu from '../../assets/icon/minicon/menu.png';
 import Drawer from 'react-modern-drawer'
 import 'react-modern-drawer/dist/index.css'
 import React, {useState} from "react";
-import {Provider} from "react-redux";
-import store from "../Redux/store";
+import {useDispatch} from "react-redux";
 import {BadgeCart} from "./Badge";
-import {auth} from "../../firebase/config";
 
 
 export default function Header() {
@@ -20,15 +18,8 @@ export default function Header() {
     const toggleDrawer = () => {
         setIsOpen((prevState) => !prevState)
     }
-    auth.onAuthStateChanged(user => {
-        if (user) {
-            setLogin(true);
-        } else {
-            setLogin(false);
-        }
-    });
+    const dispatch = useDispatch();
     return (
-        <Provider store={store}>
         <>
         <div className="flex justify-between h-24">
             <div className="md:mx-8 mt-4 z-10">
@@ -80,7 +71,6 @@ export default function Header() {
             </div>
         </div>
         </>
-        </Provider>
     )
 };
 

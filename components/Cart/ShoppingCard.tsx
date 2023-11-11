@@ -3,53 +3,64 @@ import HomeIcon from "@mui/icons-material/Home";
 import DeleteIcon from "@mui/icons-material/DeleteForever";
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {CounterPlus, CounterSubtract, removeFromCart, restCart} from "../Redux/cartSlice";
 import {GetTaxes} from "../Utils/Utils";
 import swal from 'sweetalert';
-export function ShoppingCard({Component, setComponent}: any) {
-    const [fade, setFade] = useState(false)
-    const [isClient, setIsClient] = useState(false)
-    const cart = useSelector((state: any) => state.cart);
-    const info = useSelector((state: any) => state.info);
-    const dispatch = useDispatch();
+import {
+    addExtraItemAsync,
+    deleteAllItemsFromCart,
+    deleteItemFromCart,
+    minusItemAsync, totalCartItems
+} from "../Redux/slices/shoppingCartSlice";
+import { auth } from "../../firebase/firebase";
+import {Loading} from "../Screens/Loading";
+import {EmptyCart} from "./EmptyCart";
 
-    useEffect(() => {
-        setIsClient(true)
-    }, [])
-    const triggerFade = () => {
-        setFade(!fade)
-    }
-    const removeFromCartHandler = (index: any) => {
-        dispatch(removeFromCart({index: index}));
-    };
+export function ShoppingCard({Component, setComponent}: any) {
+const [isLoading, setIsLoading]=useState("empty")
+    // @ts-ignore
+    const {shoppingCart} = useSelector(state => state);
+    const info = useSelector((state: any) => state.info);
+
+    const totalPrice = shoppingCart
+        .reduce((accumulator:any, element:any) => accumulator + element.totalPrice, 0);
 
     function checkEnabled() {
         return info == "";
     }
-
-    if (cart !== null) {
-        if (cart.length <= 0) {
-            setComponent('empty')
+    const cartItemsQuantity = useSelector(totalCartItems);
+    let uid :string;
+        if (auth.currentUser!== null){
+            uid = auth.currentUser.uid;
         }
+    const dispatch = useDispatch();
+    useEffect(() => {
+        if (shoppingCart.length > 0){
+                setIsLoading("false")
+        }else{
+            setIsLoading("error")
+        }
+    }, [shoppingCart]);
+
+
+    function DeleteAlert() {
+        swal({
+            title: "Are you sure?",
+            text: "Would you like to delete your shopping cart!",
+            icon: "warning",
+            buttons: ["Cancel", "Ok"],
+            dangerMode: true,
+            closeOnClickOutside: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    // @ts-ignore
+                    dispatch(deleteAllItemsFromCart(uid));
+                    setIsLoading("error")
+                }
+            });
     }
-function DeleteAlert() {
 
-    swal({
-        title: "Are you sure?",
-        text: "Would you like to delete your shopping cart!",
-        icon: "warning",
-        buttons: ["Cancel", "Ok"],
-        dangerMode: true,
-        closeOnClickOutside: true,
-    })
-        .then((willDelete) => {
-            if (willDelete) {
-                dispatch(restCart())
-            }
-        });
-}
-
-    if (isClient) {
+    if (isLoading == "false") {
         return (
             <>
                 <div
@@ -127,74 +138,9 @@ function DeleteAlert() {
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            {cart.map((data: any, index: number) => {
+                                            {shoppingCart.map((data: any, index: number) => {
                                                 return (
-                                                    <tr key={index} data-id={index}
-                                                        className={fade ? '' : 'visibleClass'}>
-                                                        <td className="py-4">
-                                                            <div className="flex items-center">
-                                                                <img className="h-16 w-16 mr-4"
-                                                                     src={data.image}
-                                                                     alt="Product image"/>
-                                                                <span
-                                                                    className="font-semibold overflow-hidden text-ellipsis w-24  sm:w-full ">
-                                                                {(() => {
-                                                                    if (data.title !== undefined) {
-                                                                        return (
-                                                                            data.title.substring(0, 32) + "..."
-                                                                        )
-                                                                    }
-                                                                })()}
-                                                            </span>
-                                                            </div>
-                                                        </td>
-
-                                                        <td className="py-4 text-center">$
-                                                            {(() => {
-                                                                if (data.price !== undefined) {
-                                                                    return (
-                                                                        data.price.toFixed(2)
-                                                                    )
-                                                                }
-                                                            })()}</td>
-                                                        <td className="py-4">
-                                                            <div className="flex items-center justify-center">
-                                                                <button onClick={() => {
-                                                                    dispatch(CounterSubtract({action: index}))
-                                                                }}
-                                                                        className="border rounded-md py-2 px-4 mr-2">-
-                                                                </button>
-                                                                <span className="text-center w-8">{(() => {
-                                                                    return (
-                                                                        cart[index].count
-                                                                    )
-                                                                })()}</span>
-                                                                <button
-                                                                    onClick={() => {
-                                                                        dispatch(CounterPlus({action: index}))
-                                                                    }}
-                                                                    className="border rounded-md py-2 px-4 ml-2">+
-                                                                </button>
-                                                            </div>
-                                                        </td>
-                                                        <td className="py-4 text-center">${(() => {
-                                                            let GetTotalProducts = cart[index].count * cart[index].price
-                                                            return (
-                                                                GetTotalProducts.toFixed(2)
-                                                            )
-                                                        })()}
-                                                        </td>
-                                                        <td className="py-4 text-center">
-                                                            <DeleteIcon
-                                                                style={{width: "40px", height: "40px"}}
-                                                                className="text-red-800 hover:text-black"
-                                                                onClick={() => {
-                                                                    triggerFade()
-                                                                    removeFromCartHandler(index)
-                                                                }}
-                                                            />
-                                                        </td>
-                                                    </tr>
+                                                    <CartItemDesktop product={data} index={index}/>
                                                 )
                                             })}
                                             </tbody>
@@ -203,67 +149,9 @@ function DeleteAlert() {
 
 
                                     <div className="md:hidden">
-                                        {cart.map((data: any, index: number) => {
+                                        {shoppingCart.map((data: any, index: number) => {
                                             return (
-                                                <div key={index}
-                                                     className="flex flex-col md:flex-row border-b border-gray-400 py-4">
-                                                    <div className="flex-shrink-0">
-                                                        <img
-                                                            src={data.image}
-                                                            alt="Product image"
-                                                            className="w-32 h-32 object-cover"
-                                                        />
-                                                    </div>
-                                                    <div className="mt-4 md:mt-0 md:ml-6">
-                                                        <h2 className="text-lg font-bold">
-                                                            {(() => {
-                                                                if (data.title !== undefined) {
-                                                                    return (
-                                                                        data.title.substring(0, 32) + "..."
-                                                                    )
-                                                                }
-                                                            })()}
-                                                        </h2>
-                                                        <p className="mt-2 text-gray-600">1 x ${data.price}</p>
-                                                        <div className="mt-4 flex items-center">
-                                                            <span className="mr-2 text-gray-600">Quantity:</span>
-                                                            <div className="flex items-center">
-                                                                <button className="bg-gray-200 rounded-l-lg px-2 py-1"
-                                                                        onClick={() => {
-                                                                            dispatch(CounterSubtract({action: index}))
-                                                                        }}>
-                                                                    -
-                                                                </button>
-                                                                <span className="mx-2 text-gray-600">{(() => {
-                                                                    return (
-                                                                        cart[index].count
-                                                                    )
-                                                                })()}</span>
-                                                                <button className="bg-gray-200 rounded-r-lg px-2 py-1"
-                                                                        onClick={() => {
-                                                                            dispatch(CounterPlus({action: index}))
-                                                                        }}>
-                                                                    +
-                                                                </button>
-                                                            </div>
-                                                            <DeleteIcon
-                                                                style={{width: "30px", height: "30px"}}
-                                                                className="text-red-800 md:hover:text-black"
-                                                                onClick={() => {
-                                                                    triggerFade()
-                                                                    removeFromCartHandler(index)
-                                                                }}
-                                                            />
-                                                            <span className="ml-auto font-bold">${(() => {
-                                                                let GetTotalProducts = cart[index].count * cart[index].price
-                                                                return (
-                                                                    GetTotalProducts.toFixed(2)
-                                                                )
-                                                            })()}</span>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <CartItemPhone product={data} index={index}/>
                                             )
                                         })}
                                     </div>
@@ -277,11 +165,7 @@ function DeleteAlert() {
                                     <div className="flex justify-between mb-2">
                                         <span>Subtotal</span>
                                         <span>$
-                                            {(() => {
-                                                return (
-                                                    cart.reduce((acc: any, item: any) => acc + item.count * item.price, 0).toFixed(2)
-                                                )
-                                            })()}
+                                            {Number(totalPrice).toFixed(2)}
                                     </span>
                                     </div>
                                     <div className="flex justify-between mb-2">
@@ -297,7 +181,7 @@ function DeleteAlert() {
                                         <span className="font-semibold">Total</span>
                                         <span className="font-semibold">$
                                             {(() => {
-                                                let num = Number(cart.reduce((acc: any, item: any) => acc + item.count * item.price, 0)) + GetTaxes()
+                                                let num = Number(totalPrice) + Number(GetTaxes())
                                                 return (
                                                     num.toFixed(2)
                                                 )
@@ -327,5 +211,207 @@ function DeleteAlert() {
                 </div>
             </>
         )
+    }else if(isLoading == "true"){
+    return (<Loading/>)
+    }else {
+        return (<EmptyCart/>)
     }
+}
+
+function CartItemDesktop({product, index}: any) {
+    const [fade, setFade] = useState(false)
+    const triggerFade = () => {
+        setFade(!fade)
+    }
+    const {image, totalPrice, id, items, title, price} = product;
+    // @ts-ignore
+    const uid = auth.currentUser.uid;
+    const dispatch = useDispatch();
+    function minusOneItem() {
+        if (items === 1) {
+            showHideDeleteConfirmation();
+            return;
+        }
+        // @ts-ignore
+        dispatch(minusItemAsync(id, uid));
+    }
+    function addOneItem() {
+        // @ts-ignore
+        dispatch(addExtraItemAsync(id, uid));
+    }
+    function showHideDeleteConfirmation() {
+        swal({
+            title: "Are you sure?",
+            text: "Would you like to delete your shopping cart!",
+            icon: "warning",
+            buttons: ["Cancel", "Ok"],
+            dangerMode: true,
+            closeOnClickOutside: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    deleteItem()
+                }
+            });
+    }
+
+    function deleteItem() {
+        // @ts-ignore
+        dispatch(deleteItemFromCart(id, uid));
+    }
+
+    return (
+        <tr key={index} data-id={index}
+            className={fade ? '' : 'visibleClass'}>
+            <td className="py-4">
+                <div className="flex items-center">
+                    <img className="h-16 w-16 mr-4"
+                         src={image}
+                         alt="Product image"/>
+                    <span
+                        className="font-semibold overflow-hidden text-ellipsis w-24  sm:w-full ">
+                                                                {(() => {
+                                                                    if (title !== undefined) {
+                                                                        return (
+                                                                            title.substring(0, 32) + "..."
+                                                                        )
+                                                                    }
+                                                                })()}
+                                                            </span>
+                </div>
+            </td>
+
+            <td className="py-4 text-center">$
+                {(() => {
+                    if (price !== undefined) {
+                        return (
+                            price.toFixed(2)
+                        )
+                    }
+                })()}</td>
+            <td className="py-4">
+                <div className="flex items-center justify-center">
+                    <button onClick={minusOneItem}
+                            className="border rounded-md py-2 px-4 mr-2">-
+                    </button>
+                    <span className="text-center w-8">{items}</span>
+                    <button
+                        onClick={addOneItem}
+                        className="border rounded-md py-2 px-4 ml-2">+
+                    </button>
+                </div>
+            </td>
+            <td className="py-4 text-center">${(() => {
+                return (
+                    totalPrice.toFixed(2)
+                )
+            })()}
+            </td>
+            <td className="py-4 text-center">
+                <DeleteIcon
+                    style={{width: "40px", height: "40px"}}
+                    className="text-red-800 hover:text-black"
+                    onClick={() => {
+                        triggerFade()
+                        deleteItem()
+                    }}
+                />
+            </td>
+        </tr>
+    )
+}
+
+function CartItemPhone({product, index}: any) {
+    const [fade, setFade] = useState(false)
+    const triggerFade = () => {
+        setFade(!fade)
+    }
+    const {image, totalPrice, id, items, title, price} = product;
+    // @ts-ignore
+    const uid = auth.currentUser.uid;
+    const dispatch = useDispatch();
+    function minusOneItem() {
+        if (items === 1) {
+            showHideDeleteConfirmation();
+            return;
+        }
+        // @ts-ignore
+        dispatch(minusItemAsync(id, uid));
+    }
+    function addOneItem() {
+        // @ts-ignore
+        dispatch(addExtraItemAsync(id, uid));
+    }
+    function showHideDeleteConfirmation() {
+        swal({
+            title: "Are you sure?",
+            text: "Would you like to delete your shopping cart!",
+            icon: "warning",
+            buttons: ["Cancel", "Ok"],
+            dangerMode: true,
+            closeOnClickOutside: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    deleteItem()
+                }
+            });
+    }
+
+    function deleteItem() {
+        // @ts-ignore
+        dispatch(deleteItemFromCart(id, uid));
+    }
+    return (
+        <div key={index}
+             className="flex flex-col md:flex-row border-b border-gray-400 py-4">
+            <div className="flex-shrink-0">
+                <img
+                    src={image}
+                    alt="Product image"
+                    className="w-32 h-32 object-cover"
+                />
+            </div>
+            <div className="mt-4 md:mt-0 md:ml-6">
+                <h2 className="text-lg font-bold">
+                    {(() => {
+                        if (title !== undefined) {
+                            return (
+                                title.substring(0, 32) + "..."
+                            )
+                        }
+                    })()}
+                </h2>
+                <p className="mt-2 text-gray-600">1 x ${price}</p>
+                <div className="mt-4 flex items-center">
+                    <span className="mr-2 text-gray-600">Quantity:</span>
+                    <div className="flex items-center">
+                        <button className="bg-gray-200 rounded-l-lg px-2 py-1"
+                                onClick={minusOneItem}>
+                            -
+                        </button>
+                        <span className="mx-2 text-gray-600">{items}</span>
+                        <button className="bg-gray-200 rounded-r-lg px-2 py-1"
+                                onClick={addOneItem}>
+                            +
+                        </button>
+                    </div>
+                    <DeleteIcon
+                        style={{width: "30px", height: "30px"}}
+                        className="text-red-800 md:hover:text-black"
+                        onClick={() => {
+                            triggerFade()
+                            deleteItem()
+                        }}
+                    />
+                    <span className="ml-auto font-bold">${(() => {
+                        return (
+                            totalPrice.toFixed(2)
+                        )
+                    })()}</span>
+
+                </div>
+            </div>
+        </div>
+    )
 }
