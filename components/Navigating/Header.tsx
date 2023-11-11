@@ -8,13 +8,13 @@ import Menu from '../../assets/icon/minicon/menu.png';
 import Drawer from 'react-modern-drawer'
 import 'react-modern-drawer/dist/index.css'
 import React, {useState} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {BadgeCart} from "./Badge";
-
+import {getIsAuth} from "../Redux/slices/isAuthSlice";
 
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false)
-    const [login, setLogin] = useState(false);
+    const isAuth = useSelector(getIsAuth);
     const toggleDrawer = () => {
         setIsOpen((prevState) => !prevState)
     }
@@ -42,20 +42,13 @@ export default function Header() {
             </div>
             <div className="mt-8 md:mx-8 flex-nowrap z-10 flex">
                     <BadgeCart/>
-                {(() => {
-                    if (!login){
-                        return (
-                            <Link href={"/auth"} className="mx-1"><Image alt="icon image for Personal page" src={PersonIcon}
-                                                                         className="lg:w-10 lg:h-10 w-8 h-8 mr-3"/></Link>
-                        )
-                    }else{
-                        return (
-                            <Link href={"/profile"} className="mx-1"><Image alt="icon image for Personal page" src={PersonIcon}
-                                                                         className="lg:w-10 lg:h-10 w-8 h-8 mr-3"/></Link>
-                        )
-                    }
-                })()}
-
+                {isAuth ? (
+                    <Link href={"/profile"} className="mx-1"><Image alt="icon image for Personal page" src={PersonIcon}
+                                                                 className="lg:w-10 lg:h-10 w-8 h-8 mr-3"/></Link>
+                ) : (
+                    <Link href={"/auth"} className="mx-1"><Image alt="icon image for Personal page" src={PersonIcon}
+                                                                 className="lg:w-10 lg:h-10 w-8 h-8 mr-3"/></Link>
+                )}
                 <Image alt="icon image for Personal page" onClick={toggleDrawer} src={Menu}
                        className="md:hidden mx-1 lg:w-10 lg:h-10 w-8 h-8 z-10"/>
 

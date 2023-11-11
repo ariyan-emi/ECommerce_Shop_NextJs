@@ -4,6 +4,7 @@ import Image from "next/image";
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "@firebase/auth";
 import {auth} from "../../firebase/firebase";
 import swal from "sweetalert";
+import {useRouter} from "next/navigation";
 
 export function AuthPhone(){
     let [state,setState] =useState("login")
@@ -26,12 +27,14 @@ function Login({setState}:any){
     function changePasswordLogin(e:any) {
         setPasswordLogin(e.target.value);
     }
-
+    const router = useRouter()
     function login(e:any) {
         e.preventDefault();
         signInWithEmailAndPassword(auth, emailLogin, passwordLogin)
             .then((userCredential) => {
-                swal("Good job!", `Welcome ${userCredential.user.email}!`, "success");
+                swal("Good job!", `Welcome ${userCredential.user.email}!`, "success").then(() => {
+                    router.push('/')
+                });
             })
             .catch(error => {
                 if (error.code == 'auth/invalid-login-credentials') {
@@ -58,13 +61,12 @@ function Login({setState}:any){
                 </header>
                     <div>
                         <label className="block mb-2 text-indigo-500" htmlFor="username">
-                            Username
+                            Email
                         </label>
                         <input
                             className="w-full p-2 mb-6 text-indigo-700 border-b-2 rounded-md border-indigo-500 outline-none focus:bg-gray-300"
                             type="text"
-                            name="username"
-                            placeholder="Username"
+                            placeholder="example@gmail.com"
                             onChange={changeEmailLogin}
                         />
                     </div>
@@ -81,10 +83,10 @@ function Login({setState}:any){
                         />
                     </div>
                     <div>
-                        <input
+                        <button
                             className="w-full bg-indigo-700 hover:bg-pink-700 text-white font-bold py-2 px-4 mb-6 rounded"
-                            type="submit"
-                        />
+                            onClick={login}
+                        >Sign In</button>
                     </div>
                 <footer>
                     <button
@@ -107,26 +109,35 @@ function Login({setState}:any){
 function SignUp({setState}:any){
         const [emailSignUp, setEmailSignUp] = useState("");
     const [passwordSignUp, setPasswordSignUp] = useState("");
-
+    const [confirmPasswordSignUp, setConfirmPasswordSignUp] = useState("");
+    const router = useRouter()
     function changeEmailSignUp(e:any) {
         setEmailSignUp(e.target.value);
     }
     function changePasswordSignUp(e:any) {
         setPasswordSignUp(e.target.value);
     }
-
+    function changeConfirmPasswordSignUp(e:any) {
+        setConfirmPasswordSignUp(e.target.value);
+    }
     function signUp() {
-        createUserWithEmailAndPassword(auth, emailSignUp, passwordSignUp)
-            .then((userCredential) => {
-                swal("Good job!", `Welcome ${userCredential.user.email}!`, "success");
-            })
-            .catch(error => {
-                if (error.code == 'auth/invalid-login-credentials') {
-                    swal("Wrong!", `User Not Found`, "error");
-                } else {
-                    swal("Wrong!", error.message, "error");
-                }
-            });
+        if (passwordSignUp !== confirmPasswordSignUp){
+            swal("Wrong!", `Passwords Don't match`, "error");
+        }else{
+            createUserWithEmailAndPassword(auth, emailSignUp, passwordSignUp)
+                .then((userCredential) => {
+                    swal("Good job!", `Welcome ${userCredential.user.email}!`, "success").then(() => {
+                        router.push('/')
+                    });
+                })
+                .catch(error => {
+                    if (error.code == 'auth/invalid-login-credentials') {
+                        swal("Wrong!", `User Not Found`, "error");
+                    } else {
+                        swal("Wrong!", error.message, "error");
+                    }
+                });
+        }
     }
     return(
         <div className="flex h-screen">
@@ -145,24 +156,12 @@ function SignUp({setState}:any){
                 </header>
                 <div>
                     <label className="block mb-2 text-indigo-500" htmlFor="username">
-                        Name
+                        Email
                     </label>
                     <input
                         className="w-full p-2 mb-6 text-indigo-700 border-b-2 rounded-md border-indigo-500 outline-none focus:bg-gray-300"
                         type="text"
-                        name="username"
-                        placeholder="Name"
-                    />
-                </div>
-                <div>
-                    <label className="block mb-2 text-indigo-500" htmlFor="username">
-                        Username
-                    </label>
-                    <input
-                        className="w-full p-2 mb-6 text-indigo-700 border-b-2 rounded-md border-indigo-500 outline-none focus:bg-gray-300"
-                        type="text"
-                        name="username"
-                        placeholder="Username"
+                        placeholder="example@gmail.com"
                         onChange={changeEmailSignUp}
                     />
                 </div>
@@ -184,16 +183,16 @@ function SignUp({setState}:any){
                     </label>
                     <input
                         className="w-full p-2 mb-6 text-indigo-700 border-b-2 rounded-md border-indigo-500 outline-none focus:bg-gray-300"
-                        type="text"
-                        name="username"
+                        type="password"
                         placeholder="Confirm Password"
+                        onChange={changeConfirmPasswordSignUp}
                     />
                 </div>
                 <div>
-                    <input
+                    <button
                         className="w-full bg-indigo-700 hover:bg-pink-700 text-white font-bold py-2 px-4 mb-6 rounded"
-                        type="submit"
-                    />
+                        onClick={signUp}
+                    >Sign Up</button>
                 </div>
                 <footer>
                     <button

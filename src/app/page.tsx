@@ -10,13 +10,13 @@ import {SetData} from "../../components/Utils/SetData";
 export default function Home() {
 
     return (
-        <div>
+        <body style={{backgroundColor:"#E5E5E5"}}>
             <Provider store={store}>
                 <SetData/>
                 <Header/>
                 <MainPage/>
             </Provider>
             <Footer/>
-        </div>
+        </body>
     )
 }

@@ -6,6 +6,7 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "@firebase/auth";
 import {auth} from "../../firebase/firebase"
 import swal from 'sweetalert';
+import {useRouter} from "next/navigation";
 
 export function AuthDesktop() {
     let [container, setContainer] = useState("container")
@@ -13,6 +14,8 @@ export function AuthDesktop() {
     const [passwordSignUp, setPasswordSignUp] = useState("");
     const [emailLogin, setEmailLogin] = useState("");
     const [passwordLogin, setPasswordLogin] = useState("");
+    const [confirmPasswordSignUp, setConfirmPasswordSignUp] = useState("");
+    const router = useRouter()
     function changeEmailSignUp(e:any) {
         setEmailSignUp(e.target.value);
     }
@@ -25,12 +28,16 @@ export function AuthDesktop() {
     function changePasswordLogin(e:any) {
         setPasswordLogin(e.target.value);
     }
-
+    function changeConfirmPasswordSignUp(e:any) {
+        setConfirmPasswordSignUp(e.target.value);
+    }
     function login(e:any) {
         e.preventDefault();
         signInWithEmailAndPassword(auth, emailLogin, passwordLogin)
             .then((userCredential) => {
-                swal("Good job!", `Welcome ${userCredential.user.email}!`, "success");
+                swal("Good job!", `Welcome ${userCredential.user.email}!`, "success").then(() => {
+                        router.push('/')
+                });
             })
             .catch(error => {
                 if (error.code == 'auth/invalid-login-credentials') {
@@ -42,11 +49,14 @@ export function AuthDesktop() {
     }
 
     function signUp() {
+        if (passwordSignUp !== confirmPasswordSignUp){
+            swal("Wrong!", `Passwords Don't match`, "error");
+        }else{
         createUserWithEmailAndPassword(auth, emailSignUp, passwordSignUp)
             .then((userCredential) => {
-                swal("Good job!", `Welcome ${userCredential.user.email}!`, "success");
-                container = "container"
-                setContainer("container")
+                swal("Good job!", `Welcome ${userCredential.user.email}!`, "success").then(() => {
+                    router.push('/')
+                });
             })
             .catch(error => {
                 if (error.code == 'auth/invalid-login-credentials') {
@@ -55,6 +65,7 @@ export function AuthDesktop() {
                     swal("Wrong!", error.message, "error");
                 }
             });
+        }
     }
 
 
@@ -74,9 +85,10 @@ export function AuthDesktop() {
                             <a href="https://github.com/ariyan-emi" className="social hover:bg-violet-500"><GitHubIcon/></a>
                             <a href="https://webvave.ir/" className="social hover:bg-violet-500"><PublicIcon/></a>
                         </div>
-                        <span>or use your email for registration</span>
-                        <input type="email" placeholder="Email" onChange={changeEmailSignUp}/>
+                        <span>use your email for registration</span>
+                        <input type="email" placeholder="example@gmail.com" onChange={changeEmailSignUp}/>
                         <input type="password" placeholder="Password" onChange={changePasswordSignUp}/>
+                        <input type="password" placeholder="Confirm Password" onChange={changeConfirmPasswordSignUp}/>
                         <button className="mt-3" onClick={signUp}>SignUp</button>
                     </form>
                 </div>
@@ -102,7 +114,7 @@ export function AuthDesktop() {
                     <div className="overlay">
                         <div className="overlay-panel overlay-left">
                             <h1>Welcome Back!</h1>
-                            <p>To keep connected with us please login with your personal info</p>
+                            <p className="mb-3 mt-3">To keep connected with us please login with your personal info</p>
                             <button className="ghost" id="signIn" onClick={() => {
                                 container = "container"
                                 setContainer("container")
@@ -112,7 +124,7 @@ export function AuthDesktop() {
                         </div>
                         <div className="overlay-panel overlay-right">
                             <h1>Hello, Friend!</h1>
-                            <p>Enter your personal details and start journey with us</p>
+                            <p className="mb-3 mt-3">Enter your personal details and start journey with us</p>
                             <button className="ghost" id="signUp" onClick={() => {
                                 container = "container right-panel-active"
                                 setContainer("container right-panel-active")
