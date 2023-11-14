@@ -152,7 +152,9 @@ const [isLoading, setIsLoading]=useState("empty")
                                     <div className="md:hidden">
                                         {shoppingCart.map((data: any, index: number) => {
                                             return (
-                                                <CartItemPhone product={data} index={index}/>
+                                                <div key={index}>
+                                                <CartItemPhone product={data}/>
+                                                </div>
                                             )
                                         })}
                                     </div>
@@ -219,7 +221,7 @@ const [isLoading, setIsLoading]=useState("empty")
     }
 }
 
-function CartItemDesktop({product, index}: any) {
+function CartItemDesktop({product}: any) {
     const [fade, setFade] = useState(false)
     const triggerFade = () => {
         setFade(!fade)
@@ -262,7 +264,7 @@ function CartItemDesktop({product, index}: any) {
     }
 
     return (
-        <tr key={index} data-id={index}
+        <tr
             className={fade ? '' : 'visibleClass'}>
             <td className="py-4">
                 <div className="flex items-center">
@@ -322,7 +324,7 @@ function CartItemDesktop({product, index}: any) {
     )
 }
 
-function CartItemPhone({product, index}: any) {
+function CartItemPhone({product}: any) {
     const [fade, setFade] = useState(false)
     const triggerFade = () => {
         setFade(!fade)
@@ -364,7 +366,7 @@ function CartItemPhone({product, index}: any) {
         dispatch(deleteItemFromCart(id, uid));
     }
     return (
-        <div key={index}
+        <div
              className="flex flex-col md:flex-row border-b border-gray-400 py-4">
             <div className="flex-shrink-0">
                 <img

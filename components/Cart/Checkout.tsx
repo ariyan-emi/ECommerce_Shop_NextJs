@@ -96,7 +96,9 @@ export function Checkout({Component, setComponent}: any) {
                     <div className="mt-8 space-y-3 rounded-lg border bg-gray-100 px-2 py-4 sm:px-6">
                         {shoppingCart.map((data: any, index: number) => {
                             return (
-                                <OneItem product={data} index={index}/>
+                            <div key={index}>
+                                <OneItem product={data}/>
+                            </div>
                             )
                         })}
                     </div>
@@ -280,7 +282,7 @@ export function Checkout({Component, setComponent}: any) {
         </>
     )
 }
-function OneItem({product,index}:any) {
+function OneItem({product}:any) {
     const [fade, setFade] = useState(false)
     const triggerFade = () => {
         setFade(!fade)
@@ -309,7 +311,7 @@ function OneItem({product,index}:any) {
         dispatch(deleteItemFromCart(id, uid));
     }
     return(
-        <div key={index} className={fade ? '' : 'visibleClass'}>
+        <div className={fade ? '' : 'visibleClass'}>
             <div className="flex flex-col rounded-lg bg-gray-100 sm:flex-row">
                 <Link href={`products/${id}`}>
                     <img className="m-2 h-24 w-24"

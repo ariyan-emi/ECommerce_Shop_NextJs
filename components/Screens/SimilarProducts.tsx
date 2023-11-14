@@ -21,7 +21,9 @@ export function SimilarProducts({category, id}: any) {
                          className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 justify-items-center justify-center gap-y-9 gap-x-14 mt-4 mb-5 md:mt-10 md:mb-5">
                     {Object.values(similar).slice(0, 2).map((data: any, index: number) => {
                         return (
-                            <ShowProducts data={data} index={index}/>
+                        <div key={index}>
+                            <ShowProducts data={data}/>
+                        </div>
                         )
                     })}
                 </section>
@@ -29,7 +31,7 @@ export function SimilarProducts({category, id}: any) {
         )
     }
 }
-function ShowProducts({data,index}:any) {
+function ShowProducts({data}:any) {
     let uid: string;
     if (auth.currentUser !== null) {
         uid = auth.currentUser.uid;
@@ -51,9 +53,9 @@ function ShowProducts({data,index}:any) {
 
     return(
         <>
-            <div className="rounded-2xl h-fit" key={index}>
+            <div className="rounded-2xl h-fit">
                 <div className="bg-white h-[300px] mb-3">
-                    <Link href={`/products/${data.id}`} key={index}>
+                    <Link href={`/products/${data.id}`}>
                         <img src={data.image}
                              alt="Product" className="h-72 w-72 rounded-t-xl mb-5"/>
                     </Link>
