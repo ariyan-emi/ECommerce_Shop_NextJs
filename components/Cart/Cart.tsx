@@ -6,12 +6,14 @@ import {Invoice} from "./Invoice";
 import {useSelector} from "react-redux";
 import {SetData} from "../Utils/SetData";
 import {getIsAuth} from "../Redux/slices/isAuthSlice";
-import {useRouter} from "next/navigation";
+import {redirect} from "next/navigation";
 
 export function Cart() {
     let [showComponent,setShowComponent] =useState("cart")
     const isAuth = useSelector(getIsAuth);
-    console.log(isAuth)
+    if (!isAuth){
+        redirect('/auth')
+    }
     return (
 
         <>
