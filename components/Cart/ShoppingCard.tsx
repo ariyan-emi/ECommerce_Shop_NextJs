@@ -141,7 +141,9 @@ const [isLoading, setIsLoading]=useState("empty")
                                             <tbody>
                                             {shoppingCart.map((data: any, index: number) => {
                                                 return (
-                                                    <CartItemDesktop product={data} index={index}/>
+                                                <div key={index}>
+                                                    <CartItemDesktop product={data}/>
+                                                </div>
                                                 )
                                             })}
                                             </tbody>
