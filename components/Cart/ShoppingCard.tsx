@@ -15,6 +15,7 @@ import { auth } from "../../firebase/firebase";
 import {Loading} from "../Screens/Loading";
 import {EmptyCart} from "./EmptyCart";
 
+
 export function ShoppingCard({Component, setComponent}: any) {
 const [isLoading, setIsLoading]=useState("empty")
     // @ts-ignore

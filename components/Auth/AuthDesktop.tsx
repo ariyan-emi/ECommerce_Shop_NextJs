@@ -89,7 +89,7 @@ export function AuthDesktop() {
                         <input type="email" placeholder="example@gmail.com" onChange={changeEmailSignUp}/>
                         <input type="password" placeholder="Password" onChange={changePasswordSignUp}/>
                         <input type="password" placeholder="Confirm Password" onChange={changeConfirmPasswordSignUp}/>
-                        <button className="mt-3" onClick={signUp}>SignUp</button>
+                        <button className="mt-3" onClick={signUp}>Sign Up</button>
                     </form>
                 </div>
                 <div className="form-container sign-in-container">

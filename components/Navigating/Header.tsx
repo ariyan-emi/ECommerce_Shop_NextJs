@@ -11,6 +11,7 @@ import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {BadgeCart} from "./Badge";
 import {getIsAuth} from "../Redux/slices/isAuthSlice";
+import ShoppingBagIcon from "../../assets/icon/minicon/cart.png";
 
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false)
@@ -41,7 +42,15 @@ export default function Header() {
                     US</Link>
             </div>
             <div className="mt-8 md:mx-8 flex-nowrap z-10 flex">
+                {isAuth ? (
                     <BadgeCart/>
+                ) : (
+                    <Link href={'/auth'} className="mx-1">
+                            <Image alt="icon image for Cart page" src={ShoppingBagIcon}
+                                   className="lg:w-10 lg:h-10 w-8 h-8 mr-3 "/>
+                    </Link>
+                )}
+
                 {isAuth ? (
                     <Link href={"/profile"} className="mx-1"><Image alt="icon image for Personal page" src={PersonIcon}
                                                                  className="lg:w-10 lg:h-10 w-8 h-8 mr-3"/></Link>

@@ -1,6 +1,4 @@
 'use client'
-import {useEffect, useState} from "react";
-import axios from "axios";
 import {styled} from '@mui/material/styles';
 import Rating, {IconContainerProps} from '@mui/material/Rating';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
@@ -16,7 +14,19 @@ import Header from "../Navigating/Header";
 import {useDispatch, useSelector} from "react-redux";
 import {UseButton} from "./Button";
 import {ShowAlert} from "../Utils/Utils";
-import {getAllProducts} from "../Redux/slices/productsSlice";
+import {getProductById} from "../Redux/slices/productsSlice";
+import {getIsAuth} from "../Redux/slices/isAuthSlice";
+import {
+    addExtraItemAsync,
+    addToCartAsync,
+    deleteItemFromCart,
+    isItemInCart,
+    minusItemAsync
+} from "../Redux/slices/shoppingCartSlice";
+import {auth} from "../../firebase/firebase";
+import {useRouter} from "next/navigation";
+import swal from "sweetalert";
+import {useEffect, useState} from "react";
 
 const StyledRating = styled(Rating)(({theme}) => ({
     '& .MuiRating-iconEmpty .MuiSvgIcon-root': {
@@ -58,18 +68,13 @@ function IconContainer(props: IconContainerProps) {
 }
 
 export function ProductScreen({id}: any) {
-    let allProducts = useSelector(getAllProducts);
-    let data:any = allProducts[id-1]
-    const [isLoading, setIsLoading] = useState(true);
-    useEffect(() => {
-        if (allProducts.length < 0){
-            setTimeout(() => {
-                setIsLoading(false)
-            }, 1000)
-        }
-
-    }, [id]);
+    const [isLoading,setIsLoading] =useState(true)
+    const product = useSelector(getProductById(id));
+    const isAuth = useSelector(getIsAuth);
+    const isInCart = useSelector(isItemInCart(Number(id)));
+    // @ts-ignore
     const dispatch = useDispatch();
+    const router = useRouter()
     const labels: { [index: string]: string } = {
         1: 'Useless',
         2: 'Poor',
@@ -77,14 +82,78 @@ export function ProductScreen({id}: any) {
         4: 'Good',
         5: 'Excellent',
     };
-    const cart = useSelector((state: any) => state.cart);
-    let indexItem :any;
-if (cart !== null){
-     indexItem = cart.findIndex((object:any) => {
-        return object.id === Number(id);
-    });
-}
-    if (!isLoading || data !== undefined){
+
+    setTimeout(
+        function () {
+            setIsLoading(false)
+        }, 1300);
+    function addToCart() {
+        if (isAuth) {
+            // @ts-ignore
+            dispatch(addToCartAsync(product, auth.currentUser.uid));
+            return;
+        }
+
+        router.push('/auth')
+    }
+
+    let items = 0;
+    // @ts-ignore
+    const {shoppingCart} = useSelector(state => state);
+    let productOnCart = shoppingCart.find((x: any) => x.id === Number(id))
+    if (productOnCart) {
+        items = productOnCart.items
+    }
+    let uid: string;
+    if (auth.currentUser !== null) {
+        uid = auth.currentUser.uid;
+    }
+
+    // @ts-ignore
+
+    function showHideDeleteConfirmation() {
+        swal({
+            title: "Are you sure?",
+            text: "Would you like to delete your shopping cart!",
+            icon: "warning",
+            buttons: ["Cancel", "Ok"],
+            dangerMode: true,
+            closeOnClickOutside: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    deleteItem()
+                }
+            });
+    }
+
+    function deleteItem() {
+        // @ts-ignore
+        dispatch(deleteItemFromCart(id, uid));
+    }
+    if (!product) {
+        return undefined
+    }
+
+    const {category, description, image, price, rating, title} = product;
+    const productId = product.id
+
+
+
+    function minusOneItem() {
+        if (items === 1) {
+            showHideDeleteConfirmation();
+            return;
+        }
+        // @ts-ignore
+        dispatch(minusItemAsync(productId, uid));
+    }
+
+    function addOneItem() {
+        // @ts-ignore
+        dispatch(addExtraItemAsync(productId, uid));
+    }
+    if (!isLoading) {
         return (
             <>
                 <Header/>
@@ -95,8 +164,8 @@ if (cart !== null){
                                 <div
                                     className="h-[400px] md:h-[700px] bg-gray-300 dark:bg-gray-700 mb-4 border rounded-3xl">
                                     <img className="w-full h-full rounded-3xl"
-                                         src={data.image}
-                                         alt={`${data.title} Image`}
+                                         src={image}
+                                         alt={`${title} Image`}
                                          width={'100%'}
                                          height={'100%'}
                                     />
@@ -104,30 +173,35 @@ if (cart !== null){
                                 <div className="flex -mx-2 mb-5">
                                     <div className="w-full px-2">
                                         {(() => {
-                                            if (indexItem == -1) {
-                                                return (
-                                                    <UseButton className={"w-full bg-violet-700 hover:bg-violet-900 text-white py-2 px-4 rounded-2xl font-bold"} display={'Add to Cart'} onClick={() =>{
-                                                        // dispatch(addToCart({data: data}))
-                                                        ShowAlert('An Amazing Choice!',"Product successfully added to the cart","success")
-                                                    }} disable={false}/>
-                                                )
+                                            if (!isInCart) {
+                                                if (isAuth) {
+                                                    return (
+                                                        <UseButton
+                                                            className={"w-full bg-violet-700 hover:bg-violet-900 text-white py-2 px-4 rounded-2xl font-bold"}
+                                                            display={'Add to Cart'} onClick={() => {
+                                                            addToCart()
+                                                            ShowAlert('An Amazing Choice!', "Product successfully added to the cart", "success")
+                                                        }} disable={false}/>
+                                                    )
+                                                } else {
+                                                    return (
+                                                        <UseButton
+                                                            className={"w-full bg-violet-700 hover:bg-violet-900 text-white py-2 px-4 rounded-2xl font-bold"}
+                                                            display={'Login'} onClick={() => {
+                                                            router.push('/auth')
+                                                        }} disable={false}/>
+                                                    )
+                                                }
                                             } else {
                                                 return (
                                                     <div className="flex items-center justify-center w-full">
-                                                        <button onClick={() => {
-                                                            // dispatch(CounterSubtract({action: indexItem}))
-                                                        }}
+                                                        <button onClick={minusOneItem}
                                                                 className="border text-xl font-bold text-white rounded-xl w-1/3 bg-violet-700 hover:bg-violet-900 py-2 px-4 mr-2">-
                                                         </button>
-                                                        <span className="text-center my-auto w-1/4 text-xl font-bold">{(() => {
-                                                            return (
-                                                                cart[indexItem].count
-                                                            )
-                                                        })()}</span>
+                                                        <span
+                                                            className="text-center my-auto w-1/4 text-xl font-bold">{items}</span>
                                                         <button
-                                                            onClick={() => {
-                                                                // dispatch(CounterPlus({action: indexItem}))
-                                                            }}
+                                                            onClick={addOneItem}
                                                             className="border text-xl font-bold text-white rounded-xl w-1/3 bg-violet-700 hover:bg-violet-900 py-2 px-4 ml-2">+
                                                         </button>
                                                     </div>
@@ -139,17 +213,17 @@ if (cart !== null){
                                 </div>
                             </div>
                             <div className="md:flex-1 px-4">
-                                <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">{data.title}</h2>
+                                <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">{title}</h2>
                                 <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 uppercase">
-                                    {data.category}
+                                    {category}
                                 </p>
                                 <div className="flex mb-5">
                                     <div className="mr-4">
                                         <span className="font-bold text-gray-700 dark:text-gray-300">Price: </span>
                                         <span className="text-gray-600 dark:text-gray-300">{(() => {
-                                            if (data.price !== undefined) {
+                                            if (price !== undefined) {
                                                 return (
-                                                    data.price.toFixed(2)
+                                                    price.toFixed(2)
                                                 )
                                             } else {
                                                 return "Undefined"
@@ -157,7 +231,8 @@ if (cart !== null){
                                         })()}</span>
                                     </div>
                                     <div>
-                                        <span className="font-bold text-gray-700 dark:text-gray-300">Availability: </span>
+                                        <span
+                                            className="font-bold text-gray-700 dark:text-gray-300">Availability: </span>
                                         <span className="text-gray-600 dark:text-gray-300">In Stock</span>
                                     </div>
                                 </div>
@@ -165,9 +240,9 @@ if (cart !== null){
                                     <StyledRating
                                         name="highlight-selected-only"
                                         value={(() => {
-                                            if (data.rating !== undefined) {
+                                            if (rating !== undefined) {
                                                 return (
-                                                    data.rating.rate.toFixed(0)
+                                                    rating.rate.toFixed(0)
                                                 )
                                             } else {
                                                 return 1
@@ -178,11 +253,12 @@ if (cart !== null){
                                         highlightSelectedOnly
                                         readOnly
                                     />
-                                    <span className="py-1 my-auto font-bold text-black text-xl"><ArrowForwardIcon/></span>
+                                    <span
+                                        className="py-1 my-auto font-bold text-black text-xl"><ArrowForwardIcon/></span>
                                     <span className="pt-1 my-auto font-bold text-black text-xl">{labels[(() => {
-                                        if (data.rating !== undefined) {
+                                        if (rating !== undefined) {
                                             return (
-                                                data.rating.rate.toFixed(0)
+                                                rating.rate.toFixed(0)
                                             )
                                         } else {
                                             return 1
@@ -192,13 +268,13 @@ if (cart !== null){
                                 <div className="mb-5">
                                     <span className="font-bold text-gray-800">Product Description:</span>
                                     <p className="text-gray-700 text-md mt-2">
-                                        {data.description}
+                                        {description}
                                     </p>
                                 </div>
                                 <div className="mb-5">
                                     <span className="font-bold text-gray-800">Similar Products</span>
-                                    <Divider />
-                                    <SimilarProducts category={data.category} id={id}/>
+                                    <Divider/>
+                                    <SimilarProducts category={category} id={id}/>
                                 </div>
                             </div>
                         </div>
@@ -206,7 +282,7 @@ if (cart !== null){
                 </div>
             </>
         )
-    }else{
+    } else {
         return (
             <Loading/>
         )

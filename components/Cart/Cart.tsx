@@ -4,14 +4,23 @@ import {useState} from "react";
 import {ShoppingCard} from "./ShoppingCard";
 import {Checkout} from "./Checkout";
 import {Invoice} from "./Invoice";
-import {Provider} from "react-redux";
+import {Provider, useSelector} from "react-redux";
 import store from "../Redux/store";
 import {SetData} from "../Utils/SetData";
+import {getIsAuth} from "../Redux/slices/isAuthSlice";
+import {useRouter} from "next/navigation";
+
+
 
 export function Cart() {
     let [showComponent,setShowComponent] =useState("cart")
+    const isAuth = useSelector(getIsAuth);
+    const router = useRouter()
+    if (!isAuth){
+        router.push('/auth')
+    }
     return (
-        <Provider store={store}>
+
         <>
             <SetData/>
             {(() => {
@@ -57,6 +66,6 @@ export function Cart() {
                 }
               }`}</style>
         </>
-        </Provider>
+
     )
 }

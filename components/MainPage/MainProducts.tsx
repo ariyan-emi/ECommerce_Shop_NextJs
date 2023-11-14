@@ -12,26 +12,25 @@ import {Loading, Network} from "./ProductsBug";
 import {getAllProducts} from "../Redux/slices/productsSlice";
 import {addToCartAsync, isItemInCart} from "../Redux/slices/shoppingCartSlice";
 import {auth} from "../../firebase/firebase";
-import {redirect} from "next/navigation";
+import {useRouter} from "next/navigation";
 import Tick from '../../assets/icon/minicon/tick.svg';
 import {getIsAuth} from "../Redux/slices/isAuthSlice";
 import Image from "next/image";
-
+import LoginIcon from '@mui/icons-material/Login';
+import {signInWithEmailAndPassword} from "@firebase/auth";
+import swal from "sweetalert";
 function GrowTransition(props: GrowProps) {
     return <Grow {...props} />;
 }
 
 export function MainProducts({Category}: any) {
-    let data = useSelector(getAllProducts);
-    const [isLoading, setIsLoading] = useState("true");
+
+    let data = useSelector(getAllProducts)
+
+    const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
         if (data.length !== 0) {
-            setIsLoading("false")
-        } else {
-            setTimeout(
-                function () {
-                    setIsLoading("network")
-                }, 3800);
+            setIsLoading(false)
         }
     }, [isLoading]);
     if (Category == "men") {
@@ -41,7 +40,7 @@ export function MainProducts({Category}: any) {
     } else if (Category == "jewelery") {
         data = data.filter((item: any) => item['category'] == "jewelery");
     }
-    if (isLoading == "false") {
+    if (!isLoading) {
         return (
             <>
                 <section id="Projects"
@@ -54,10 +53,8 @@ export function MainProducts({Category}: any) {
                 </section>
             </>
         )
-    } else if (isLoading == "true") {
+    } else{
         return <Loading/>
-    } else {
-        return <Network/>
     }
 
 }
@@ -92,8 +89,9 @@ function OneProduct({product, key}:any) {
     const isAuth = useSelector(getIsAuth);
     const isInCart = useSelector(isItemInCart(id));
     const dispatch = useDispatch();
+    const router = useRouter()
     function goToShoppingCartPage() {
-        redirect('/cart')
+        router.push('/cart')
     }
 
     function addToShoppingCart() {
@@ -133,18 +131,27 @@ function OneProduct({product, key}:any) {
                                                diable={false}
                                     />
                                 ) : (
-                                    <UseButton className="hover:text-violet-950"
-                                               display={<svg xmlns="http://www.w3.org/2000/svg"
-                                                             fill="currentColor"
-                                                             className="font-bold w-8 h-8 hover:w-10 hover:h-10 bi bi-bag-plus"
-                                                             viewBox="0 0 16 16">
-                                                   <path fillRule="evenodd"
-                                                         d="M8 7.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0v-1.5H6a.5.5 0 0 1 0-1h1.5V8a.5.5 0 0 1 .5-.5z"/>
-                                                   <path
-                                                       d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
-                                               </svg>} onClick={(e: any) => {
-                                        addToShoppingCart()
-                                    }} diable={false}/>
+                                    <>
+                                        {!isAuth ? (
+                                            <UseButton className="hover:text-violet-950"
+                                                       display={<Link href={"/auth"}><LoginIcon className="font-bold w-8 h-8 hover:w-10 hover:h-10 bi bi-bag-plus"/></Link>}
+                                                       diable={false}
+                                            />
+                                        ) : (
+                                            <UseButton className="hover:text-violet-950"
+                                                       display={<svg xmlns="http://www.w3.org/2000/svg"
+                                                                     fill="currentColor"
+                                                                     className="font-bold w-8 h-8 hover:w-10 hover:h-10 bi bi-bag-plus"
+                                                                     viewBox="0 0 16 16">
+                                                           <path fillRule="evenodd"
+                                                                 d="M8 7.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0v-1.5H6a.5.5 0 0 1 0-1h1.5V8a.5.5 0 0 1 .5-.5z"/>
+                                                           <path
+                                                               d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
+                                                       </svg>} onClick={(e: any) => {
+                                                addToShoppingCart()
+                                            }} diable={false}/>
+                                        )}
+                                    </>
                                 )}
                             </Button>
                         </div>
