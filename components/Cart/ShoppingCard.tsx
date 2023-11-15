@@ -60,7 +60,10 @@ const [isLoading, setIsLoading]=useState("empty")
                 }
             });
     }
-
+    const [fade, setFade] = useState(false)
+    const triggerFade = () => {
+        setFade(!fade)
+    }
     if (isLoading == "false") {
         return (
             <>
@@ -141,9 +144,9 @@ const [isLoading, setIsLoading]=useState("empty")
                                             <tbody>
                                             {shoppingCart.map((data: any, index: number) => {
                                                 return (
-                                                <div key={index}>
-                                                    <CartItemDesktop product={data}/>
-                                                </div>
+                                                    <tr className={fade ? '' : 'visibleClass'} key={index}>
+                                                    <CartItemDesktop product={data} fade={triggerFade}/>
+                                                    </tr>
                                                 )
                                             })}
                                             </tbody>
@@ -223,11 +226,7 @@ const [isLoading, setIsLoading]=useState("empty")
     }
 }
 
-function CartItemDesktop({product}: any) {
-    const [fade, setFade] = useState(false)
-    const triggerFade = () => {
-        setFade(!fade)
-    }
+function CartItemDesktop({product,fade}: any) {
     const {image, totalPrice, id, items, title, price} = product;
     // @ts-ignore
     const uid = auth.currentUser.uid;
@@ -266,8 +265,7 @@ function CartItemDesktop({product}: any) {
     }
 
     return (
-        <tr
-            className={fade ? '' : 'visibleClass'}>
+        <>
             <td className="py-4">
                 <div className="flex items-center">
                     <img className="h-16 w-16 mr-4"
@@ -317,12 +315,12 @@ function CartItemDesktop({product}: any) {
                     style={{width: "40px", height: "40px"}}
                     className="text-red-800 hover:text-black"
                     onClick={() => {
-                        triggerFade()
+                        fade()
                         deleteItem()
                     }}
                 />
             </td>
-        </tr>
+        </>
     )
 }
 
