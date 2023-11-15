@@ -8,7 +8,7 @@ import {TransitionProps} from "@mui/material/transitions";
 import {useDispatch, useSelector} from "react-redux";
 import {ShowAlert} from "../Utils/Utils";
 import {UseButton} from "../Screens/Button";
-import {Loading, Network} from "./ProductsBug";
+import {Loading} from "./ProductsBug";
 import {getAllProducts} from "../Redux/slices/productsSlice";
 import {addToCartAsync, isItemInCart} from "../Redux/slices/shoppingCartSlice";
 import {auth} from "../../firebase/firebase";
@@ -17,8 +17,6 @@ import Tick from '../../assets/icon/minicon/tick.svg';
 import {getIsAuth} from "../Redux/slices/isAuthSlice";
 import Image from "next/image";
 import LoginIcon from '@mui/icons-material/Login';
-import {signInWithEmailAndPassword} from "@firebase/auth";
-import swal from "sweetalert";
 function GrowTransition(props: GrowProps) {
     return <Grow {...props} />;
 }
@@ -26,13 +24,12 @@ function GrowTransition(props: GrowProps) {
 export function MainProducts({Category}: any) {
 
     let data = useSelector(getAllProducts)
-
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
         if (data.length !== 0) {
             setIsLoading(false)
         }
-    }, [isLoading]);
+    }, [data]);
     if (Category == "men") {
         data = data.filter((item: any) => item['category'] == "men");
     } else if (Category == "women") {
