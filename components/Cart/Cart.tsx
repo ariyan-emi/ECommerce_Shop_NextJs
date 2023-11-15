@@ -3,17 +3,9 @@ import {useState} from "react";
 import {ShoppingCard} from "./ShoppingCard";
 import {Checkout} from "./Checkout";
 import {Invoice} from "./Invoice";
-import {useSelector} from "react-redux";
 import {SetData} from "../Utils/SetData";
-import {getIsAuth} from "../Redux/slices/isAuthSlice";
-import {redirect} from "next/navigation";
-
 export function Cart() {
     let [showComponent,setShowComponent] =useState("cart")
-    const isAuth = useSelector(getIsAuth);
-    if (!isAuth){
-        redirect('/auth')
-    }
     return (
 
         <>
