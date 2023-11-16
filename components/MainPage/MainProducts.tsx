@@ -109,7 +109,7 @@ function OneProduct({product, key}:any) {
             <Link href={`products/${id}`}>
                 <img
                     src={image}
-                    alt="Product" className="h-80 w-72 rounded-t-xl"/>
+                    alt={`Image of ${title}`} className="h-80 w-72 rounded-t-xl"/>
             </Link>
                 <div className="px-4 py-3 w-72">
                     <span className="text-gray-400 mr-3 uppercase text-xs">{category}</span>

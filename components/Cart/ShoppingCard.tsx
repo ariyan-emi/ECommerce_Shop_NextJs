@@ -275,9 +275,15 @@ function CartItemDesktop({product,fade}: any) {
                         className="font-semibold overflow-hidden text-ellipsis w-24  sm:w-full ">
                                                                 {(() => {
                                                                     if (title !== undefined) {
-                                                                        return (
-                                                                            title.substring(0, 32) + "..."
-                                                                        )
+                                                                        if (title.length > 32){
+                                                                            return (
+                                                                                title.substring(0, 32) + "..."
+                                                                            )
+                                                                        }else{
+                                                                            return (
+                                                                                title
+                                                                            )
+                                                                        }
                                                                     }
                                                                 })()}
                                                             </span>

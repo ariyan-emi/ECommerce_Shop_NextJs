@@ -34,11 +34,11 @@ export default function Header() {
                 </a>
             </div>
             <div className="hidden md:flex mx-8 mt-8 justify-center align-middle z-10">
-                <Link href=""
+                <Link href={"/products"}
                       className="mx-5 hover:border-t-2 border-solid border-violet-700 hover:border-0">Products</Link>
-                <Link href="" className="mx-5 hover:border-t-2 border-solid border-violet-700 hover:border-0">About
+                <Link href={"/about"} className="mx-5 hover:border-t-2 border-solid border-violet-700 hover:border-0">About
                     Us</Link>
-                <Link href="" className="mx-5 hover:border-t-2 border-solid border-violet-700 hover:border-0">Contact
+                <Link href={"/contact"} className="mx-5 hover:border-t-2 border-solid border-violet-700 hover:border-0">Contact
                     US</Link>
             </div>
             <div className="mt-8 md:mx-8 flex-nowrap z-10 flex">
