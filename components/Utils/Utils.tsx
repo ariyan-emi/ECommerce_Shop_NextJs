@@ -1,7 +1,5 @@
 'use client'
 import swal from 'sweetalert';
-import { useState, useEffect } from 'react';
-
 export const wait = (time:any) => new Promise(resolve => setTimeout(resolve, time));
 
 export function GetTaxes() {

@@ -22,6 +22,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Slider from '@mui/material/Slider';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import ExploreIcon from '@mui/icons-material/Explore';
 import { SelectChangeEvent } from '@mui/material/Select';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
@@ -37,6 +38,7 @@ import Link from "next/link";
 export function ProductsPage() {
     let data = useSelector(getAllProducts)
     const [isLoading, setIsLoading] = useState(true);
+    const [search, setSearch] = React.useState('');
     const [category, setCategory] = useState("all")
     useEffect(() => {
         if (data.length !== 0) {
@@ -50,13 +52,24 @@ export function ProductsPage() {
     } else if (category == "jewelery") {
         data = data.filter((item: any) => item['category'] == "jewelery");
     }
+
+    const containsKeyword = (val:any) => typeof val === "string" && val.indexOf(search.toLowerCase()) !== -1;
+    const dataLowerCased = data.map((item:any) => ({
+        ...item,
+        title: item.title.toLowerCase()
+    }))
+    data = dataLowerCased.filter((entry:any) => Object.keys(entry).map(key => entry['title']).some(containsKeyword));
+    function changeCategory(Category: string) {
+        setCategory(Category)
+    }
+
     if (!isLoading) {
         return (
             <>
                 <div className="flex flex-wrap">
                     <div className="p-5 flex-[25%] hidden justify-center text-center items-center align-middle xl:flex md:h-screen">
                         <div className="w-full h-5/6 rounded-2xl">
-                           <FilterItems/>
+                           <FilterItems setSearch={setSearch} changeCategory={changeCategory}/>
                         </div>
                     </div>
                     <div className="p-5 flex-[75%]">
@@ -85,27 +98,33 @@ function Products({Product}: any) {
         [index: string]: {
             icon: React.ReactElement;
             label: string;
+            color: string;
         };
     } = {
         1: {
             icon: <SentimentVeryDissatisfiedIcon color="error" fontSize="inherit" style={{width: 30, height: 30}}/>,
-            label: 'Very Dissatisfied'
+            label: 'Very Dissatisfied',
+            color: '#ff0000'
         },
         2: {
             icon: <SentimentDissatisfiedIcon color="error" fontSize="inherit" style={{width: 30, height: 30}}/>,
-            label: 'Dissatisfied'
+            label: 'Dissatisfied',
+            color: '#ffa700'
         },
         3: {
             icon: <SentimentSatisfiedIcon color="warning" fontSize="inherit" style={{width: 30, height: 30}}/>,
-            label: 'Neutral'
+            label: 'Neutral',
+            color: '#fff400'
         },
         4: {
             icon: <SentimentSatisfiedAltIcon color="success" fontSize="inherit" style={{width: 30, height: 30}}/>,
-            label: 'Satisfied'
+            label: 'Satisfied',
+            color: '#a3ff00'
         },
         5: {
             icon: <SentimentVerySatisfiedIcon color="success" fontSize="inherit" style={{width: 25, height: 25}}/>,
-            label: 'Very Satisfied'
+            label: 'Very Satisfied',
+            color: '#2cba00'
         },
     };
     return (
@@ -138,7 +157,7 @@ function Products({Product}: any) {
                     <div className="stats mt-2">
                         <div className="flex justify-between p-price">
                             <Rating name="half-rating-read" defaultValue={rating.rate} precision={0.5} readOnly />
-                            <p>{rating.rate}</p>
+                            <p style={{padding:2,borderRadius:5,backgroundColor:customIcons[Math.round(rating.rate)].color}}>{rating.rate.toFixed(1)}</p>
                         </div>
                     </div>
                     <div className="flex justify-between total font-bold mt-4">
@@ -150,8 +169,7 @@ function Products({Product}: any) {
     )
 }
 
-function FilterItems() {
-    const [search, setSearch] = React.useState('');
+function FilterItems({changeCategory,setSearch}:any) {
     const [open, setOpen] = React.useState(false);
     const [openSort, setOpenSort] = React.useState(true);
     const [openRate, setOpenRate] = React.useState(false);
@@ -196,6 +214,7 @@ function FilterItems() {
         setSearch(event.target.value as string);
     };
 
+
     return(
         <>
             <List
@@ -209,16 +228,6 @@ function FilterItems() {
                         <input type="text" name="q"
                                className="w-full p-3 rounded-md rounded-r-none border-2 border-gray-300 placeholder-current dark:bg-gray-500  dark:text-gray-300 dark:border-none "
                                placeholder="Search..." onChange={handleChangeSearch}/>
-                        <button
-                            className="inline-flex items-center gap-2 bg-violet-700 text-white text-lg font-semibold py-3 px-6 rounded-r-md">
-                            <span>Find</span>
-                            <svg className="text-gray-200 h-5 w-5 p-0 fill-current" xmlns="http://www.w3.org/2000/svg"
-                                 version="1.1" x="0px" y="0px"
-                                 viewBox="0 0 56.966 56.966">
-                                <path
-                                    d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
-                            </svg>
-                        </button>
                     </div>
                 </div>
             </List>
@@ -228,23 +237,29 @@ function FilterItems() {
                 aria-labelledby="nested-list-subheader"
             >
                 <h1 className="text-left text-gray-500">Category</h1>
-                <ListItemButton>
+                <ListItemButton onClick={()=>changeCategory('all')}>
+                    <ListItemIcon>
+                        <ExploreIcon fontSize='large' />
+                    </ListItemIcon>
+                    <ListItemText primary="All Items" />
+                </ListItemButton>
+                <ListItemButton onClick={()=>changeCategory('jewelery')}>
+                    <ListItemIcon>
+                        <DiamondIcon fontSize='large' />
+                    </ListItemIcon>
+                    <ListItemText primary="Accessories" />
+                </ListItemButton>
+                <ListItemButton onClick={()=>changeCategory('men')}>
                     <ListItemIcon>
                         <ManIcon fontSize='large' />
                     </ListItemIcon>
                     <ListItemText primary="Men" />
                 </ListItemButton>
-                <ListItemButton>
+                <ListItemButton onClick={()=>changeCategory('women')}>
                     <ListItemIcon>
                         <WomanIcon fontSize='large' />
                     </ListItemIcon>
                     <ListItemText primary="Women" />
-                </ListItemButton>
-                <ListItemButton>
-                    <ListItemIcon>
-                        <DiamondIcon fontSize='large' />
-                    </ListItemIcon>
-                    <ListItemText primary="Accessories" />
                 </ListItemButton>
             </List>
             <List
@@ -263,7 +278,7 @@ function FilterItems() {
                             <SortIcon />
                         </Avatar>
                     </ListItemAvatar>
-                    <ListItemText primary="Price"/>
+                    <ListItemText primary="Sort By"/>
                     {openSort ? <ExpandLess /> : <ExpandMore />}
                 </ListItemButton>
                 <Collapse in={openSort} timeout="auto" unmountOnExit>
