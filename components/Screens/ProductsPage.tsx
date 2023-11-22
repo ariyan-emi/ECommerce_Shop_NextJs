@@ -3,6 +3,8 @@ import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {getAllProducts} from "../Redux/slices/productsSlice";
 import {Loading} from "./Loading";
+import AssistantIcon from '@mui/icons-material/Assistant';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
 import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
@@ -10,7 +12,6 @@ import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt
 import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
 import SavingsIcon from '@mui/icons-material/Savings';
 import PaidIcon from '@mui/icons-material/Paid';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import SellIcon from '@mui/icons-material/Sell';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import SortIcon from '@mui/icons-material/Sort';
@@ -23,7 +24,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Slider from '@mui/material/Slider';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import ExploreIcon from '@mui/icons-material/Explore';
-import { SelectChangeEvent } from '@mui/material/Select';
+import {SelectChangeEvent} from '@mui/material/Select';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -39,12 +40,19 @@ export function ProductsPage() {
     let data = useSelector(getAllProducts)
     const [isLoading, setIsLoading] = useState(true);
     const [search, setSearch] = React.useState('');
-    const [category, setCategory] = useState("all")
+    const [category, setCategory] = useState("default")
+    const [sort, setSort] = useState("oldest")
     useEffect(() => {
         if (data.length !== 0) {
             setIsLoading(false)
         }
     }, [data]);
+
+    // Category
+    function changeCategory(Category: string) {
+        setCategory(Category)
+    }
+
     if (category == "men") {
         data = data.filter((item: any) => item['category'] == "men");
     } else if (category == "women") {
@@ -53,34 +61,55 @@ export function ProductsPage() {
         data = data.filter((item: any) => item['category'] == "jewelery");
     }
 
-    const containsKeyword = (val:any) => typeof val === "string" && val.indexOf(search.toLowerCase()) !== -1;
-    const dataLowerCased = data.map((item:any) => ({
+
+    // Search
+    const containsKeyword = (val: any) => typeof val === "string" && val.indexOf(search.toLowerCase()) !== -1;
+    const dataLowerCased = data.map((item: any) => ({
         ...item,
         title: item.title.toLowerCase()
     }))
-    data = dataLowerCased.filter((entry:any) => Object.keys(entry).map(key => entry['title']).some(containsKeyword));
-    function changeCategory(Category: string) {
-        setCategory(Category)
+    data = dataLowerCased.filter((entry: any) => Object.keys(entry).map(key => entry['title']).some(containsKeyword));
+
+
+    // Sort
+    function changeSort(sort: string) {
+        setSort(sort)
+    }
+    if (sort == "oldest"){
+        data
+    }
+    else if (sort == "newest") {
+        data.sort((a: any, b: any) => Number(b.id) - Number(a.id))
+    } else if (sort == "expensive") {
+        data.sort((a: any, b: any) => Number(b.price) - Number(a.price));
+    } else if (sort == "cheapest") {
+        data.sort((a: any, b: any) => Number(a.price) - Number(b.price))
+    } else if (sort == "disliked") {
+        data.sort((a: any, b: any) => Number(a.rating.rate) - Number(b.rating.rate))
+    } else if (sort == "liked") {
+        data.sort((a: any, b: any) => Number(b.rating.rate) - Number(a.rating.rate));
     }
 
+    console.log(data)
     if (!isLoading) {
         return (
             <>
                 <div className="flex flex-wrap">
-                    <div className="p-5 flex-[25%] hidden justify-center text-center items-center align-middle xl:flex md:h-screen">
+                    <div
+                        className="p-5 flex-[25%] hidden justify-center text-center items-center align-middle xl:flex md:h-screen">
                         <div className="w-full h-5/6 rounded-2xl">
-                           <FilterItems setSearch={setSearch} changeCategory={changeCategory}/>
+                            <FilterItems changeSort={changeSort} sort={sort} category={category} setSearch={setSearch} changeCategory={changeCategory}/>
                         </div>
                     </div>
                     <div className="p-5 flex-[75%]">
                         <div className="flex flex-wrap justify-center">
-                        {data.map((data: any, index: number) => {
-                            return (
-                                <div key={index}>
-                                    <Products Product={data}/>
-                                </div>
-                            );
-                        })}
+                            {data.map((data: any, index: number) => {
+                                return (
+                                    <div key={index}>
+                                        <Products Product={data}/>
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
                 </div>
@@ -130,50 +159,56 @@ function Products({Product}: any) {
     return (
         <>
             <Link href={`products/${id}`}>
-            <div className="flex justify-center container mx-auto sm:px-4 mt-5 w-auto">
-                <div className="relative flex flex-col min-w-0 break-words border bg-white border-1 border-gray-300 p-6 rounded-2xl">
-                    {customIcons[Math.round(rating.rate)].icon}
-                    <div className="about-product text-center mt-2">
-                        <img
-                            src={image}
-                            alt={`Image of ${title}`} className="h-72 w-64"/>
-                        <div>
-                            <h6 className="mt-2 font-bold">{(() => {
-                                if (title !== undefined) {
-                                   if (title.length > 30){
-                                       return (
-                                           title.substring(0, 30) + "..."
-                                       )
-                                   }else{
-                                       return (
-                                           title
-                                       )
-                                   }
-                                }
-                            })()}</h6>
-                            <h4 className="uppercase">{category}</h4>
+                <div className="flex justify-center container mx-auto sm:px-4 mt-5 w-auto relative group transition hover:scale-105 hover:-rotate-1 max-w-sm">
+                    <div
+                        className="relative flex flex-col min-w-0 break-words border bg-white border-1 border-gray-300 p-6 rounded-2xl">
+                        {customIcons[Math.round(rating.rate)].icon}
+                        <div className="about-product text-center mt-2">
+                            <img
+                                src={image}
+                                alt={`Image of ${title}`} className="h-72 w-64"/>
+                            <div>
+                                <h6 className="mt-2 font-bold">{(() => {
+                                    if (title !== undefined) {
+                                        if (title.length > 30) {
+                                            return (
+                                                title.substring(0, 30) + "..."
+                                            )
+                                        } else {
+                                            return (
+                                                title
+                                            )
+                                        }
+                                    }
+                                })()}</h6>
+                                <h4 className="uppercase">{category}</h4>
+                            </div>
                         </div>
-                    </div>
-                    <div className="stats mt-2">
-                        <div className="flex justify-between p-price">
-                            <Rating name="half-rating-read" defaultValue={rating.rate} precision={0.5} readOnly />
-                            <p style={{padding:2,borderRadius:5,backgroundColor:customIcons[Math.round(rating.rate)].color}}>{rating.rate.toFixed(1)}</p>
+                        <div className="stats mt-2">
+                            <div className="flex justify-between p-price">
+                                <Rating name="half-rating-read" defaultValue={rating.rate} precision={0.5} readOnly/>
+                                <p style={{
+                                    padding: 2,
+                                    borderRadius: 5,
+                                    backgroundColor: customIcons[Math.round(rating.rate)].color
+                                }}>{rating.rate.toFixed(1)}</p>
+                            </div>
                         </div>
+                        <div className="flex justify-between total font-bold mt-4">
+                            <span>Price</span><span>${price.toFixed(2)}</span></div>
                     </div>
-                    <div className="flex justify-between total font-bold mt-4">
-                        <span>Price</span><span>${price}</span></div>
                 </div>
-            </div>
             </Link>
         </>
     )
 }
 
-function FilterItems({changeCategory,setSearch}:any) {
+function FilterItems({changeSort,sort ,category, changeCategory, setSearch}: any) {
     const [open, setOpen] = React.useState(false);
     const [openSort, setOpenSort] = React.useState(true);
     const [openRate, setOpenRate] = React.useState(false);
-    const [value2, setValue2] = React.useState<number[]>([1,700 ]);
+    const [value2, setValue2] = React.useState<number[]>([1, 700]);
+
     function valuetext(value: number) {
         return `${value}°C`;
     }
@@ -215,10 +250,10 @@ function FilterItems({changeCategory,setSearch}:any) {
     };
 
 
-    return(
+    return (
         <>
             <List
-                sx={{ width: '100%', padding:'10px',borderRadius:3, bgcolor: 'background.paper' }}
+                sx={{width: '100%', padding: '10px', borderRadius: 3, bgcolor: 'background.paper'}}
                 component="nav"
                 aria-labelledby="nested-list-subheader"
             >
@@ -232,42 +267,42 @@ function FilterItems({changeCategory,setSearch}:any) {
                 </div>
             </List>
             <List
-                sx={{ width: '100%', padding:'10px',marginY:5,borderRadius:3, bgcolor: 'background.paper' }}
+                sx={{width: '100%', padding: '10px', marginY: 5, borderRadius: 3, bgcolor: 'background.paper'}}
                 component="nav"
                 aria-labelledby="nested-list-subheader"
             >
                 <h1 className="text-left text-gray-500">Category</h1>
-                <ListItemButton onClick={()=>changeCategory('all')}>
+                <ListItemButton sx={{bgcolor:category ==="default"?'rgba(138,135,135,0.35)':'',borderRadius:'5px'}} onClick={() => changeCategory('default')}>
                     <ListItemIcon>
-                        <ExploreIcon fontSize='large' />
+                        <ExploreIcon fontSize='large'/>
                     </ListItemIcon>
-                    <ListItemText primary="All Items" />
+                    <ListItemText primary="All Items"/>
                 </ListItemButton>
-                <ListItemButton onClick={()=>changeCategory('jewelery')}>
+                <ListItemButton sx={{bgcolor:category ==="jewelery"?'rgba(138,135,135,0.35)':'',borderRadius:'5px'}} onClick={() => changeCategory('jewelery')}>
                     <ListItemIcon>
-                        <DiamondIcon fontSize='large' />
+                        <DiamondIcon fontSize='large'/>
                     </ListItemIcon>
-                    <ListItemText primary="Accessories" />
+                    <ListItemText primary="Accessories"/>
                 </ListItemButton>
-                <ListItemButton onClick={()=>changeCategory('men')}>
+                <ListItemButton sx={{bgcolor:category ==="men"?'rgba(138,135,135,0.35)':'',borderRadius:'5px'}} onClick={() => changeCategory('men')}>
                     <ListItemIcon>
-                        <ManIcon fontSize='large' />
+                        <ManIcon fontSize='large'/>
                     </ListItemIcon>
-                    <ListItemText primary="Men" />
+                    <ListItemText primary="Men"/>
                 </ListItemButton>
-                <ListItemButton onClick={()=>changeCategory('women')}>
+                <ListItemButton sx={{bgcolor:category ==="women"?'rgba(138,135,135,0.35)':'',borderRadius:'5px'}} onClick={() => changeCategory('women')}>
                     <ListItemIcon>
-                        <WomanIcon fontSize='large' />
+                        <WomanIcon fontSize='large'/>
                     </ListItemIcon>
-                    <ListItemText primary="Women" />
+                    <ListItemText primary="Women"/>
                 </ListItemButton>
             </List>
             <List
                 sx={{
-                    padding:'10px',
-                    marginY:5,
+                    padding: '10px',
+                    marginY: 5,
                     width: '100%',
-                    borderRadius:3,
+                    borderRadius: 3,
                     bgcolor: 'background.paper',
                 }}
             >
@@ -275,49 +310,66 @@ function FilterItems({changeCategory,setSearch}:any) {
                 <ListItemButton onClick={handleClickSort}>
                     <ListItemAvatar>
                         <Avatar>
-                            <SortIcon />
+                            <SortIcon/>
                         </Avatar>
                     </ListItemAvatar>
                     <ListItemText primary="Sort By"/>
-                    {openSort ? <ExpandLess /> : <ExpandMore />}
+                    {openSort ? <ExpandLess/> : <ExpandMore/>}
                 </ListItemButton>
                 <Collapse in={openSort} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                        <ListItemButton sx={{ pl: 4 }}>
-                            <TrendingUpIcon />
+                        <ListItemButton sx={{bgcolor:sort ==="oldest"?'rgba(138,135,135,0.35)':'',borderRadius:'5px',pl: 4}} onClick={() => {
+                            changeSort("oldest")
+                        }}>
+                            <AssistantIcon/>
                             <div className="w-[2%]"></div>
-                            <ListItemText primary="Best Selling" />
+                            <ListItemText primary="Oldest"/>
                         </ListItemButton>
-                        <ListItemButton sx={{ pl: 4 }}>
-                            <PaidIcon />
+                        <ListItemButton sx={{bgcolor:sort ==="newest"?'rgba(138,135,135,0.35)':'',borderRadius:'5px',pl: 4}} onClick={() => {
+                            changeSort("newest")
+                        }}>
+                            <SellIcon/>
                             <div className="w-[2%]"></div>
-                            <ListItemText primary="Most Expensive" />
+                            <ListItemText primary="Newest"/>
                         </ListItemButton>
-                        <ListItemButton sx={{ pl: 4 }}>
-                            <SavingsIcon />
+                        <ListItemButton sx={{bgcolor:sort ==="expensive"?'rgba(138,135,135,0.35)':'',borderRadius:'5px',pl: 4}} onClick={() => {
+                            changeSort("expensive")
+                        }}>
+                            <PaidIcon/>
                             <div className="w-[2%]"></div>
-                            <ListItemText primary="Cheapest" />
+                            <ListItemText primary="Most Expensive"/>
                         </ListItemButton>
-                        <ListItemButton sx={{ pl: 4 }}>
-                            <SellIcon />
+                        <ListItemButton sx={{bgcolor:sort ==="cheapest"?'rgba(138,135,135,0.35)':'',borderRadius:'5px',pl: 4}} onClick={() => {
+                            changeSort("cheapest")
+                        }}>
+                            <SavingsIcon/>
                             <div className="w-[2%]"></div>
-                            <ListItemText primary="Newest" />
+                            <ListItemText primary="Cheapest"/>
                         </ListItemButton>
-                        <ListItemButton sx={{ pl: 4 }}>
-                            <ThumbUpIcon />
+                        <ListItemButton sx={{bgcolor:sort ==="liked"?'rgba(138,135,135,0.35)':'',borderRadius:'5px',pl: 4}} onClick={() => {
+                            changeSort("liked")
+                        }}>
+                            <ThumbUpIcon/>
                             <div className="w-[2%]"></div>
-                            <ListItemText primary="Most Liked"/>
+                            <ListItemText primary="Most Popular"/>
+                        </ListItemButton>
+                        <ListItemButton sx={{bgcolor:sort ==="disliked"?'rgba(138,135,135,0.35)':'',borderRadius:'5px',pl: 4}} onClick={() => {
+                            changeSort("disliked")
+                        }}>
+                            <ThumbDownIcon/>
+                            <div className="w-[2%]"></div>
+                            <ListItemText primary="Most Hated"/>
                         </ListItemButton>
                     </List>
                 </Collapse>
             </List>
-            
+
             <List
                 sx={{
-                    padding:'10px',
-                    marginY:5,
+                    padding: '10px',
+                    marginY: 5,
                     width: '100%',
-                    borderRadius:3,
+                    borderRadius: 3,
                     bgcolor: 'background.paper',
                 }}
             >
@@ -325,36 +377,37 @@ function FilterItems({changeCategory,setSearch}:any) {
                 <ListItemButton onClick={handleClickRate}>
                     <ListItemAvatar>
                         <Avatar>
-                            <StarIcon />
+                            <StarIcon/>
                         </Avatar>
                     </ListItemAvatar>
                     <ListItemText primary="Rateing"/>
-                    {openRate ? <ExpandLess /> : <ExpandMore />}
+                    {openRate ? <ExpandLess/> : <ExpandMore/>}
                 </ListItemButton>
                 <Collapse in={openRate} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                        <ListItemButton sx={{ pl: 4 }}>
-                            <ListItemText primary="Stars" />
-                            <Slider sx={{width:'60%'}}  color="secondary" defaultValue={1} min={1} max={5} aria-label="Default" valueLabelDisplay="auto" />
+                        <ListItemButton sx={{pl: 4}}>
+                            <ListItemText primary="Stars"/>
+                            <Slider sx={{width: '60%'}} color="secondary" defaultValue={1} min={1} max={5}
+                                    aria-label="Default" valueLabelDisplay="auto"/>
                         </ListItemButton>
                     </List>
                 </Collapse>
-                <Divider variant="inset" component="li" />
+                <Divider variant="inset" component="li"/>
                 <ListItemButton onClick={handleClick}>
                     <ListItemAvatar>
                         <Avatar>
-                            <AttachMoneyIcon />
+                            <AttachMoneyIcon/>
                         </Avatar>
                     </ListItemAvatar>
                     <ListItemText primary="Price"/>
 
                     {/*مثل دیجیکالا بکنش*/}
-                    {open ? <ExpandLess /> : <ExpandMore />}
+                    {open ? <ExpandLess/> : <ExpandMore/>}
                 </ListItemButton>
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                        <ListItemButton sx={{ pl: 4 }}>
-                            <ListItemText primary="Dollar" />
+                        <ListItemButton sx={{pl: 4}}>
+                            <ListItemText primary="Dollar"/>
                             <Slider
                                 getAriaLabel={() => 'Minimum distance shift'}
                                 value={value2}
@@ -364,11 +417,11 @@ function FilterItems({changeCategory,setSearch}:any) {
                                 disableSwap
                                 min={1}
                                 max={700}
-                                sx={{width:'75%'}}
+                                sx={{width: '75%'}}
                             />
                         </ListItemButton>
                     </List>
                 </Collapse>
             </List>
-    </>)
+        </>)
 }
