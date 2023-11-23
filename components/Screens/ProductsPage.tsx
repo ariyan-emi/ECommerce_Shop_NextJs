@@ -4,6 +4,7 @@ import {useSelector} from "react-redux";
 import {getAllProducts} from "../Redux/slices/productsSlice";
 import {Loading} from "./Loading";
 import AssistantIcon from '@mui/icons-material/Assistant';
+import DoNotDisturbOnIcon from '@mui/icons-material/DoNotDisturbOn';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
@@ -42,6 +43,9 @@ export function ProductsPage() {
     const [search, setSearch] = React.useState('');
     const [category, setCategory] = useState("default")
     const [sort, setSort] = useState("oldest")
+    const minAndMaxPrice = Object.keys( data ).map(function ( key ) { return data[key].price; });
+    const [range, setRange] = React.useState<number[]>([0, 1000]);
+    const [rate, setRate] = React.useState(0);
     useEffect(() => {
         if (data.length !== 0) {
             setIsLoading(false)
@@ -90,7 +94,11 @@ export function ProductsPage() {
         data.sort((a: any, b: any) => Number(b.rating.rate) - Number(a.rating.rate));
     }
 
-    console.log(data)
+    // Filter
+    if (rate !== 0) {
+        data = data.filter((item: any) => Math.round(item.rating.rate) == rate);
+    }
+    data = data.filter(function(x:any){ return x.price >= range[0] && x.price <= range[1]});
     if (!isLoading) {
         return (
             <>
@@ -98,7 +106,7 @@ export function ProductsPage() {
                     <div
                         className="p-5 flex-[25%] hidden justify-center text-center items-center align-middle xl:flex md:h-screen">
                         <div className="w-full h-5/6 rounded-2xl">
-                            <FilterItems changeSort={changeSort} sort={sort} category={category} setSearch={setSearch} changeCategory={changeCategory}/>
+                            <FilterItems minAndMaxPrice={minAndMaxPrice} rate={rate} range={range} setRate={setRate} setRange={setRange} changeSort={changeSort} sort={sort} category={category} setSearch={setSearch} changeCategory={changeCategory}/>
                         </div>
                     </div>
                     <div className="p-5 flex-[75%]">
@@ -156,65 +164,66 @@ function Products({Product}: any) {
             color: '#2cba00'
         },
     };
-    return (
-        <>
-            <Link href={`products/${id}`}>
-                <div className="flex justify-center container mx-auto sm:px-4 mt-5 w-auto relative group transition hover:scale-105 hover:-rotate-1 max-w-sm">
-                    <div
-                        className="relative flex flex-col min-w-0 break-words border bg-white border-1 border-gray-300 p-6 rounded-2xl">
-                        {customIcons[Math.round(rating.rate)].icon}
-                        <div className="about-product text-center mt-2">
-                            <img
-                                src={image}
-                                alt={`Image of ${title}`} className="h-72 w-64"/>
-                            <div>
-                                <h6 className="mt-2 font-bold">{(() => {
-                                    if (title !== undefined) {
-                                        if (title.length > 30) {
-                                            return (
-                                                title.substring(0, 30) + "..."
-                                            )
-                                        } else {
-                                            return (
-                                                title
-                                            )
+
+
+        return (
+            <>
+                <Link href={`products/${id}`}>
+                    <div className="flex justify-center container mx-auto sm:px-4 mt-5 w-auto relative group transition hover:scale-105 hover:-rotate-1 max-w-sm">
+                        <div
+                            className="relative flex flex-col min-w-0 break-words border bg-white border-1 border-gray-300 p-6 rounded-2xl">
+                            {customIcons[Math.round(rating.rate)].icon}
+                            <div className="about-product text-center mt-2">
+                                <img
+                                    src={image}
+                                    alt={`Image of ${title}`} className="h-72 w-64"/>
+                                <div>
+                                    <h6 className="mt-2 font-bold">{(() => {
+                                        if (title !== undefined) {
+                                            if (title.length > 30) {
+                                                return (
+                                                    title.substring(0, 30) + "..."
+                                                )
+                                            } else {
+                                                return (
+                                                    title
+                                                )
+                                            }
                                         }
-                                    }
-                                })()}</h6>
-                                <h4 className="uppercase">{category}</h4>
+                                    })()}</h6>
+                                    <h4 className="uppercase">{category}</h4>
+                                </div>
                             </div>
-                        </div>
-                        <div className="stats mt-2">
-                            <div className="flex justify-between p-price">
-                                <Rating name="half-rating-read" defaultValue={rating.rate} precision={0.5} readOnly/>
-                                <p style={{
-                                    padding: 2,
-                                    borderRadius: 5,
-                                    backgroundColor: customIcons[Math.round(rating.rate)].color
-                                }}>{rating.rate.toFixed(1)}</p>
+                            <div className="stats mt-2">
+                                <div className="flex justify-between p-price">
+                                    <Rating name="half-rating-read" defaultValue={rating.rate} precision={0.5} readOnly/>
+                                    <p style={{
+                                        padding: 2,
+                                        borderRadius: 5,
+                                        backgroundColor: customIcons[Math.round(rating.rate)].color
+                                    }}>{rating.rate.toFixed(1)}</p>
+                                </div>
                             </div>
+                            <div className="flex justify-between total font-bold mt-4">
+                                <span>Price</span><span>${price.toFixed(2)}</span></div>
                         </div>
-                        <div className="flex justify-between total font-bold mt-4">
-                            <span>Price</span><span>${price.toFixed(2)}</span></div>
                     </div>
-                </div>
-            </Link>
-        </>
-    )
+                </Link>
+            </>
+        )
 }
 
-function FilterItems({changeSort,sort ,category, changeCategory, setSearch}: any) {
+function FilterItems({minAndMaxPrice,rate,range,setRate,setRange,changeSort,sort,category,changeCategory,setSearch}: any) {
     const [open, setOpen] = React.useState(false);
     const [openSort, setOpenSort] = React.useState(true);
     const [openRate, setOpenRate] = React.useState(false);
-    const [value2, setValue2] = React.useState<number[]>([1, 700]);
 
     function valuetext(value: number) {
         return `${value}°C`;
     }
 
     const minDistance = 10;
-    const handleChange2 = (
+    const handleChangeRange = (
         event: Event,
         newValue: number | number[],
         activeThumb: number,
@@ -226,13 +235,13 @@ function FilterItems({changeSort,sort ,category, changeCategory, setSearch}: any
         if (newValue[1] - newValue[0] < minDistance) {
             if (activeThumb === 0) {
                 const clamped = Math.min(newValue[0], 100 - minDistance);
-                setValue2([clamped, clamped + minDistance]);
+                setRange([clamped, clamped + minDistance]);
             } else {
                 const clamped = Math.max(newValue[1], minDistance);
-                setValue2([clamped - minDistance, clamped]);
+                setRange([clamped - minDistance, clamped]);
             }
         } else {
-            setValue2(newValue as number[]);
+            setRange(newValue as number[]);
         }
     };
 
@@ -248,7 +257,9 @@ function FilterItems({changeSort,sort ,category, changeCategory, setSearch}: any
     const handleChangeSearch = (event: SelectChangeEvent) => {
         setSearch(event.target.value as string);
     };
-
+    const handleChangeRate = (event: Event, newValue: number | number[]) => {
+        setRate(newValue as number);
+    }
 
     return (
         <>
@@ -387,8 +398,10 @@ function FilterItems({changeSort,sort ,category, changeCategory, setSearch}: any
                     <List component="div" disablePadding>
                         <ListItemButton sx={{pl: 4}}>
                             <ListItemText primary="Stars"/>
-                            <Slider sx={{width: '60%'}} color="secondary" defaultValue={1} min={1} max={5}
+                            <Slider sx={{width: '50%'}} color="secondary" value={rate}
+                                    onChange={handleChangeRate} defaultValue={1} min={1} max={5}
                                     aria-label="Default" valueLabelDisplay="auto"/>
+                                <button className="p-3" onClick={()=>{setRate(0)}}><DoNotDisturbOnIcon sx={{width:30,height:30}} className="text-red-800 md:hover:text-black"/></button>
                         </ListItemButton>
                     </List>
                 </Collapse>
@@ -400,23 +413,22 @@ function FilterItems({changeSort,sort ,category, changeCategory, setSearch}: any
                         </Avatar>
                     </ListItemAvatar>
                     <ListItemText primary="Price"/>
-
-                    {/*مثل دیجیکالا بکنش*/}
                     {open ? <ExpandLess/> : <ExpandMore/>}
                 </ListItemButton>
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
                         <ListItemButton sx={{pl: 4}}>
-                            <ListItemText primary="Dollar"/>
+                            <ListItemText primary="Dollar" className="pr-8"/>
                             <Slider
                                 getAriaLabel={() => 'Minimum distance shift'}
-                                value={value2}
-                                onChange={handleChange2}
+                                value={range}
+                                color="secondary"
+                                onChange={handleChangeRange}
                                 valueLabelDisplay="auto"
                                 getAriaValueText={valuetext}
                                 disableSwap
-                                min={1}
-                                max={700}
+                                min={Math.min(...minAndMaxPrice)}
+                                max={Math.max(...minAndMaxPrice)}
                                 sx={{width: '75%'}}
                             />
                         </ListItemButton>
