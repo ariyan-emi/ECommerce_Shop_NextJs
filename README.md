@@ -57,11 +57,11 @@ An online shopping application built using Typescript , Next.js and Firebase {Ta
 ## Preview
 Home:
 
-![preview](https://webvave.ir/NextJsECommerceScreenshot/Home.gif)
+<img src="https://webvave.ir/NextJsECommerceScreenshot/Home.gif" />
 
 Product Page:
 
-![preview](https://webvave.ir/NextJsECommerceScreenshot/ProductPage.gif)
+<img src="https://webvave.ir/NextJsECommerceScreenshot/ProductPage.gif" />
 
 Product Details :
 
