@@ -13,7 +13,7 @@
 ## Live Demo
 
 👇👇👇<br/>
-<a href="https://webvave-todo.vercel.app/">WebVaVe Shop</a><br/>
+<a href="https://webvave-ecommerce-shop-next-js.vercel.app">WebVaVe Shop</a><br/>
 👆👆👆
 ## This project is created using:
 
