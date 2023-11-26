@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://tiptopstore.vercel.app">
-    <img alt="logo" src="./assets/icon/logo.png" width="200" />
+    <img alt="logo" src="https://webvave.ir/assets/images/anthony.png" width="200" />
   </a>
   <h1 align="center">
     WebVaVe
@@ -55,8 +55,18 @@
 An online shopping application built using Typescript , Next.js and Firebase {TailwindCss , Firebase, Redux}
 
 ## Preview
+Home:
 
-![preview](https://user-images.githubusercontent.com/48406108/158732497-5a959e51-9335-4062-8c1e-7131528b3ce8.png)
+![preview](https://github.com/ariyan-emi/ECommerce_Shop_NextJs/tree/main/Screenshot/Home.gif)
+
+Product Page:
+
+![preview](https://github.com/ariyan-emi/ECommerce_Shop_NextJs/tree/main/Screenshot/ProductPage.gif)
+
+Product Details :
+
+![preview](https://github.com/ariyan-emi/ECommerce_Shop_NextJs/tree/main/Screenshot/ProductDetails.png)
+
 
 ## Tools
 
