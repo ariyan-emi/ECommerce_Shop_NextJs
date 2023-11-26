@@ -283,25 +283,25 @@ function FilterItems({minAndMaxPrice,rate,range,setRate,setRange,changeSort,sort
                 aria-labelledby="nested-list-subheader"
             >
                 <h1 className="text-left text-gray-500">Category</h1>
-                <ListItemButton sx={{bgcolor:category ==="default"?'rgba(138,135,135,0.35)':'',borderRadius:'5px'}} onClick={() => changeCategory('default')}>
+                <ListItemButton sx={{bgcolor:category ==="default"?'rgba(152,148,148,0.23)':'',borderRadius:'5px'}} onClick={() => changeCategory('default')}>
                     <ListItemIcon>
                         <ExploreIcon fontSize='large'/>
                     </ListItemIcon>
                     <ListItemText primary="All Items"/>
                 </ListItemButton>
-                <ListItemButton sx={{bgcolor:category ==="jewelery"?'rgba(138,135,135,0.35)':'',borderRadius:'5px'}} onClick={() => changeCategory('jewelery')}>
+                <ListItemButton sx={{bgcolor:category ==="jewelery"?'rgba(152,148,148,0.23)':'',borderRadius:'5px'}} onClick={() => changeCategory('jewelery')}>
                     <ListItemIcon>
                         <DiamondIcon fontSize='large'/>
                     </ListItemIcon>
                     <ListItemText primary="Accessories"/>
                 </ListItemButton>
-                <ListItemButton sx={{bgcolor:category ==="men"?'rgba(138,135,135,0.35)':'',borderRadius:'5px'}} onClick={() => changeCategory('men')}>
+                <ListItemButton sx={{bgcolor:category ==="men"?'rgba(152,148,148,0.23)':'',borderRadius:'5px'}} onClick={() => changeCategory('men')}>
                     <ListItemIcon>
                         <ManIcon fontSize='large'/>
                     </ListItemIcon>
                     <ListItemText primary="Men"/>
                 </ListItemButton>
-                <ListItemButton sx={{bgcolor:category ==="women"?'rgba(138,135,135,0.35)':'',borderRadius:'5px'}} onClick={() => changeCategory('women')}>
+                <ListItemButton sx={{bgcolor:category ==="women"?'rgba(152,148,148,0.23)':'',borderRadius:'5px'}} onClick={() => changeCategory('women')}>
                     <ListItemIcon>
                         <WomanIcon fontSize='large'/>
                     </ListItemIcon>
@@ -329,42 +329,42 @@ function FilterItems({minAndMaxPrice,rate,range,setRate,setRange,changeSort,sort
                 </ListItemButton>
                 <Collapse in={openSort} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                        <ListItemButton sx={{bgcolor:sort ==="oldest"?'rgba(138,135,135,0.35)':'',borderRadius:'5px',pl: 4}} onClick={() => {
+                        <ListItemButton sx={{bgcolor:sort ==="oldest"?'rgba(152,148,148,0.23)':'',borderRadius:'5px',pl: 4}} onClick={() => {
                             changeSort("oldest")
                         }}>
                             <AssistantIcon/>
                             <div className="w-[2%]"></div>
                             <ListItemText primary="Oldest"/>
                         </ListItemButton>
-                        <ListItemButton sx={{bgcolor:sort ==="newest"?'rgba(138,135,135,0.35)':'',borderRadius:'5px',pl: 4}} onClick={() => {
+                        <ListItemButton sx={{bgcolor:sort ==="newest"?'rgba(152,148,148,0.23)':'',borderRadius:'5px',pl: 4}} onClick={() => {
                             changeSort("newest")
                         }}>
                             <SellIcon/>
                             <div className="w-[2%]"></div>
                             <ListItemText primary="Newest"/>
                         </ListItemButton>
-                        <ListItemButton sx={{bgcolor:sort ==="expensive"?'rgba(138,135,135,0.35)':'',borderRadius:'5px',pl: 4}} onClick={() => {
+                        <ListItemButton sx={{bgcolor:sort ==="expensive"?'rgba(152,148,148,0.23)':'',borderRadius:'5px',pl: 4}} onClick={() => {
                             changeSort("expensive")
                         }}>
                             <PaidIcon/>
                             <div className="w-[2%]"></div>
                             <ListItemText primary="Most Expensive"/>
                         </ListItemButton>
-                        <ListItemButton sx={{bgcolor:sort ==="cheapest"?'rgba(138,135,135,0.35)':'',borderRadius:'5px',pl: 4}} onClick={() => {
+                        <ListItemButton sx={{bgcolor:sort ==="cheapest"?'rgba(152,148,148,0.23)':'',borderRadius:'5px',pl: 4}} onClick={() => {
                             changeSort("cheapest")
                         }}>
                             <SavingsIcon/>
                             <div className="w-[2%]"></div>
                             <ListItemText primary="Cheapest"/>
                         </ListItemButton>
-                        <ListItemButton sx={{bgcolor:sort ==="liked"?'rgba(138,135,135,0.35)':'',borderRadius:'5px',pl: 4}} onClick={() => {
+                        <ListItemButton sx={{bgcolor:sort ==="liked"?'rgba(152,148,148,0.23)':'',borderRadius:'5px',pl: 4}} onClick={() => {
                             changeSort("liked")
                         }}>
                             <ThumbUpIcon/>
                             <div className="w-[2%]"></div>
                             <ListItemText primary="Most Popular"/>
                         </ListItemButton>
-                        <ListItemButton sx={{bgcolor:sort ==="disliked"?'rgba(138,135,135,0.35)':'',borderRadius:'5px',pl: 4}} onClick={() => {
+                        <ListItemButton sx={{bgcolor:sort ==="disliked"?'rgba(152,148,148,0.23)':'',borderRadius:'5px',pl: 4}} onClick={() => {
                             changeSort("disliked")
                         }}>
                             <ThumbDownIcon/>
