@@ -57,15 +57,15 @@ An online shopping application built using Typescript , Next.js and Firebase {Ta
 ## Preview
 Home:
 
-![preview](https://github.com/ariyan-emi/ECommerce_Shop_NextJs/tree/main/Screenshot/Home.gif)
+![preview](https://webvave.ir/NextJsECommerceScreenshot/Home.gif)
 
 Product Page:
 
-![preview](https://github.com/ariyan-emi/ECommerce_Shop_NextJs/tree/main/Screenshot/ProductPage.gif)
+![preview](https://webvave.ir/NextJsECommerceScreenshot/ProductPage.gif)
 
 Product Details :
 
-![preview](https://github.com/ariyan-emi/ECommerce_Shop_NextJs/tree/main/Screenshot/ProductDetails.png)
+![preview](https://webvave.ir/NextJsECommerceScreenshot/ProductDetails.png)
 
 
 ## Tools
