@@ -80,12 +80,16 @@ export function Profile() {
                                         <div className="relative bg-inherit">
                                             <input type="text" id="username" name="username"
                                                    onChange={(event) => setPassword(event.target.value)}
-                                                   className="peer bg-transparent h-10 w-72 rounded-lg placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
+                                                   className="hidden md:inline-block peer bg-transparent h-10 md:w-44 lg:w-56 rounded-lg placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
                                                    placeholder="New Password"/><label htmlFor="username"
-                                                                                      className="absolute cursor-text left-0 -top-3 text-sm bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all">New
+                                                                                      className="hidden md:block absolute cursor-text left-0 -top-3 text-sm bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all">New
                                             Password</label>
+
+                                            <input type="email" id="input-6"
+                                                   className="block md:hidden w-full h-10  mt-1 text-sm text-gray-700 border focus:outline-none rounded shadow-sm focus:border-blue-500"
+                                                   placeholder="New Password"/>
                                             <button onClick={ChangePassword}
-                                                className="inline-block px-6 py-3 mx-2 text-sm font-medium text-white bg-violet-600 border border-violet-600 rounded-lg  active:text-violet-500 hover:bg-transparent hover:text-violet-600 focus:outline-none focus:ring">
+                                                className="block md:flex lg:inline-block lg:ml-5 justify-center text-center px-3 mt-5 md:px-6 py-3 md:py-3 mx-auto text-sm font-medium text-white bg-violet-600 border border-violet-600 rounded-lg  active:text-violet-500 hover:bg-transparent hover:text-violet-600 focus:outline-none focus:ring">
                                                 Change
                                             </button>
                                         </div>
