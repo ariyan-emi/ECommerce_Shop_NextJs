@@ -52,7 +52,7 @@ export function Profile() {
     if (!isLoading) {
         return (
             <>
-                <div className="justify-center mt-60 flex flex-col bg-white relative align-middle left-1/3 overflow-hidden shadow rounded-lg border w-1/3 h-[450px] ">
+                <div style={{position:"absolute",top:"500px"}} className="justify-center flex flex-col bg-white relative align-middle left-1/4 lg:left-1/3 overflow-hidden shadow rounded-lg border w-1/2 lg:w-1/3 h-96">
                     <div className="px-4 py-5 sm:px-6 text-center">
                         <h3 className="text-lg leading-6 font-medium text-gray-900">
                             User Profile
@@ -80,16 +80,16 @@ export function Profile() {
                                         <div className="relative bg-inherit">
                                             <input type="text" id="username" name="username"
                                                    onChange={(event) => setPassword(event.target.value)}
-                                                   className="hidden md:inline-block peer bg-transparent h-10 md:w-44 lg:w-56 rounded-lg placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
+                                                   className="hidden md:inline-block peer bg-transparent h-10 md:w-full 2xl:w-64 rounded-lg placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
                                                    placeholder="New Password"/><label htmlFor="username"
                                                                                       className="hidden md:block absolute cursor-text left-0 -top-3 text-sm bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all">New
                                             Password</label>
 
                                             <input type="email" id="input-6"
-                                                   className="block md:hidden w-full h-10  mt-1 text-sm text-gray-700 border focus:outline-none rounded shadow-sm focus:border-blue-500"
+                                                   className="block md:hidden w-full h-10 placeholder:text-center mt-1 text-sm text-gray-700 border rounded-lg focus:outline-none shadow-sm focus:border-blue-500"
                                                    placeholder="New Password"/>
                                             <button onClick={ChangePassword}
-                                                className="block md:flex lg:inline-block lg:ml-5 justify-center text-center px-3 mt-5 md:px-6 py-3 md:py-3 mx-auto text-sm font-medium text-white bg-violet-600 border border-violet-600 rounded-lg  active:text-violet-500 hover:bg-transparent hover:text-violet-600 focus:outline-none focus:ring">
+                                                className="block md:flex 2xl:inline-block 2xl:ml-5 justify-center text-center px-3 mt-5 md:px-6 py-3 md:py-3 mx-auto text-sm font-medium text-white bg-violet-600 border border-violet-600 rounded-lg  active:text-violet-500 hover:bg-transparent hover:text-violet-600 focus:outline-none focus:ring">
                                                 Change
                                             </button>
                                         </div>
