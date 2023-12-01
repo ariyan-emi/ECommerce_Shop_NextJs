@@ -18,9 +18,9 @@ export default function Home() {
                     Get In <span className="text-indigo-600">Touch</span>
                 </h3>
                 <p className="mt-4 leading-7 text-gray-200">
-                    Welcome to our world! We're thrilled you're here. Whether you have inquiries, ideas to share, or
-                    feedback to offer, we're all ears! Drop us a line through the form or email provided below, and our
-                    dedicated team will swiftly get back to you. Your input is valuable, and we're excited to connect
+                    Welcome to our world! We&apos;re thrilled you&apos;re here. Whether you have inquiries, ideas to share, or
+                    feedback to offer, we&apos;re all ears! Drop us a line through the form or email provided below, and our
+                    dedicated team will swiftly get back to you. Your input is valuable, and we&apos;re excited to connect
                     with you!
                 </p>
                 <div className="flex items-center mt-5 md:h-1/4">
