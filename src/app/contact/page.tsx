@@ -1,10 +1,13 @@
 'use client'
 import {useState} from "react";
+
 export default function Home() {
-    let [enable, setEnable] = useState({email: '',fName: '',lName: '',message: '',phone: ''})
-    function checkEnabled(){
+    let [enable, setEnable] = useState({email: '', fName: '', lName: '', message: '', phone: ''})
+
+    function checkEnabled() {
         return !(enable.email !== "" && enable.fName !== "" && enable.lName !== "" && enable.message !== "" && enable.phone !== "");
     }
+
     return (
         <html className="md:overflow-x-hidden md:overflow-hidden">
         <body className="max-w-screen-lg mx-auto p-0">
@@ -15,7 +18,10 @@ export default function Home() {
                     Get In <span className="text-indigo-600">Touch</span>
                 </h3>
                 <p className="mt-4 leading-7 text-gray-200">
-                    Welcome to our world! We're thrilled you're here. Whether you have inquiries, ideas to share, or feedback to offer, we're all ears! Drop us a line through the form or email provided below, and our dedicated team will swiftly get back to you. Your input is valuable, and we're excited to connect with you!
+                    Welcome to our world! We're thrilled you're here. Whether you have inquiries, ideas to share, or
+                    feedback to offer, we're all ears! Drop us a line through the form or email provided below, and our
+                    dedicated team will swiftly get back to you. Your input is valuable, and we're excited to connect
+                    with you!
                 </p>
                 <div className="flex items-center mt-5 md:h-1/4">
                     <svg
@@ -29,9 +35,11 @@ export default function Home() {
                     >
                         <g>
                             <g>
-                                <path d="m488.554,476l-99-280.2c-1-4.2-5.2-7.3-9.4-7.3h-45.6c12.9-31.1 19.6-54.9 19.6-70.8 0-64.6-50-117.7-112.5-117.7-61.5,0-112.5,52.1-112.5,117.7 0,17.6 8.2,43.1 19.9,70.8h-39.7c-4.2,0-8.3,3.1-9.4,7.3l-99,280.2c-3.2,10.3 6.3,13.5 9.4,13.5h468.8c4.2,0.5 12.5-4.2 9.4-13.5zm-246.9-455.3c51,1.06581e-14 91.7,43.7 91.7,96.9 0,56.5-79.2,182.3-91.7,203.1-31.3-53.1-91.7-161.5-91.7-203.1 0-53.1 40.6-96.9 91.7-96.9zm-216.7,448l91.7-259.4h41.7c29.9,64.1 83.3,151 83.3,151s81.4-145.7 83.8-151h47.4l91.7,259.4h-439.6z"></path>
-                                <rect width="136.5" x="177.054" y="379.1" height="20.8" />
-                                <path d="m289.554,108.2c0-26-21.9-47.9-47.9-47.9s-47.9,21.9-47.9,47.9 20.8,47.9 47.9,47.9c27.1,0 47.9-21.8 47.9-47.9zm-75-1c0-14.6 11.5-27.1 27.1-27.1s27.1,12.5 27.1,27.1-11.5,27.1-27.1,27.1c-14.6,2.84217e-14-27.1-12.5-27.1-27.1z"></path>
+                                <path
+                                    d="m488.554,476l-99-280.2c-1-4.2-5.2-7.3-9.4-7.3h-45.6c12.9-31.1 19.6-54.9 19.6-70.8 0-64.6-50-117.7-112.5-117.7-61.5,0-112.5,52.1-112.5,117.7 0,17.6 8.2,43.1 19.9,70.8h-39.7c-4.2,0-8.3,3.1-9.4,7.3l-99,280.2c-3.2,10.3 6.3,13.5 9.4,13.5h468.8c4.2,0.5 12.5-4.2 9.4-13.5zm-246.9-455.3c51,1.06581e-14 91.7,43.7 91.7,96.9 0,56.5-79.2,182.3-91.7,203.1-31.3-53.1-91.7-161.5-91.7-203.1 0-53.1 40.6-96.9 91.7-96.9zm-216.7,448l91.7-259.4h41.7c29.9,64.1 83.3,151 83.3,151s81.4-145.7 83.8-151h47.4l91.7,259.4h-439.6z"></path>
+                                <rect width="136.5" x="177.054" y="379.1" height="20.8"/>
+                                <path
+                                    d="m289.554,108.2c0-26-21.9-47.9-47.9-47.9s-47.9,21.9-47.9,47.9 20.8,47.9 47.9,47.9c27.1,0 47.9-21.8 47.9-47.9zm-75-1c0-14.6 11.5-27.1 27.1-27.1s27.1,12.5 27.1,27.1-11.5,27.1-27.1,27.1c-14.6,2.84217e-14-27.1-12.5-27.1-27.1z"></path>
                             </g>
                         </g>
                     </svg>
@@ -51,7 +59,7 @@ export default function Home() {
                         x="0px"
                         y="0px"
                         viewBox="0 0 60.002 60.002"
-                        style={{ background: "new 0 0 60.002 60.002" }}
+                        style={{background: "new 0 0 60.002 60.002"}}
                         xmlSpace="preserve"
                     >
                         <g>
@@ -94,27 +102,37 @@ export default function Home() {
                     <span className="text-xl">Phone: <a href="tel:+989162131081">+98 916 213 1081</a></span>
                 </div>
                 <div className="flex items-center mt-5 md:h-1/4">
-                    <svg  className="h-12 mr-2 text-indigo-600 font-bold"
-                          version="1.1"
-                          xmlns="http://www.w3.org/2000/svg"
-                          xmlnsXlink="http://www.w3.org/1999/xlink"
-                          x="0px"
-                          y="0px"
-                          viewBox="0 0 60.002 60.002"
-                          style={{ background: "new 0 0 60.002 60.002" }}
-                          xmlSpace="preserve"
-                          fill="none"
-                          id="IconChangeColor">
-                        <path d="M36 15H44V28V41H4V28V15H12" stroke="#4b41d8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" id="mainIconPathAttribute"></path><path d="M24 19V5" stroke="#4b41d8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" id="mainIconPathAttribute"></path><path d="M30 13L24 19L18 13" stroke="#4b41d8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" id="mainIconPathAttribute"></path><path d="M4 15L24 30L44 15" stroke="#4b41d8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" id="mainIconPathAttribute"></path>
+                    <svg className="h-12 mr-2 text-indigo-600 font-bold"
+                         version="1.1"
+                         xmlns="http://www.w3.org/2000/svg"
+                         xmlnsXlink="http://www.w3.org/1999/xlink"
+                         x="0px"
+                         y="0px"
+                         viewBox="0 0 60.002 60.002"
+                         style={{background: "new 0 0 60.002 60.002"}}
+                         xmlSpace="preserve"
+                         fill="none"
+                         id="IconChangeColor">
+                        <path d="M36 15H44V28V41H4V28V15H12" stroke="#4b41d8" strokeWidth="2" strokeLinecap="round"
+                              strokeLinejoin="round" id="mainIconPathAttribute"></path>
+                        <path d="M24 19V5" stroke="#4b41d8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                              id="mainIconPathAttribute"></path>
+                        <path d="M30 13L24 19L18 13" stroke="#4b41d8" strokeWidth="2" strokeLinecap="round"
+                              strokeLinejoin="round" id="mainIconPathAttribute"></path>
+                        <path d="M4 15L24 30L44 15" stroke="#4b41d8" strokeWidth="2" strokeLinecap="round"
+                              strokeLinejoin="round" id="mainIconPathAttribute"></path>
                     </svg>
-                    <span className="text-xl">Email: <a className="copyright-text" href="mailto:emami8637@gmail.com">emami8637@gmail.com</a></span>
+                    <span className="text-xl">Email: <a className="copyright-text"
+                                                        href="mailto:emami8637@gmail.com">emami8637@gmail.com</a></span>
                 </div>
             </div>
-            <form className="md:col-span-8 p-10 bg-white needs-validation" action="https://api.web3forms.com/submit" method="POST" id="form" noValidate>
-                    <input type="hidden" name="access_key" value="3b62e228-0bdf-459d-9e5d-78c6ec569a02"/>
-                    <input type="hidden" name="subject" value="New Submission from Web3Forms"/>
-                    <input type="checkbox" name="botcheck" id="" style={{display: "none"}}/>
-                    <input type="hidden" name="redirect" value="https://webvave-ecommerce-shop-next-js.vercel.app/contact/success"/>
+            <form className="md:col-span-8 p-10 bg-white needs-validation" action="https://api.web3forms.com/submit"
+                  method="POST" id="form" noValidate>
+                <input type="hidden" name="access_key" value="3b62e228-0bdf-459d-9e5d-78c6ec569a02"/>
+                <input type="hidden" name="subject" value="New Submission from Web3Forms"/>
+                <input type="checkbox" name="botcheck" id="" style={{display: "none"}}/>
+                <input type="hidden" name="redirect"
+                       value="https://webvave-ecommerce-shop-next-js.vercel.app/contact/success"/>
                 <div className="flex flex-wrap -mx-3 mb-6 md:h-1/5 pt-5">
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <label
@@ -128,7 +146,9 @@ export default function Home() {
                             name="name" id="first_name"
                             type="text"
                             required
-                            onChange={(e)=>{setEnable((prev:any) => ({...prev, fName: e.target.value}))}}
+                            onChange={(e) => {
+                                setEnable((prev: any) => ({...prev, fName: e.target.value}))
+                            }}
                             placeholder="Jane"
                         />
                     </div>
@@ -144,7 +164,9 @@ export default function Home() {
                             name="last_name" id="lname"
                             type="text"
                             required
-                            onChange={(e)=>{setEnable((prev:any) => ({...prev, lName: e.target.value}))}}
+                            onChange={(e) => {
+                                setEnable((prev: any) => ({...prev, lName: e.target.value}))
+                            }}
                             placeholder="Doe"
                         />
                     </div>
@@ -162,7 +184,9 @@ export default function Home() {
                             name="email" id="email"
                             type="email"
                             required
-                            onChange={(e)=>{setEnable((prev:any) => ({...prev, email: e.target.value}))}}
+                            onChange={(e) => {
+                                setEnable((prev: any) => ({...prev, email: e.target.value}))
+                            }}
                             placeholder="example@gmail.com"
                         />
                     </div>
@@ -181,7 +205,9 @@ export default function Home() {
                             id="phone"
                             type="text"
                             required
-                            onChange={(e)=>{setEnable((prev:any) => ({...prev, phone: e.target.value}))}}
+                            onChange={(e) => {
+                                setEnable((prev: any) => ({...prev, phone: e.target.value}))
+                            }}
                             placeholder="+1 (555) 1234-567"
                         />
                     </div>
@@ -199,7 +225,9 @@ export default function Home() {
                             placeholder="Your Message"
                             rows={8}
                             required
-                            onChange={(e)=>{setEnable((prev:any) => ({...prev, message: e.target.value}))}}
+                            onChange={(e) => {
+                                setEnable((prev: any) => ({...prev, message: e.target.value}))
+                            }}
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             defaultValue={""}
                         />
