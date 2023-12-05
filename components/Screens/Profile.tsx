@@ -102,9 +102,6 @@ export function Profile() {
                                 </dd>
                             </div>
                             <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                <dt className="text-sm font-medium text-gray-500 text-center align-middle my-auto">
-                                    Logout
-                                </dt>
                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 text-center align-middle">
                                     <button onClick={Logout}
                                         className="border border-red-500 bg-red-500 text-white rounded-md w-full px-4 py-2 my-2 transition duration-500 ease select-none hover:bg-red-800 focus:outline-none focus:shadow-outline">
