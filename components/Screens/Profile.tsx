@@ -54,7 +54,7 @@ export function Profile() {
         return (
             <>
                 <Header/>
-                <div style={{position:"absolute",top:"25%"}} className="justify-center flex flex-col bg-[#E5E5E5] md:bg-white  relative align-middle  md:left-1/3 overflow-hidden shadow rounded-lg border w-full md:w-1/3 h-fit">
+                <div style={{position:"absolute",top:"25%"}} className="justify-center flex flex-col bg-[#E5E5E5] md:bg-white  relative align-middle  md:left-1/3 overflow-hidden md:shadow rounded-lg border w-full md:w-1/3 h-fit">
                     <div className="px-4 py-5 sm:px-6 text-center">
                         <h3 className="text-lg leading-6 font-medium text-gray-900">
                             User Profile
