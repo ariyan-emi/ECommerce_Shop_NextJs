@@ -4,6 +4,11 @@ import {useSelector} from "react-redux";
 import {getAllProducts} from "../Redux/slices/productsSlice";
 import {Loading} from "./Loading";
 import AssistantIcon from '@mui/icons-material/Assistant';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DoNotDisturbOnIcon from '@mui/icons-material/DoNotDisturbOn';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
@@ -106,7 +111,7 @@ export function ProductsPage() {
                 <Header/>
                 <div className="flex flex-wrap">
                     <div
-                        className="p-5 flex-[25%] hidden justify-center text-center items-center align-middle xl:flex md:h-screen">
+                        className="p-5 flex-[100%] md:flex-[25%] justify-center text-center items-center align-middle xl:flex">
                         <div className="w-full h-5/6 rounded-2xl">
                             <FilterItems minAndMaxPrice={minAndMaxPrice} rate={rate} range={range} setRate={setRate} setRange={setRange} changeSort={changeSort} sort={sort} category={category} setSearch={setSearch} changeCategory={changeCategory}/>
                         </div>
@@ -274,11 +279,12 @@ function FilterItems({minAndMaxPrice,rate,range,setRate,setRange,changeSort,sort
                 <div className="flex w-full my-2">
                     <div className="flex rounded-md w-full">
                         <input type="text" name="q"
-                               className="w-full p-3 rounded-md rounded-r-none border-2 border-gray-300 placeholder-current dark:bg-gray-500  dark:text-gray-300 dark:border-none "
+                               className="w-full p-3 rounded-md border-2 border-gray-300 placeholder-current dark:bg-gray-500  dark:text-gray-300 dark:border-none "
                                placeholder="Search..." onChange={handleChangeSearch}/>
                     </div>
                 </div>
             </List>
+            <div className="hidden md:block">
             <List
                 sx={{width: '100%', padding: '10px', marginY: 5, borderRadius: 3, bgcolor: 'background.paper'}}
                 component="nav"
@@ -437,5 +443,174 @@ function FilterItems({minAndMaxPrice,rate,range,setRate,setRange,changeSort,sort
                     </List>
                 </Collapse>
             </List>
+            </div>
+
+            <div className="md:hidden mt-6">
+                <Accordion>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                    >
+                        <Typography>Category</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <List
+                            sx={{width: '100%',marginTop:-1.5, borderRadius: 3, bgcolor: 'background.paper'}}
+                            component="nav"
+                            aria-labelledby="nested-list-subheader"
+                        >
+                            <ListItemButton sx={{bgcolor:category ==="default"?'rgba(152,148,148,0.23)':'',borderRadius:'5px'}} onClick={() => changeCategory('default')}>
+                                <ListItemIcon>
+                                    <ExploreIcon fontSize='large'/>
+                                </ListItemIcon>
+                                <ListItemText primary="All Items"/>
+                            </ListItemButton>
+                            <ListItemButton sx={{bgcolor:category ==="jewelery"?'rgba(152,148,148,0.23)':'',borderRadius:'5px'}} onClick={() => changeCategory('jewelery')}>
+                                <ListItemIcon>
+                                    <DiamondIcon fontSize='large'/>
+                                </ListItemIcon>
+                                <ListItemText primary="Accessories"/>
+                            </ListItemButton>
+                            <ListItemButton sx={{bgcolor:category ==="men"?'rgba(152,148,148,0.23)':'',borderRadius:'5px'}} onClick={() => changeCategory('men')}>
+                                <ListItemIcon>
+                                    <ManIcon fontSize='large'/>
+                                </ListItemIcon>
+                                <ListItemText primary="Men"/>
+                            </ListItemButton>
+                            <ListItemButton sx={{bgcolor:category ==="women"?'rgba(152,148,148,0.23)':'',borderRadius:'5px'}} onClick={() => changeCategory('women')}>
+                                <ListItemIcon>
+                                    <WomanIcon fontSize='large'/>
+                                </ListItemIcon>
+                                <ListItemText primary="Women"/>
+                            </ListItemButton>
+                        </List>
+                    </AccordionDetails>
+                </Accordion>
+                <Accordion>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                    >
+                        <Typography>Sort</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <List
+                            sx={{width: '100%',marginTop:-1.5, borderRadius: 3, bgcolor: 'background.paper'}}
+                        >
+                                <List component="div" disablePadding>
+                                    <ListItemButton sx={{bgcolor:sort ==="oldest"?'rgba(152,148,148,0.23)':'',borderRadius:'5px',pl: 4}} onClick={() => {
+                                        changeSort("oldest")
+                                    }}>
+                                        <AssistantIcon/>
+                                        <div className="w-[2%]"></div>
+                                        <ListItemText primary="Oldest"/>
+                                    </ListItemButton>
+                                    <ListItemButton sx={{bgcolor:sort ==="newest"?'rgba(152,148,148,0.23)':'',borderRadius:'5px',pl: 4}} onClick={() => {
+                                        changeSort("newest")
+                                    }}>
+                                        <SellIcon/>
+                                        <div className="w-[2%]"></div>
+                                        <ListItemText primary="Newest"/>
+                                    </ListItemButton>
+                                    <ListItemButton sx={{bgcolor:sort ==="expensive"?'rgba(152,148,148,0.23)':'',borderRadius:'5px',pl: 4}} onClick={() => {
+                                        changeSort("expensive")
+                                    }}>
+                                        <PaidIcon/>
+                                        <div className="w-[2%]"></div>
+                                        <ListItemText primary="Most Expensive"/>
+                                    </ListItemButton>
+                                    <ListItemButton sx={{bgcolor:sort ==="cheapest"?'rgba(152,148,148,0.23)':'',borderRadius:'5px',pl: 4}} onClick={() => {
+                                        changeSort("cheapest")
+                                    }}>
+                                        <SavingsIcon/>
+                                        <div className="w-[2%]"></div>
+                                        <ListItemText primary="Cheapest"/>
+                                    </ListItemButton>
+                                    <ListItemButton sx={{bgcolor:sort ==="liked"?'rgba(152,148,148,0.23)':'',borderRadius:'5px',pl: 4}} onClick={() => {
+                                        changeSort("liked")
+                                    }}>
+                                        <ThumbUpIcon/>
+                                        <div className="w-[2%]"></div>
+                                        <ListItemText primary="Most Popular"/>
+                                    </ListItemButton>
+                                    <ListItemButton sx={{bgcolor:sort ==="disliked"?'rgba(152,148,148,0.23)':'',borderRadius:'5px',pl: 4}} onClick={() => {
+                                        changeSort("disliked")
+                                    }}>
+                                        <ThumbDownIcon/>
+                                        <div className="w-[2%]"></div>
+                                        <ListItemText primary="Most Hated"/>
+                                    </ListItemButton>
+                                </List>
+                        </List>
+                    </AccordionDetails>
+                </Accordion>
+                <Accordion>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                    >
+                        <Typography>Filters</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+
+                        <List
+                            sx={{width: '100%',marginTop:-1.5, borderRadius: 3, bgcolor: 'background.paper'}}
+                        >
+                            <ListItemButton onClick={handleClickRate}>
+                                <ListItemAvatar>
+                                    <Avatar>
+                                        <StarIcon/>
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText primary="Rateing"/>
+                                {openRate ? <ExpandLess/> : <ExpandMore/>}
+                            </ListItemButton>
+                            <Collapse in={openRate} timeout="auto" unmountOnExit>
+                                <List component="div" disablePadding>
+                                    <ListItemButton sx={{pl: 4}}>
+                                        <ListItemText primary="Stars"/>
+                                        <Slider sx={{width: '50%'}} color="secondary" value={rate}
+                                                onChange={handleChangeRate} defaultValue={1} min={1} max={5}
+                                                aria-label="Default" valueLabelDisplay="auto"/>
+                                        <button className="p-3" onClick={()=>{setRate(0)}}><DoNotDisturbOnIcon sx={{width:30,height:30}} className="text-red-800 md:hover:text-black"/></button>
+                                    </ListItemButton>
+                                </List>
+                            </Collapse>
+                            <Divider variant="inset" component="li"/>
+                            <ListItemButton onClick={handleClick}>
+                                <ListItemAvatar>
+                                    <Avatar>
+                                        <AttachMoneyIcon/>
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText primary="Price"/>
+                                {open ? <ExpandLess/> : <ExpandMore/>}
+                            </ListItemButton>
+                            <Collapse in={open} timeout="auto" unmountOnExit>
+                                <List component="div" disablePadding>
+                                    <ListItemButton sx={{pl: 4}}>
+                                        <ListItemText primary="Dollar" className="pr-8"/>
+                                        <Slider
+                                            getAriaLabel={() => 'Minimum distance shift'}
+                                            value={range}
+                                            color="secondary"
+                                            onChange={handleChangeRange}
+                                            valueLabelDisplay="auto"
+                                            getAriaValueText={valuetext}
+                                            disableSwap
+                                            min={Math.min(...minAndMaxPrice)}
+                                            max={Math.max(...minAndMaxPrice)}
+                                            sx={{width: '75%'}}
+                                        />
+                                    </ListItemButton>
+                                </List>
+                            </Collapse>
+                        </List>
+                    </AccordionDetails>
+                </Accordion>
+            </div>
         </>)
 }
