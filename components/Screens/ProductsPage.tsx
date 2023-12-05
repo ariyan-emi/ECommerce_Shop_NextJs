@@ -271,13 +271,14 @@ function FilterItems({minAndMaxPrice,rate,range,setRate,setRange,changeSort,sort
     return (
         <>
             <List
-                sx={{width: '100%', padding: '10px', borderRadius: 3, bgcolor: 'background.paper'}}
+                sx={{width: '100%', padding: '10px', bgcolor: 'background.paper'}}
                 component="nav"
+                className="rounded md:rounded-xl"
                 aria-labelledby="nested-list-subheader"
             >
                 <h1 className="text-left text-gray-500">Search</h1>
                 <div className="flex w-full my-2">
-                    <div className="flex rounded-md w-full">
+                    <div className="flex rounded w-full">
                         <input type="text" name="q"
                                className="w-full p-3 rounded-md border-2 border-gray-300 placeholder-current dark:bg-gray-500  dark:text-gray-300 dark:border-none "
                                placeholder="Search..." onChange={handleChangeSearch}/>
