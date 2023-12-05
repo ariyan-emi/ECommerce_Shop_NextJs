@@ -88,7 +88,8 @@ export function Profile() {
                                             Password</label>
 
                                             <input type="email" id="input-6"
-                                                   className="block md:hidden w-full h-10 placeholder:text-center mt-1 text-sm text-gray-700 border rounded-lg focus:outline-none shadow-sm focus:border-blue-500"
+                                                   onChange={(event) => setPassword(event.target.value)}
+                                                   className="block md:hidden px-6 w-full h-10 placeholder:text-center mt-1 text-sm text-gray-700 border rounded-lg focus:outline-none shadow-sm focus:border-blue-500"
                                                    placeholder="New Password"/>
                                             <button onClick={ChangePassword}
                                                 className="block md:flex 2xl:inline-block 2xl:ml-5 justify-center text-center px-3 mt-5 md:px-6 py-3 md:py-3 mx-auto text-sm font-medium text-white bg-violet-600 border border-violet-600 rounded-lg  active:text-violet-500 hover:bg-transparent hover:text-violet-600 focus:outline-none focus:ring">
