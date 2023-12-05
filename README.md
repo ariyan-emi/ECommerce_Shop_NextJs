@@ -1,4 +1,4 @@
-<p align="center">
+<div align="center">
   <a href="https://tiptopstore.vercel.app">
     <img alt="logo" src="https://webvave.ir/assets/images/anthony.png" width="200" />
   </a>
@@ -8,7 +8,7 @@
 <h3 align="center">
     Ariyan Emami
   </h3>
-</p>
+</div>
 
 ## Live Demo
 
@@ -22,6 +22,7 @@
 - [x] NextJs
 - [x] TypeScript
 - [x] Redux
+- [x] MUI
 - [x] Tailwind CSS
 - [ ] Bootstrap
 - [x] And Other ...
