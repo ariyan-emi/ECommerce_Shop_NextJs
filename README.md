@@ -15,6 +15,7 @@
 👇👇👇<br/>
 <a href="https://webvave-ecommerce-shop-next-js.vercel.app">WebVaVe Shop</a><br/>
 👆👆👆
+
 ## This project is created using:
 
 - [x] Firebase
@@ -49,6 +50,9 @@
 - Contact Us
 - Real-time Updates
 - Terms
+
+## Score
+![preview](https://webvave.ir/NextJsECommerceScreenshot/score.png)
 
 ## Description
 
