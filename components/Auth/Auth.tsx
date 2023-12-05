@@ -11,10 +11,10 @@ export function Auth() {
     }, 800);
         if (!isLoading) {
             return(
-                <>
+                <div style={{backgroundColor:"#E5E5E5"}}>
                     <div className="hidden md:block"><AuthDesktop/></div>
                     <div className="md:hidden"><AuthPhone/></div>
-                </>
+                </div>
             )
         } else {
             return (<Loading/>)

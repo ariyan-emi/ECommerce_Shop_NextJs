@@ -50,7 +50,7 @@ export function AuthDesktop() {
 
     function signUp() {
         if (passwordSignUp !== confirmPasswordSignUp){
-            swal("Wrong!", `Passwords Don't match`, "error");
+            swal("Wrong!", `Password Don't match`, "error");
         }else{
         createUserWithEmailAndPassword(auth, emailSignUp, passwordSignUp)
             .then((userCredential) => {
@@ -71,7 +71,7 @@ export function AuthDesktop() {
 
     return (
         <div
-            className="box-border bg-[#f6f5f7] flex justify-center items-center flex-col h-screen -mt-[20px] mx-[0] mb-[50px]">
+            className="box-border flex justify-center items-center flex-col h-screen -mt-[20px] mx-[0] mb-[50px]">
             <div className={container} id="container">
                 <div className="form-container sign-up-container">
                     <form onSubmit={(e) => {
