@@ -4,7 +4,7 @@ import Header from "../Navigating/Header";
 
 export function About() {
     return (
-        <html className="md:overflow-x-hidden md:overflow-hidden">
+        <html className="md:overflow-x-hidden md:overflow-hidden" style={{backgroundColor:"#E5E5E5"}}>
         <body>
         <Header/>
         <div className="flex min-h-screen items-center justify-center">

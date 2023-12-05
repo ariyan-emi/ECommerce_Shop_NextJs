@@ -10,9 +10,9 @@ export default function Home() {
 
     return (
         <html className="md:overflow-x-hidden md:overflow-hidden">
-        <body className="max-w-screen-lg mx-auto p-0">
-        <div className="grid grid-cols-1 md:grid-cols-12 border">
-            <div className="bg-gray-900 md:col-span-4 p-10 text-white md:h-screen">
+        <body className="w-full mx-auto p-0">
+        <div className="grid grid-cols-1 md:grid-cols-12 border h-screen">
+            <div className="bg-gray-900 md:col-span-4 p-10 text-white ">
                 <p className="mt-4 text-xl leading-7 font-regular uppercase">Contact</p>
                 <h3 className="text-3xl sm:text-4xl leading-normal font-extrabold tracking-tight">
                     Get In <span className="text-indigo-600">Touch</span>
@@ -23,7 +23,7 @@ export default function Home() {
                     dedicated team will swiftly get back to you. Your input is valuable, and we&apos;re excited to connect
                     with you!
                 </p>
-                <div className="flex items-center mt-5 md:h-1/4">
+                <div className="flex items-center mt-5 md:h-1/6 xl:h-1/4">
                     <svg
                         className="h-8 mr-2 text-indigo-600"
                         fill="currentColor"
@@ -48,7 +48,7 @@ export default function Home() {
           IRAN ,Yazd ,Safaeai
         </span>
                 </div>
-                <div className="flex items-center mt-5 md:h-1/4">
+                <div className="flex items-center mt-5 md:h-1/6 xl:h-1/4">
                     <svg
                         className="h-8 mr-2 text-indigo-600"
                         fill="currentColor"
@@ -101,7 +101,7 @@ export default function Home() {
                     </svg>
                     <span className="text-xl">Phone: <a href="tel:+989162131081">+98 916 213 1081</a></span>
                 </div>
-                <div className="flex items-center mt-5 md:h-1/4">
+                <div className="flex items-center mt-5 md:h-1/6">
                     <svg className="h-12 mr-2 text-indigo-600 font-bold"
                          version="1.1"
                          xmlns="http://www.w3.org/2000/svg"
@@ -125,6 +125,7 @@ export default function Home() {
                     <span className="text-xl">Email: <a className="copyright-text"
                                                         href="mailto:emami8637@gmail.com">emami8637@gmail.com</a></span>
                 </div>
+
             </div>
             <form className="md:col-span-8 p-10 bg-white needs-validation" action="https://api.web3forms.com/submit"
                   method="POST" id="form" noValidate>

@@ -213,14 +213,14 @@ export function ProductScreen({id}: any) {
                                 </div>
                             </div>
                             <div className="md:flex-1 px-4">
-                                <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">{title}</h2>
-                                <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 uppercase">
+                                <h2 className="text-2xl font-bold mb-2">{title}</h2>
+                                <p className="text-sm mb-4 uppercase">
                                     {category}
                                 </p>
                                 <div className="flex mb-5">
                                     <div className="mr-4">
-                                        <span className="font-bold text-gray-700 dark:text-gray-300">Price: </span>
-                                        <span className="text-gray-600 dark:text-gray-300">{(() => {
+                                        <span className="font-bold">Price: </span>
+                                        <span >{(() => {
                                             if (price !== undefined) {
                                                 return (
                                                     price.toFixed(2)
@@ -232,8 +232,8 @@ export function ProductScreen({id}: any) {
                                     </div>
                                     <div>
                                         <span
-                                            className="font-bold text-gray-700 dark:text-gray-300">Availability: </span>
-                                        <span className="text-gray-600 dark:text-gray-300">In Stock</span>
+                                            className="font-bold ">Availability: </span>
+                                        <span>In Stock</span>
                                     </div>
                                 </div>
                                 <div className="mb-5 align-middle flex">

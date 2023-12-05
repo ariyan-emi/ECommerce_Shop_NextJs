@@ -36,6 +36,7 @@ import ManIcon from '@mui/icons-material/Man';
 import WomanIcon from '@mui/icons-material/Woman';
 import DiamondIcon from '@mui/icons-material/Diamond';
 import Link from "next/link";
+import Header from "../Navigating/Header";
 
 export function ProductsPage() {
     let data = useSelector(getAllProducts)
@@ -102,6 +103,7 @@ export function ProductsPage() {
     if (!isLoading) {
         return (
             <>
+                <Header/>
                 <div className="flex flex-wrap">
                     <div
                         className="p-5 flex-[25%] hidden justify-center text-center items-center align-middle xl:flex md:h-screen">

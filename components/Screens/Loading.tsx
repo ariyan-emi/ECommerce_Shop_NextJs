@@ -9,7 +9,7 @@ export function Loading(){
     const [isLoading, setIsLoading] = useState(true);
     setTimeout(() => {
         setIsLoading(false)
-    }, 8500);
+    }, 15000);
     if (isLoading){
         return(
             <>

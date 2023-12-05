@@ -54,10 +54,10 @@ function ShowProducts({data}:any) {
     return(
         <>
             <div className="rounded-2xl h-fit">
-                <div className="bg-white h-[300px] mb-3">
+                <div className="bg-white h-[300px] rounded-2xl mb-3">
                     <Link href={`/products/${data.id}`}>
                         <img src={data.image}
-                             alt="Product" className="h-72 w-72 rounded-t-xl mb-5"/>
+                             alt="Product" className="h-72 w-72 rounded-2xl mb-5"/>
                     </Link>
                 </div>
                 {(() => {

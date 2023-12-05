@@ -7,9 +7,11 @@ import {SetData} from "../../../../components/Utils/SetData";
 export default function Products({params}:{params:{id:number}}) {
     const id = params.id
     return(
+        <body style={{backgroundColor:"#E5E5E5"}}>
         <Provider store={store}>
             <SetData/>
             <ProductScreen id={id}/>
         </Provider>
+        </body>
     )
 }

@@ -106,7 +106,7 @@ export function Invoice({Component, setComponent}: any) {
                         </div>
                     </div>
 
-                    <div className="flex flex-col m-10 bg-gray-200 rounded-xl">
+                    <div className="flex flex-col my-10 md:m-10 bg-gray-200 md:rounded-xl w-full md:w-auto">
                         <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                             <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
                                 <div className="overflow-hidden">

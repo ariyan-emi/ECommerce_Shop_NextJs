@@ -54,7 +54,7 @@ export function Profile() {
         return (
             <>
                 <Header/>
-                <div style={{position:"absolute",top:"25%"}} className="justify-center flex flex-col bg-white relative align-middle left-1/4 lg:left-1/3 overflow-hidden shadow rounded-lg border w-1/2 lg:w-1/3 h-fit">
+                <div style={{position:"absolute",top:"25%"}} className="justify-center flex flex-col bg-[#E5E5E5] md:bg-white  relative align-middle  md:left-1/3 overflow-hidden shadow rounded-lg border w-full md:w-1/3 h-fit">
                     <div className="px-4 py-5 sm:px-6 text-center">
                         <h3 className="text-lg leading-6 font-medium text-gray-900">
                             User Profile
@@ -69,7 +69,7 @@ export function Profile() {
                                 <dt className="text-sm font-medium text-gray-500 text-center align-middle">
                                     Email address
                                 </dt>
-                                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 text-center">
                                     {email}
                                 </dd>
                             </div>
@@ -78,11 +78,11 @@ export function Profile() {
                                     Change Password
                                 </dt>
                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                    <div className="bg-white p-4 rounded-lg">
+                                    <div className="p-4 rounded-lg">
                                         <div className="relative bg-inherit">
                                             <input type="text" id="username" name="username"
                                                    onChange={(event) => setPassword(event.target.value)}
-                                                   className="hidden md:inline-block peer bg-transparent h-10 md:w-full 2xl:w-64 rounded-lg placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
+                                                   className="hidden md:inline-block peer bg-[#E5E5E5] md:bg-transparent h-10 md:w-full 2xl:w-64 rounded-lg placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
                                                    placeholder="New Password"/><label htmlFor="username"
                                                                                       className="hidden md:block absolute cursor-text left-0 -top-3 text-sm bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all">New
                                             Password</label>
@@ -106,7 +106,7 @@ export function Profile() {
                                 </dt>
                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 text-center align-middle">
                                     <button onClick={Logout}
-                                        className="border border-red-500 bg-red-500 text-white rounded-md w-full px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-red-800 focus:outline-none focus:shadow-outline">
+                                        className="border border-red-500 bg-red-500 text-white rounded-md w-full px-4 py-2 my-2 transition duration-500 ease select-none hover:bg-red-800 focus:outline-none focus:shadow-outline">
                                         LOGOUT
                                     </button>
                                 </dd>

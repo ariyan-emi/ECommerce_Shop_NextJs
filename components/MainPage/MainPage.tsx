@@ -45,7 +45,7 @@ export default function MainPage() {
             </div>
 
 
-            <div className="flex-col md:flex-row flex-wrap flex justify-center">
+            <div className="flex-col md:flex-row flex-wrap flex justify-center -mt-16 md:-mt-24">
                 <button
                     onClick={()=>{
                         state='all';

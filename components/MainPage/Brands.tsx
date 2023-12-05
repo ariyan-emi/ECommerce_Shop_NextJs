@@ -46,7 +46,7 @@ export function Brands() {
 
                 </li>
             </ul>
-            <ul className="flex flex-wrap justify-center">
+            <ul className="hidden md:flex flex-wrap justify-center">
                 <li>
                     <ImageNext className="m-5 w-16 md:w-24 lg:w-28 xl:w-36"
                                src={Brand6}

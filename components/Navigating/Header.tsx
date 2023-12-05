@@ -19,10 +19,9 @@ export default function Header() {
     const toggleDrawer = () => {
         setIsOpen((prevState) => !prevState)
     }
-    const dispatch = useDispatch();
     return (
         <>
-        <div className="flex justify-between h-24">
+        <div className="flex justify-between h-24 px-5 md:px-0">
             <div className="md:mx-8 mt-4 z-10">
                 <a href="/">
                     <Image
@@ -65,9 +64,9 @@ export default function Header() {
                         direction='top'>
                     <div
                         className="flex flex-col font-bold text-2xl justify-center text-center align-middle  flex-wrap z-10">
-                        <Link href="" className="mx-5 mt-8">About Us</Link>
-                        <Link href="" className="mx-5 mt-8">Contact US</Link>
-                        <Link href="" className="mx-5 mt-8">Products</Link>
+                        <Link href={"/about"} className="mx-5 mt-8">About Us</Link>
+                        <Link href={"/contact"} className="mx-5 mt-8">Contact US</Link>
+                        <Link href={"/products"} className="mx-5 mt-8">Products</Link>
                     </div>
                 </Drawer>
             </div>
