@@ -91,6 +91,7 @@ export function Profile() {
                                                    onChange={(event) => setPassword(event.target.value)}
                                                    className="block md:hidden px-6 w-full h-10 placeholder:text-center mt-1 text-sm text-gray-700 border rounded-lg focus:outline-none shadow-sm focus:border-blue-500"
                                                    placeholder="New Password"/>
+
                                             <button onClick={ChangePassword}
                                                 className="block md:flex 2xl:inline-block 2xl:ml-5 justify-center text-center px-3 mt-5 md:px-6 py-3 md:py-3 mx-auto text-sm font-medium text-white bg-violet-600 border border-violet-600 rounded-lg  active:text-violet-500 hover:bg-transparent hover:text-violet-600 focus:outline-none focus:ring">
                                                 Change
@@ -101,13 +102,11 @@ export function Profile() {
 
                                 </dd>
                             </div>
-                            <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 text-center align-middle">
+                            <div className="py-3 mx-10">
                                     <button onClick={Logout}
                                         className="border border-red-500 bg-red-500 text-white rounded-md w-full px-4 py-2 my-2 transition duration-500 ease select-none hover:bg-red-800 focus:outline-none focus:shadow-outline">
                                         LOGOUT
                                     </button>
-                                </dd>
                             </div>
                         </dl>
                     </div>
