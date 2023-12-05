@@ -87,7 +87,7 @@ export function Checkout({Component, setComponent}: any) {
                 </div>
             </div>
             {/*Header*/}
-            <div style={{setTimeoutkgroundColor:"#E5E5E5"}} className="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32 px-4 pt-8 space-x-2">
+            <div style={{backgroundColor:"#E5E5E5"}} className="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32 px-4 pt-8 space-x-2">
                 <div className="">
                     <p className="text-xl font-medium bg-gray-100 px-5 py-3 border border-b-0 rounded-lg rounded-b-none">Order
                         Summary</p>
