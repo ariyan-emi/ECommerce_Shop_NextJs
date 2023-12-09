@@ -8,10 +8,12 @@ import Header from "../../../components/Navigating/Header";
 export default function Home() {
 
             return(
+                <body style={{backgroundColor:"#E5E5E5"}}>
                 <Provider store={store}>
                     <SetData/>
                     <Header/>
                     <Auth/>
-                </Provider>)
+                </Provider>
+                </body>)
 
 }
