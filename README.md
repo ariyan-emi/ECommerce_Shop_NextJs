@@ -24,7 +24,6 @@
 - [x] Redux
 - [x] MUI
 - [x] Tailwind CSS
-- [ ] Bootstrap
 - [x] And Other ...
 
 ## Future Features
