@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="en">
     <link
         rel="icon"
-        href="/src/app/logo.png"
+        href="https://ariyanem.ir/assets/images/ariyan.png"
         type="ico"
     />
       <body style={{backgroundColor:"#E5E5E5"}} className={`${inter.className}`}>{children}</body>
