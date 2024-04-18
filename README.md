@@ -10,7 +10,7 @@
 ## Live Demo
 
 👇👇👇<br/>
-<a href="https://webvave-ecommerce-shop-next-js.vercel.app">Ariyan Shop</a><br/>
+<a href="https://ariyan-ecommerce-shop-next-js.vercel.app/">Ariyan Shop</a><br/>
 👆👆👆
 
 ## This project is created using:
