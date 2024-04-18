@@ -48,9 +48,6 @@
 - Real-time Updates
 - Terms
 
-## Score
-![preview](https://ariyanem.ir/NextJsECommerceScreenshot/score.png)
-
 ## Description
 
 An online shopping application built using Typescript , Next.js and Firebase {TailwindCss , Firebase, Redux}
